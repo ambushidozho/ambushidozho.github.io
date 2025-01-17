@@ -1,0 +1,2161 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Motion Ads Library</title>
+    <style>
+        :root {
+            /*color-scheme: light dark;*/
+            /*color-scheme: only dark;*/
+            /*color-scheme: only light;*/
+        }
+
+        body {
+            --mkext-outlineBanner-light: #ccc 1px solid;
+            /*--mkext-bRadius: 25px;*/
+            /*--mkext-bRadius-tl: 10px;*/
+            /*--mkext-bRadius-tr: 20px;*/
+            /*--mkext-bRadius-bl: 30px;*/
+            /*--mkext-bRadius-br: 40px;*/
+            letter-spacing: 0;
+            font-weight: 400;
+            font-style: normal;
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 1.125rem;
+            line-height: 1.4;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            background-color: #008b8b10;
+            /*color-scheme: light dark;*/
+        }
+
+        .BebasNeue_test {
+            position: fixed;
+            top: 4px;
+            right: 4px;
+            font: 24px/24px "BebasNeue";
+            font-weight: 300;
+            z-index: 999;
+            background: red;
+        }
+
+        #textPlace {
+            /*display: none;*/
+            width: 200px;
+            height: 400px;
+            /*width: 560px;*/
+            /*height: 455px;*/
+            background: #008b8b44;
+        }
+
+        #resizable {
+            position: fixed;
+            left: 0;
+            box-sizing: content-box;
+            top: 0;
+            min-width: 145px;
+            min-height: 50px;
+            width: 100vw;
+            height: 90vh;
+            /*color: darkcyan;*/
+
+            /*height: 640px; width: 769px;*/
+            /*width: 720px;*/
+            /*height: 405px;*/
+            /*width: 350px;*/
+            /*height: 700px;*/
+            border: 1px solid #44bbbb;
+            background-color: #44bbbb33;
+            overflow: hidden;
+            z-index: 100;
+            resize: both;
+        }
+
+        .buttonsWrap {
+            position: fixed;
+            bottom: 8px;
+            left: 8px;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .madsButton {
+            font-family: Roboto;
+            height: 18px;
+            padding: 3px 10px;
+            display: flex;
+            /*flex: none;*/
+            min-width: 80px;
+            background-color: #2688eb;
+            color: #fff;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            position: relative;
+            transition-duration: 0.6s;
+            transition-timing-function: ease;
+            text-transform: uppercase;
+        }
+
+        #dimension {
+            height: 26px;
+            text-transform: none;
+            border: none;
+            padding: 3px 7px;
+            border-right: 10px solid transparent;
+            background: #44bbbb;
+            outline: darkcyan 1px solid !important;
+        }
+
+        #bannerSelect {
+            height: 26px;
+            text-transform: none;
+            border: none;
+            padding: 3px 7px;
+            border-right: 10px solid transparent;
+            background: #006cff;
+            outline: darkcyan 1px solid !important;
+        }
+
+        .btn-4 {
+            border: 1px solid steelblue;
+            overflow: hidden;
+        }
+
+        .btn-4:after {
+            background: #fff;
+            content: "";
+            height: 155px;
+            left: -75px;
+            opacity: 0.2;
+            position: absolute;
+            top: -50px;
+            transform: rotate(35deg);
+            transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+            width: 50px;
+            z-index: -10;
+        }
+
+        .btn-4:hover:after {
+            left: 120%;
+            transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .log-panel {
+            position: fixed;
+            bottom: 38px;
+            left: 8px;
+            font-family: Roboto, sans-serif;
+            font-size: 14px;
+            color: steelblue;
+            z-index: 100;
+        }
+        .customBannerContainer {
+            display: flex;
+            gap: 8px;
+            background-color: #6a0eff;
+            padding: 5px;
+            align-items: center;
+            border-radius: 10px;
+        }
+        .customBannerContainerText {
+            color: #fff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        @keyframes col {
+            0% {
+                background-color: #1c77ff;
+            }
+            50% {
+                background-color: greenyellow;
+            }
+            100% {
+                background-color: forestgreen;
+            }
+        }
+
+        .container {
+            /*max-width: 46.25rem;*/
+            margin: 0 auto;
+            padding: 0 2.5rem;
+            background: white;
+            position: relative;
+            border-radius: 10px;
+            z-index: 5;
+        }
+
+        .content {
+            word-break: break-word;
+            word-wrap: break-word;
+            box-sizing: border-box;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content__title {
+            font-family: "Source Sans Pro", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif;
+            color: rgba(0, 0, 0, 0.8);
+            font-weight: 700;
+            font-style: normal;
+            font-size: 2.5rem;
+            margin-left: -2.5px;
+            line-height: 1.04;
+            letter-spacing: -0.028em;
+        }
+
+        .content__subtitle {
+            margin: 5px 0 22px 0;
+            font-family: "Source Sans Pro", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif;
+            color: steelblue;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 1.5rem;
+            margin-left: -1.69px;
+            line-height: 1.22;
+            letter-spacing: -0.022em;
+        }
+
+        .content__text {
+            margin-top: 29px;
+            font-family: "Source Serif Pro", Georgia, Cambria, "Times New Roman", Times, serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 1.313rem;
+            line-height: 1.58;
+            letter-spacing: -0.003em;
+        }
+
+        .content__video-dscr {
+            margin-top: 30px;
+            font-family: "Source Sans Pro", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 1.5rem;
+            margin-left: -1.5px;
+            line-height: 1.22;
+            letter-spacing: -0.018em;
+        }
+
+        .content__video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                padding: 1.25em;
+            }
+
+            .content__title {
+                font-size: 2rem;
+                margin: 25px 0 0 -2px;
+                line-height: 1.04;
+                letter-spacing: -0.028em;
+            }
+
+            .content__subtitle {
+                font-size: 1.438rem;
+                margin: 5px 0 22px -1.44px;
+                line-height: 1.22;
+                letter-spacing: -0.022em;
+            }
+
+            .content__text {
+                font-size: 1.125rem;
+                line-height: 1.58;
+                letter-spacing: -0.004em;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<section class="content">
+    <!--      <div class="BebasNeue_test">А А А А А А А А А А А А А А А А А А А А А</div>-->
+    <div class="container" id="content-container">
+        <h1 class="content__title">Новые возможности VK-Рекламы с плеером AdMan 3</h1>
+        <p class="content__text">
+            Объем российского рынка интернет-рекламы и маркетинга по итогам 2023 года достиг 478,8 млрд рублей,
+            увеличившись на 22% в сравнении с предыдущим годом, когда был зафиксирован спад на 10%. Об этом
+            свидетельствуют данные Российской ассоциации электронных коммуникаций (РАЭК), опубликованные в середине
+            декабря 2023 года. Одной из лидирующих площадок является VK.
+        </p>
+        <div id="nr-ad"></div>
+        <p class="content__text">
+            Согласно исследованию, подготовленному Роскомнадзором совместно с Ассоциацией коммуникационных агентств России
+            и Ассоциацией развития интерактивной рекламы, в 2023 году больше всего средств на интернет-рекламу направили
+            рекламодатели, занимающиеся розничной и оптовой торговлей (25%), связью и информацией (19%), финансы и
+            страхование (9%), строительство, операции с недвижимостью, здравоохранение и социальные услуги (по 3%).
+        </p>
+        <p class="content__text">
+            Для распространения рекламы использовалось 49 тысяч площадок рекламораспространителей – сайты в сети Интернет,
+            мобильные приложения, аккаунты в социальных сетях и мессенджерах, смарт-ТВ. За первые 9 месяцев 2023 года
+            количество уникальных активных рекламодателей в Рунете превысило 940 тыс. В основном востребованы баннеры и
+            текстово-графические блоки. Объем всей учтенной Роскомнадзором интернет-рекламы составил 400 млрд руб. за
+            девять месяцев 2023 г.
+        </p>
+        <h2 class="content__video-dscr">VK Реклама</h2>
+        <p class="content__text">
+            VK Реклама — рекламная платформа, которая объединяет технологии ВКонтакте и myTarget, использует улучшенные
+            алгоритмы и новые инструменты. Запуск рекламы через новую платформу позволяет продвигать сайты и приложения
+            одновременно в соцсетях ВКонтакте, Одноклассники, проектах Mail.ru, на сайте объявлений Юла и в рекламной сети
+            VK. Рекламную платформу VK могут использовать как пользователи, которые уже запустили рекламу в ВКонтакте
+            через рекламный кабинет этой соцсети или myTarget, так и рекламодатели, которые будут запускать рекламу
+            впервые.
+        </p>
+        <h2 class="content__subtitle">В 2023 году в VK-Реклама появился рекламный блок InPage</h2>
+        <p class="content__text">
+            Для сайтов партнеров рекламной сети VK доступно использование новых рекламных блоков InPage, что позволяет им
+            увеличить доход от монетизации своих ресурсов. Этот вид рекламы обычно используется на сайтах с фильмами и на
+            развлекательных статейных сайтах. Рекламный плеер встраивается в какую-то часть страницы и реклама сама
+            включается, как только в видимой области браузера оказывается более половины площади рекламного блока. Есть
+            реклама как со звуком, так и без него. Поддерживается как видео-реклама, так и реклама иных форматов
+            (текстово-графические баннеры, VideoMotion и др.).
+        </p>
+        <h2 class="content__video-dscr">Плеер AdMan 3</h2>
+        <p class="content__text">
+            Показ рекламы на странице обычно осуществляется специальными инструментами - рекламными плеерами. AdMan 3 -
+            плеер для воспроизведения на web-страницах видео и html рекламы, призванный заменить уже существующие решения
+            (AdManHTML SDK, rb_ext, nr-player). Важной характеристикой AdMan 3 является возможность настройки внешнего
+            вида плеера и направленность на обеспечение максимального комфорта пользователя при просмотре рекламы
+            (плавность протекания визуальных этапов работы плеера). В архитектуру плеера заложены механизмы обеспечения
+            максимальной эффективности показа рекламы на web-страницы.
+        </p>
+        <div id="player-wrapper-2">
+            <video
+                    id="adcontainer-2"
+                    style="width: 100%; height: 100%"
+                    controls
+                    playsinline
+                    muted="muted"
+                    crossorigin="anonymous"
+                    src="https://videolink.okcdn.ru/?pct=0&sig=25ntGANogDs&ct=0&clientType=28&mid=7388776708010&type=3"
+            ></video>
+        </div>
+        <p class="content__text chv">
+            Одним из таких механизмов является начало показа видео рекламы только после попадания в зону видимости
+            пользователя более половины рекламного блока и приостановка показа в случае потери фокуса страницы
+            (переключение на другую вкладку в браузере или на другое приложение) или ухода более половины блока из зоны
+            видимости. Также в целях обеспечения комфорта пользователя поддерживается три типоразмера элементов управления
+            (small, medium и large), автоматически устанавливаемых при изменении ширины контейнера, в котором размещается
+            рекламный контент.
+        </p>
+        <p class="content__text chv">
+            Другой ключевой характеристикой плеера является наличие визуальных эффектов, призванных в той или иной степени
+            преодолеть феномен "рекламной слепоты", при котором потребитель не воспринимает (не видит и не обращает
+            внимание) определенную рекламу или рекламный формат, даже при непосредственном контакте с ними. Обусловлен
+            этот феномен привыканием к определенному формату и типу рекламы, устареванием рекламных носителей. Один из
+            наиболее заметных эффектов - вынос рекламного блока из основного контента в нижний угол экрана при скроллинге
+            страницы, в результате которого реклама уходит из области видимости более чем на 50%. Одновременно на
+            web-странице может независимо работать несколько экземпляров плеера AdMan 3, обеспечивая показ рекламы в более
+            чем одном контейнере.
+        </p>
+        <h3 class="content__video-dscr">Режимы работы AdMan 3</h3>
+        <div id="nr-ad2"></div>
+        <p class="content__text">
+            Хотя изначально плеер AdMan 3 создавался для размещения рекламы в режиме inpage, к настоящему времени
+            возможности плеера существенно расширены, обеспечена работа и в других режимах. Это позволяет использовать
+            один продукт для решения множества разноплановых задач.
+        </p>
+        <p class="content__text">
+            Важной характеристикой плеера является автоматическая адаптация рекламного баннера к любому размеру
+            контейнера. Подбирается вариант размещения баннера, максимально эффективно использующий предоставленное
+            пространство. При этом также обеспечивается динамическое изменение размеров рекламного баннера в случае
+            изменения размеров целевого контейнера.
+        </p>
+        <div id="textPlace"></div>
+        <p class="content__text">
+            Во все режимах работы плеер автоматически отправляет статистику о показе рекламы (начало показа, прохождение
+            контрольных точек, завершение показа и т.д.) и взаимодействии пользователя с рекламой (клик, вкл/откл звука,
+            пропуск, повтор и т.д.). При выходе рекламы из области видимости происходит остановка ее показа. Благодаря
+            этой особенности архитектуры плеера все досмотры происходят в области видимости пользователя, что обеспечивает
+            высокое качество контакта.
+        </p>
+        <h4 class="content__subtitle">Режим inpage (outstream)</h4>
+        <p class="content__text">
+            В этом режиме при размещении плеера на веб-странице указывается контейнер с основным контентом, в котором
+            будет размещена реклама. При этом не нужно вносить никаких изменений в верстку страницы, создавать специальный
+            рекламный блок, выделять под него место. Достаточно указать корневой контейнер с основным контентом страницы и
+            плеер самостоятельно проанализирует его содержание и размеры, создаст в нем htm-элемент, установит для него
+            подходящие размеры, выведет там рекламу и будет ожидать ее попадания в область видимости для начала показа.
+            Визуально контент на странице как бы раздвигается (по умолчанию примерно в середине).
+        </p>
+        <p class="content__text">
+            После показа рекламный блок будет плавно свернут, а созданный html-элемент удален со страницы, которая
+            вернется в первоначальный вид. Таким образом, реклама размещается в центре редакционного контента и начинает
+            воспроизводиться в тот момент, когда более 50% плеера находится на экране.
+        </p>
+        <h4 class="content__subtitle">Режим overlay</h4>
+        <p class="content__text">
+            Принципиальное отличие этого режима от рассмотренного выше режима inpage состоит в том, что раздвигания
+            контента на странице не происходит. Вместо этого показ рекламы осуществляется поверх содержимого указанного
+            контейнера. Имеющиеся в контейнере элементы оказываются под рекламным блоком. В случае несовпадения формата
+            контейнера и рекламного баннера образуются вертикальные или горизонтальные поля, для которых по умолчанию
+            устанавливается цвет фона, соответствующий фону целевого контейнера. Если же такой фон не установлен,
+            последовательно просматриваются все родители целевого контейнера для поиска установленного фона, вплоть до
+            корневого элемента. Если цвет фона не установлен ни для одного контейнера в иерархии, используется белый фон.
+            Прозрачные цвета преобразуются в аналогичный непрозрачный цвет (из расчета белого фона). Таким образом, вывод
+            рекламы в режиме overlay максимально комфортен для пользователя. После показа рекламы контейнер плеера
+            удаляется и основной контент доступен для просмотра пользователем.
+        </p>
+        <div id="abc"></div>
+        <h4 class="content__subtitle">Режим instream</h4>
+        <p class="content__text">
+            Помимо показа рекламы в контенте web-страницы, плеер Adman 3 также предоставляет возможность показа рекламы
+            при просмотре видео. Для этого достаточно указать в качестве целевого контейнера html-элемент video. Показ
+            рекламы в базовом видео может происходить в нескольких случаях - при начале просмотра видео, при паузе, при
+            окончании, в ходе просмотра. В каждом указанном случае может быть показано несколько рекламных баннеров
+            различного типа (видео, html-баннер, VideoMotion и т.д.). При этом показ рекламы осуществляется в редиме
+            overlay, где в качестве целевого контейнера рассматривается не сам контейнер в видео, а его родительский
+            контейнер, что позволяет расширить область рекламы за счет вспомогательных блоков. Если требуется ограничить
+            размер рекламы границами видео, то достаточно обернуть его во вспомогательный html-элемент.
+        </p>
+        <h4 class="content__subtitle">Режим SDK</h4>
+        <p class="content__text">
+            Принципиальное отличие режима SDK от рассмотренных выше состоит в способе управления показом рекламы. Если в
+            режимах inpage и instream старт показа рекламы (и последующее удаление контейнера плеера после завершения
+            показа) происходит автоматически при наступлении определенного события (попадание рекламы в область видимости,
+            определенный момент или включение паузы при просмотре видео), то в режиме SDK запуск показа рекламы
+            осуществляется программно вызовом метода экземпляра плеера. Такой подход может быть использован в сложных
+            рекламных продуктах или других случаях.
+        </p>
+    </div>
+</section>
+<div id="logPanel" class="log-panel"></div>
+<div class="buttonsWrap">
+    <div id="useDark" class="madsButton btn-4" style="background: #333; color: #fff">dark</div>
+    <div id="useLight" class="madsButton btn-4" style="background: #e1e3e6; color: #333; border-color: #2c2d2e">
+        Light
+    </div>
+
+    <select id="dimension" class="madsButton">
+        <option value="240x200" selected>240 x 200</option>
+        <option value="320x50">320 x 50</option>
+        <option value="320x100">320 x 100</option>
+        <option value="728x90">728 x 90</option>
+        <option value="600x300">600 x 300</option>
+        <option value="900x300">900 x 300</option>
+        <option value="240x128">240 x 128</option>
+        <option value="240x194">240 x 194</option>
+        <option value="145x220">145 x 220</option>
+        <option value="160x400">160 x 400</option>
+        <option value="300x200">300 x 200</option>
+        <option value="340x200">340 x 200</option>
+        <option value="380x200">380 x 200</option>
+        <option value="240x360">240 x 360</option>
+        <option value="240x400">240 x 400</option>
+        <option value="340x360">340 x 360</option>
+        <option value="420x360">420 x 360</option>
+        <option value="500x360">500 x 360</option>
+        <option value="550x360">550 x 360</option>
+        <option value="850x360">850 x 360</option>
+        <option value="240x460">240 x 460</option>
+        <option value="340x460">340 x 460</option>
+        <option value="370x460">370 x 460</option>
+        <option value="550x460">550 x 460</option>
+        <option value="700x460">700 x 460</option>
+        <option value="240x600">240 x 600</option>
+        <option value="400x600">400 x 600</option>
+        <option value="460x600">460 x 600</option>
+        <option value="600x600">600 x 600</option>
+        <option value="800x600">800 x 600</option>
+    </select>
+
+    <div id="banner3" class="madsButton btn-4">Banner 3</div>
+    <div id="banner20" class="madsButton btn-4">Banner 20</div>
+</div>
+
+<div id="resizable"></div>
+</body>
+
+<script type="module">
+    function customEvent(event) {
+        console.log("Custom event:", event);
+    }
+
+    window.document.addEventListener("mrg-click", () => customEvent("mrg-click"));
+    window.document.addEventListener("mrg-viewable", () => customEvent("mrg-viewable"));
+    window.document.addEventListener("mrg-render-init", () => customEvent("mrg-render-init"));
+
+    const callbacks = [
+        // "onReady",
+        "onError",
+        "onStarted",
+        "onPaused",
+        "onPlayed",
+        "onResumed",
+        "onReplayed",
+        "onVolumeChanged",
+        "onCompleted",
+        "onClosed",
+        "onClosedByUser",
+        "onSkipped",
+        "onClicked",
+        "onTimeRemained",
+        "onDurationChanged",
+        "onPixel",
+    ];
+
+    let madsInstance,
+        i = 0;
+    // Test banner of Design System
+    const bannerStats = [
+        {
+            url: "https://banner-ERROR.gif",
+            type: "error",
+        },
+        {
+            url: "https://VIEWIN.gif",
+            type: "viewin",
+        },
+        {
+            url: "https://viewabilityDuration.gif",
+            type: "viewabilityDuration",
+        },
+        {
+            url: "https://RENDER.gif",
+            type: "render",
+        },
+        {
+            url: "https://CLICK.gif",
+            type: "click",
+        },
+        {
+            url: "https://ctaClick.gif",
+            type: "ctaClick",
+        },
+        {
+            url: "https://closedByUser.gif",
+            type: "closedByUser",
+        },
+        {
+            url: "https://Measurable-01.gif",
+            type: "viewabilityMeasurable",
+        },
+        {
+            url: "https://Measurable-02.gif",
+            type: "viewabilityMeasurable",
+        },
+        {
+            url: "https://NOT_Measurable-01.gif",
+            type: "viewabilityUnmeasurable",
+        },
+        {
+            url: "https://NOT_Measurable-02.gif",
+            type: "viewabilityUnmeasurable",
+        },
+        {
+            url: "https://banner-PVV-MRC-0s.gif",
+            type: "playheadViewabilityValue",
+            target: "banner",
+            duration: 0,
+            viewablePercent: "50",
+        },
+        {
+            url: "https://banner-PVV-MRC-1s.gif",
+            type: "playheadViewabilityValue",
+            target: "banner",
+            duration: 1,
+            viewablePercent: "50",
+        },
+    ];
+    const videoStats = [
+        {
+            url: "https://video-ERROR.gif",
+            type: "error",
+        },
+        {
+            url: "https://playbackStarted-01.gif",
+            type: "playbackStarted",
+        },
+        {
+            url: "https:///playbackStarted-02.gif",
+            type: "playbackStarted",
+        },
+        {
+            url: "https://playbackStarted-03.gif",
+            type: "playbackStarted",
+        },
+        {
+            url: "https://rs.mail101.ru/pixel/PAUSE.gif",
+            type: "playbackPaused",
+        },
+        {
+            url: "https://rs.mail101.ru/pixel/RESUME.gif",
+            type: "playbackResumed",
+        },
+        {
+            url: "https://COMPLETED.gif",
+            type: "playbackCompleted",
+        },
+        {
+            url: "https://Volume-Off.gif",
+            type: "volumeOff",
+        },
+        {
+            url: "https://Volume-On.gif",
+            type: "volumeOn",
+        },
+        {
+            url: "https://PRV-SECOND-3.gif",
+            type: "playheadReachedValue",
+            value: "3",
+        },
+        {
+            url: "https://PRV-SECOND-10.gif",
+            type: "playheadReachedValue",
+            value: "10",
+        },
+        {
+            url: "https://PRV-QUARTILE-1.gif",
+            type: "playheadReachedValue",
+            pvalue: 25,
+        },
+        {
+            url: "https://PRV-QUARTILE-2.gif",
+            type: "playheadReachedValue",
+            pvalue: 50,
+        },
+        {
+            url: "https://PRV-QUARTILE-3.gif",
+            type: "playheadReachedValue",
+            pvalue: 75,
+        },
+        {
+            url: "https://PRV-QUARTILE-4.gif",
+            type: "playheadReachedValue",
+            pvalue: 100,
+        },
+
+        {
+            url: "https://video-PVV-OVV-01s.gif",
+            type: "playheadViewabilityValue",
+            value: "1",
+            viewablePercent: "50",
+            ovv: true,
+        },
+        {
+            url: "https://--video-PVV-NOT-OVV-01s.gif",
+            type: "playheadViewabilityValue",
+            value: "1",
+            viewablePercent: "50",
+            ovv: false,
+        },
+
+        {
+            url: "https://video-PVV-OVV-25p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "25",
+            viewablePercent: "50",
+            ovv: true,
+        },
+        {
+            url: "https://--video-PVV-NOT-OVV-25p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "25",
+            viewablePercent: "50",
+            ovv: false,
+        },
+
+        {
+            url: "https://video-PVV-OVV-50p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "50",
+            viewablePercent: "50",
+            ovv: true,
+        },
+        {
+            url: "https://--video-PVV-NOT-OVV-50p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "50",
+            viewablePercent: "50",
+            ovv: false,
+        },
+        {
+            url: "https://video-PVV-OVV-75p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "75",
+            viewablePercent: "50",
+            ovv: true,
+        },
+        {
+            url: "https://--video-PVV-NOT-OVV-75p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "75",
+            viewablePercent: "50",
+            ovv: false,
+        },
+        {
+            url: "https://video-PVV-OVV-100p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "100",
+            viewablePercent: "50",
+            ovv: true,
+        },
+        {
+            url: "https://--video-PVV-NOT-OVV-100p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "100",
+            viewablePercent: "50",
+            ovv: false,
+        },
+
+        {
+            url: "https://--video-PVV-MRC-2s.gif",
+            type: "playheadViewabilityValue",
+            target: "video",
+            duration: 2,
+            viewablePercent: "50",
+        },
+        {
+            url: "https://--video-PVV-mrc-35p-3s.gif",
+            type: "playheadViewabilityValue",
+            duration: "3",
+            viewablePercent: "35",
+        },
+        {
+            url: "https://--video-PVV-mrc-vp75-2s.gif",
+            type: "playheadViewabilityValue",
+            duration: "2",
+            viewablePercent: "75",
+        },
+        {
+            url: "https://--video-PVV-mrc-vp80-5s-1.gif",
+            type: "playheadViewabilityValue",
+            duration: "5",
+            viewablePercent: "80",
+        },
+        {
+            url: "https://--video-PVV-mrc-vp80-5s-2.gif",
+            type: "playheadViewabilityValue",
+            duration: "5",
+            viewablePercent: "80",
+        },
+        {
+            url: "https://--video-PVV-mrc-vp30p-4s.gif",
+            type: "playheadViewabilityValue",
+            duration: "4",
+            viewablePercent: "30",
+        },
+
+        {
+            url: "https://--video-PVV-OVV-vp30-3s.gif",
+            type: "playheadViewabilityValue",
+            value: "3",
+            viewablePercent: "30",
+            ovv: true,
+        },
+        {
+            url: "----video-PVV-NOT-OVV-vp30-3s.gif",
+            type: "playheadViewabilityValue",
+            value: "3",
+            viewablePercent: "30",
+            ovv: false,
+        },
+        {
+            url: "https://NOT-OVV-05s-vp80.gif",
+            type: "playheadViewabilityValue",
+            value: "5",
+            viewablePercent: "80",
+            ovv: false,
+        },
+        {
+            url: "https://--video-PVV-OVV-25p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "25",
+            viewablePercent: "50",
+            ovv: true,
+        },
+        {
+            url: "https://----video-PVV-NOT-OVV-25p-1.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "25",
+            viewablePercent: "50",
+            ovv: false,
+        },
+        {
+            url: "https://----video-PVV-NOT-OVV-25p-2.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "25",
+            viewablePercent: "50",
+            ovv: false,
+        },
+
+        {
+            url: "https://----video-PVV-NOT-OVV-vp33-50p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "50",
+            viewablePercent: "33",
+            ovv: false,
+        },
+
+        {
+            url: "https://--video-PVV-OVV-vp70-100p.gif",
+            type: "playheadViewabilityValue",
+            pvalue: "100",
+            viewablePercent: "70",
+            ovv: true,
+        },
+    ];
+    const fullStats = [...bannerStats, ...videoStats];
+    const banner3 = {
+        id: "banner3",
+        type: "motion-ads",
+        creativeType: "designSystem",
+        ctaLink: "https://skysmart.ru/articles/physics/zakon-oma",
+        urlToNavigateOnClick: "https://gramota.ru/meta/parallelogramm",
+        openLinkInPopup: true,
+        autoReplay: true,
+        autoPause: false,
+        pad: {
+            clickArea: 4096,
+        },
+        // clickArea: 0b0011111111111,
+        // theme: "dark",
+        // disclaimer: "dietary",
+
+        // duration: 21,
+        title:
+            "Робот - пылесос Xiaomi. Покупай новинку в М.Видео! Обусловлен этот феномен привыканием к определенному формату",
+        description:
+            "Покупай новинку в М.Видео! Обусловлен этот феномен привыканием к определенному формату и типу рекламы, устареванием рекламных носителей. Один из наиболее заметных эффектов - вынос рекламного блока из основного контента в нижний угол экрана при скроллинге страницы, в результате которого реклама уходит из области видимости более чем на 50%. Хотя изначально плеер AdMan 3 создавался для размещения рекламы в режиме inpage, к настоящему времени возможности плеера существенно расширены, обеспечена работа и в других режимах. Это позволяет использовать один продукт для решения множества разноплановых задач.",
+        // domain: "mvideo.ru",
+        domain: "",
+        // media: { src: "/assets/image_01.jpg", type: "img" },
+
+        mediafiles: [
+            {
+                // src: "https://r.mradx.net/img/DE/7DB090.mp4",
+                src: "https://videolink.okcdn.ru/?pct=0&sig=25ntGANogDs&ct=0&clientType=28&mid=7388776708010&type=3",
+                type: "video",
+                format: "mp4",
+                // statistics: videoStats,
+                // duration: 21,
+            },
+        ],
+        // overlay: {
+        //   url: "https://r.mradx.net//imgs/86/e3/94587c068e5be691.jpg",
+        //   // url: "/assets/image_2.jpg",
+        //   // width: 400,
+        //   // height: 400,
+        // },
+
+        ctaText: "Перейти",
+        ageRestrictions: "0+",
+        icon: { url: "https://r.mradx.net/imgs/ab/5a/86d3bae4a190.jpg" },
+        aboutCompany: 'Общество с ограниченной ответственностью "МВМ", ИНН 7707548740',
+
+        adLabel: {
+            // show: !1,
+            text: "Baraban",
+        },
+
+        statistics: fullStats,
+
+        adChoices: {
+            clickLink: "https://adChoices-clickLink",
+            closeUrl: "https://adChoices-closeUrl.gif?reason=",
+        },
+    };
+    // Test banner of Design System
+    const banner20 = {
+        "id": 166204458,
+        "type": "motion-ads",
+        "creativeType": "carousel",
+        "template_id": 483,
+        "carouselAutoPlay": true,
+        "pattern": {
+            "name": "carousel_dynrem_rmkt_sites_vkads",
+            "group": "carousel",
+            "subgroup": "dynrem"
+        },
+        "pad_id": "1918633",
+        "impression_id": "8097586084520717119",
+        "adLabel": {
+            "show": true,
+            "text": "Реклама"
+        },
+
+        "openLinkInPopup": false,
+        "height": "300px",
+        "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbhzCmQOQAgAATch3wZCgSo0qjZkfBN_MsKb8CVZsse_-VDiq4JDqZAYEpSn4oDtUgBF9Fgfq-MKEjHQfuzMCQ3gAG1hjhye4n0MqEMYUvXGM8Bk9Qx835HXbH11QSRYfQvwaRxT8cIZdpoVokkvAPs9blS3TAgINyMBch8bg5ByCCFJL9JP-m1NT2Cffq1Sg_xqefP01mClbupNFY7CPn_eoUHW9kHxc4hP9PNvYgKTqueg4sf4YlHKVLSHSW6U5aO3-SsqGDji_Zj2UuXM4NArHypoIINQO-ty1esEsfRSmiYqHlTYUs93imsvlPudGHkAiOMfzjhFFQF0v0YqJi472thDKd54oo9-SMddlUE6G_qgrrwDUWZvH-uKrHR11gpm7a38zsmfBmyQZc8V5UF6WAnl6uCVySLIWtwuoSQAqUG9w5KQt_REduX4UfzGknafC0hE8T4uEVS0Hnn1seFHNVvy3pJOSTs960Gvg-kdQtdtsCVivMzEiPsAvZKr8ngbDji-D2VB-NNOuhTMSnau1RPf7iNGjDFeVyWOvEIqxWpScuRDvrFHBJ-LpuhofUzKrCAhH4C4eeWWC8aUq8h5iDhSZCQjPqRpmqkhWkbErLLhlJRb7-e81ENNX7gxWw-q6S1tl-nUrK2zpawP3qLXrC7JWTZTMGcsCEUlBimJNrMjjRosoKGQZ4kCc3iASeo39ManBtnYjbZ6bwnNLxok2v878-r13LNMpkhZbIM4M9dLBGzc-iGWPUvincrO8uKRIfKqfdbIQADsui56O5O3hsmbv3ub-4EiHigyolaMG-O9G8CtTIDxKiueVo-JhAGQJFCx16XVYCte5q6ZI7C9e1AQNB4e0G2jvCXNgFBjLUvr_Jhk7nt8:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3kkwAQ2gg2H3WAdQGd3Td7ZW",
+        "disclaimer_id": 8,
+        "isDarkTheme": false,
+        "rounded": "0",
+        "domain": "ecco.ru",
+        "icon": {
+            "type": "static",
+            "url": "//r.mradx.net/imgs/02/4d/85aae31d110e8332.jpg"
+        },
+        "cards": [
+            {
+                "card_id": 0,
+                "image": {
+                    "type": "static",
+                    "url": "https://r.mradx.net/imgs/d8/36/1a10478d9fb95666.jpg",
+                    "width": 600,
+                    "height": 600
+                },
+                "title": "Обувь для людей, выбирающих комфорт",
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbk8VrgN9AgAA52vtcFyybMmQmhtA347oL-K1xo8vB5Q3QFYzRnm-VpmVPA2UpaY7MxPyG5g4MIt8bLQpGLszhjKS8K6Z66A36sEauCDY7P3uvBoHUYlxztfMWyA5kwOhox8Nki_xOlsM_3qKWddnNV1LusUZ0S1rxsKvow-FXXsNjo7zGSr3arSMYzwUOaXtFKrIbU0NKFL35B6AqCgRl1im2GJCFeAyYpE0ugoyPTShKoCwDOpIGaFkLtErMsHg5n1D0hR5LNkYzQnN8IJF_MQRGj_aU00UJelp7KHb-XM60lwEYASDdQmmH9Au4MQmHUMKNWoTMHUyIgemZjjoAnk-TetTJf9uDPUr4xhil4ugStCofHMi6OaPVEcLmMUr-U9j0SFTsgR8ZBVUgXvH-XVHFHVKdi3-27hVpf-TUWlg3qgQ4zwDoqzdJW2vwQJevLLCSd2uU3GkDXD79Gnoxc1zqUsRCdHGwlTawvmQ-W7EjJBFGesbBHc8fUjaWH3Tl-dGJuC7LG3bPHVp1ihECBmcfeWE6qmzjsLZdlpPjnaHzP5ju6rubt0zYtRhyV5ilF7_GQJN2OBwPr8qoEGbqCNdiC3Oa654399u2bfEQscCmACgQSZra2lgOzLaQd6amDe6m183eIuyiu8l90QDNra9Krv_o-IWI5_YJWRlyAvU3o7G3pPFuIrF_FEwo4KQGeqLgDaYfa30jMDO1319WtxxvMNRrw4VxwqBwJ_Dul4DNz5tcr8sXhcVHUJ1dXjVhJkOh6PcgpHAe2u2i7fBvGz45GZjW-y3aOe7zOHwif9XsHXcIduP7Nzbhz2P-mjtnSoLqN5geXc-ZvnYgXB5zXZn1HRZVnUQfw:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3kkwAQ2gg2H3WAdQGd3Td7ZW",
+                "trackingLinkUrlTypes": "external,external_new,netloc_url",
+                "trackingLinkTrackerTypes": "0",
+                "description": "Покупайте с выгодой онлайн",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbpex7H-RAQAAOnLh8C0aQutpF1me_6zBE_YokxLVZ_p1KjfoxEtUkTCxmqNc55XYXp8jK3KjNoWmqPhK_ubpdDVJHzUpfLNqbcWP2gpGOMskcD1bkW6ceoGNGsK9EITSkN8oQaK1yQISzkjsk3mgcYnin1E1KW2cCwcl6BzJ_Ah6Az-7vzM3Sp_ODY87q8tiDrgpLJFicGvBSoZs0Tt3sMsqDFdKhP6SjSA4I9_ZNaZoeEs3VpN66_UX_WpiQCKpQE3mx5n7S0NvcDdKygo-sDtBL7RE8lIPMeO5bCTQQl0ND7-ZBf0N83473JJjbALq71aJg0Sf8C-4pg036gB5L4OZvFwOK8Ve7pfYm5V2d_yIGP0d9y-hUUyha6k18S7FzIlfEfOkPcxn3-KVjgPBgqahWz3xNKa5coCHshqU8RmUeWcDM93QA-vlEhIqYxN8D2szEtYxBMIQsyOkLlgRwCLMwb9NzlFiVBG1VUJoz1HQ_N_E3lKm5d2VFj-nxNCfWD_DVKRaQj5zMbmR_ylpVNVIwENA0EPdjYR4fdkfT_7wb-TlUNmtLOo.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbj7zwyKRAQAAGEFuHiVkgr0CJ-4T7cAyY91DPgOqTT2shhrY0kS7RJjexH2ZQwjZBoexhaeu30QToemj-KxdzogB6M4L4MN5gRAi4pjhbEWmjj0mSKGAbsPEJtCml8HJPeSmeUDTRKDuXjojgZFCtsmgcIdUSYQiUmNR39qSXrVPmgXMrcbIf-lVG_JMrM2OEj28o88At_VbfWj1AvVQIzjzzoVV-YMR2OSMJl0OmN2KlMSYil-uBcEDp5xrVdLr5arqmHogy2wZ8qlwz-V5hWv_KGJFvEMXTvm8HyR8w_2CTdRNv5XyjUCE_eMQsMivRhk7JDqb_YbSe35Zjoza5NtkrBkCr2UI2jSWxKHh3kJD4bE1Z_7sBbxLfrHwTh--b4IEhYWUOwVce_oCkMdWksra3E-clA-Ddr4evo-Pml7ZEgKqyFmWutzns2EbocBUa9oTO9guBdTl0-L4NZhNwBgFZmbO6Mt5NmcgY8uZ15O83XhqNQps9dwffqgQmpci2GfnSA2bpUbeevD4SEACSh4FQmH4z2c5qSX5GXsvFtta3IRaFDc9b7M.gif"
+                }]
+            }
+            , {
+                "card_id": 1,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/33a/66/ddfdf79d8db9.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbhU96XmQAgAAxohCXJN0h3ANAV_mGfOBee2rWAfMnkw5yA4qmAa0kPSFwpcTI_n2i31nADGTqzDFIMpMcIFJ7ymanFnoSU-GiF6OkAjgIOFDYxGr60dnS44AGofONaiugnwvVTgp0iO6RP8dPMY4pZog_cZVe5DI6c65QTuaYwojrXD0pzsDQ5yhAmGGpTXRhevHNQw7EP52BuQyUumkP0cTyLjembpPIK8TZuYMGwwL49Ox9ugWf7ND7XO0kE1zTRrHsAPl4AI2JXMKNxYmqSQxnqUSIKmHdW6c4gR7WJ2SYNAKyCb2EiwlZLaqGUBYhmhiMgrZ9A5ZEmz8y23ByxbU8uwOW-8zBp2ZgkEqwzhEKpdYjBQIU-8Y-LcGSfRh7SqZ1ixeulqb2usqTeWr5haNJNiSwPyRwm6e-hFNpC2MQUlc717jQU5TqGKmVATIy2LQwTThtUApMZMudFJ8U2lS--YppC73TcoPnuG1JCg5m5TlrnP8n9gLLnOKnXu2blycpuuvE-Ccu4jy7W3NGQm2XG9EeHUyHl4q4XKai3ahyRKjjdzkm4VxuMo58VohfW0MH3SzRCsPERYqj4d80yMkk5zvI5S2N-lgX0LjEuVfAeolPF_qLvsfiNapnMBH4jP99M3bMcjYfzSNj-vXni3V19l1PyzN_EdgJMZFcB_KlbcbOhn6krS4Q90pNmmqPN8CSkCOLaVHVrgLaD3bUoWfkVLkqsGPmE3P62zxODshCMyGO6RM25exu1QeK271FtH2wVoNo4ScuAgKXAdSbHm0SzWP6IXirP58AZZlXv_YHhIGXPY-s7DDnnm2ejdx5Fy3DB2ILyMcEGrzDbbmaRyjtu5jisEzSbIbXAxEaCEum_jnVkJz25A:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3kkwAQ2gg2H3WAdQGd3Td7ZW",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки BIOM 2.1 X COUNTRY M",
+                "description": "12 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1299900",
+                "oldPrice": "2099000",
+                "discount": "-39%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbuq_AAiRAQAAkN3E-TntISfQFmceInnHFYSCeVC5aWV9X1ZMs1X03AyXvkhpjgIMP7MAwwRl-6QFlGlmxz9yU3dDY2wV8ho6vpMLBBx1iQOa5IAHtcuey0Uo5vw_26SPztxD13m5vq6CMF-6PI2I7Kz5gvNksT6OMJQEkxrSy6bvi2-c-gNGn49zloHO-6vjGIM2xoSIn60ELaSB9J56PWzYuleZHlKroXgzBBDyn_ibMqOoohI-BxWG-yoMSH1CfOl7uNIPi7UiAvkB5Cl7tWy58-Q45MyuCG3M6pAl8EAs0kVIhM3uWIhecSqLe1vRHcXgS_a2jhmTCWnla_czKBkjlkza34ayhM-xLNwsYJd7aOdURjzsE4K06cI8_gY10NOVezDrYP3XdQD6yctlYtTr42IfLFfq_EPzrawLrRrePZWUcAK3UyVFSMRxQ_hAP8M9REQbiIu4AtCDG43GEUTtYNJeKWsluW_anUB-ir_IhXwUd-VZn14K9wu5J8pojr18wq6gnB_33ozmMGBZR-ZQeNDqlKFPbcmaYuWLe6VqUvPpKKfJk6Q.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzblwlFjqRAQAAxoArxKsA9l46DSR5pJQ1SGrUz4y23M_eRdInvzxxu8rK9d5CHWCmdZ4SegjHxz06_ad07PKFhS66DEkPA37qgLw-wUNyPHhMW8NHVD1xeuu1jIbcpdRTugTi3nTdzEaB9QiXbVeyeDNcTX9YmqRKXY5ezqhowlBIEb9es2JmZ0wHwG3svdk-b5LAXfetuAp3TmFkJKFM4eAkY-y2CwgwhjTg7_lBDAe-6MvXXIL15nD_gFCC-YPzWS9LljO0477PvuDKuj19CRNu9Gp8reNteHZf8FjRakoQ5gLnierW0EbpmnvQ2dMQ8D4nQ-tkPM3ok0fmtkKoBDTWi1S02I2AgMisRMYpSCw0RXTAwxwTsE_GKjMMq0WxKr8bMlX4VFqvZ9BeHtMdeE3nzoU7afD7XD2vzkTgR3pXE0vcapH7MCnIsjy35cuIIstaqoO7RIcikI7CNlZu7Gdyozo69zsu20D_kc_KGjl2c2rHVahCSj2vGV_32huXvxMske-JweHLUseANw3G6eAwG3rGQ0m2TAnwBYUqD6OBmkNaIuiWalU.gif"
+                }]
+            }
+            , {
+                "card_id": 2,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/f90/3f/da8fe0dd30d0.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsbeUTmPAgAALuk3JZ4KMY61yFqijGQws3IDSf0L-6-3QiSpbaHXDrvAVTvEM38UEaABaqv4l2RvRsbO6CB-9k8S_gg_VZ6LLgvmJ0UfSCONuK8Y-_GnXqi2H6fSvv1EnqAnKLzbv6uHx3YkntHab0ZMHcLAco7lDPO_WxBZUkctORKUimxRLOBnhZKJxXscQ42LQ0wcBKNj13j0J4lp47E25SIyD0INQX7pz31do4uWDHIHWoNCmvK7Uo4tFfHSmA_IpH90z_nyw2pra5zAeDifMiaMHXS9CZY9EuLV4k4TGoG742pzyuVrSCCZkLnpz6dLKkkPzxa8F4tQL94ucMd6SpxNdL1GNnyiAYgoYQ9PMgEmANpghKZFOrgQ6jXRXOOG7EN7pqJQWBHHm-IkBd6vUqLAZUBMNnoUtrwJP9mciXK525grPckilfvz8fae7GlKv5cs4AY8GRnWSSBXQDojxwkzunt2BxotzSmNhMbz6rGcDeWj5952jvfTrrC4jcUUCO9NN_dqaJ4zQVXkhtcXqvUy3z5frz5iQuKKP-RRbZwT6qxLURjQQkwVecg-_KW1ucIJ9qlnxpH_4xyXKoVR9GYdYeJpavsnBQ39ane7oTWEoJeL4iTeH55EEmP5pyiGzLHFcca8w9qckZaSLIM_MBP-yAICGD_ckw8aRtkkJK2NJBbFjcZK9Xst5hJtAATU8cI8C5VQMARti2slpb4JOGK-_xoUU2S-jcTtOFMxilOl_otQW2SagEAGGAgjSexQ-ke-sbDHPEhg0p7hwKYaIQk0LTrtCNsEpkmAWZ540JY19Lc1l7UNNHZekRoRJ3a1Q4I02gmIOpsJjO4FIfcZhw061d7YSvM7K0-lKW5IHDiI1eGjCr0:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejiFmqsGugmHHZvpqC6f5PUFE",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки PROF. BIOM XPEDITION M",
+                "description": "18 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1899900",
+                "oldPrice": "2599000",
+                "discount": "-27%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbhsvAVqQAQAAqMwJ-3NLlIAeC1oXQVtZ4xy-gmCWbDC_sagYghFjOVRT7ueiGAlYY6NZZaYH4fHYM046NX9OK2cy41fpsVLJBAVKICgCWO8av3nNKsAdfBNGUQBuB-iHF1SXEOYx57BuoRq9aA3-iRVUO7a50Hdh5oXHiTwW6aitHz_Sa_g2JvQgYU0XcCCBdzisxs5-ebOPld_B0Qzkn1BTW7F12fLQaCSEfCKqvlVG-7SemCLDGf-J_FOQxRzxXPYwlcbP--ax91lbHUw1Z9AHdqNoV0jSj9rVMa0aMmH5ZvPd1ogQZ6gD_pbH-2uc56T2hJ-ZdwI8O0X4IvvznDBohmdXTrimFF89J8hxBr4cpMQ6suNxou2cjAEAQyKbMIdepyu78mrT_60UadMi0gJLdtpmrWlbkL6xWGXbz0Yzfr0SOJomlI46QNmC4jJMTX8qKod7e6cmOC_3A8yEtzpDVmyTkeLZmDRv5y4slNhJKNzGkadEl22fGFaVblvqlvw8JlvU1IGzWsSd1E3sR5ysZCjLS64pNA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbszPvjaQAQAAR9UevevmZyO1cDwSGUimQjqbj3GPUvDp5Hqq72wcrJwT48LvOmybZix1EtQdqcouUjJPumhEOyzOXIANi_9qoOLAsLAdfxTPiQx9qWTTDLb8NlCdR1rCfit8XjlQ_CXcpuS5tUlbBimnaNY9bqi2uu1lJlTfr2792AJzHd-PgLJgxaFPSctPfWbxDnhQVAv6efFLiFqNfrXEB0uvp-XZm2B7znOSRRV1zQexv9ugsH1hhT_yakOIM9HYAhunWUjQzdPmyRQK5oKQiFMnSjtN_FNgiSJwQdlBEM6UqB_6bI6xC3PMmVTHLCztj5y4p4WVzxUq5vsbqNOXOV_fn47aJRnpe86pJAhssh2Emnx5SHch9VxYPw_ix2NfGYh3JPfXSD_-ulu9mJELLFeU6Fm6qr0h6UIx4prOaNF_ASIT4SlZ1hme5b0bioaf9S0NuRrzdACqDxEFj4v1RsuUGZZKU0PHZKta65XWCeOzS__UwFaWUJlkI3qPGey_7KRedMFwwS4arkHlvGtRyES9ogoO_g.gif"
+                }]
+            }
+            , {
+                "card_id": 3,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/49a/98/546d5e8c1806.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbnrDoT6QAgAAXwPJaLHDoGdkAEeACEYt47ZVA8sbix-1KYgKQix0LJTg-OCVH_-6AGdEpZrjYnhTkX9v28p1xvAxma3QS9AoFZdOrAeYuSqzi4HdePk09l33ZXeu8doJHYm0FhWkkORqJ1sz6Pkq91Y8RCxgzJI_KrBYUBaYxN1PxXSAci7gTMWRTu8BIUuJ_FQGp6Pshl0sOnc1BYkNKWplcIFXnkkK29t7IoCEVuPMmr4FvZdESdqQkW9seBo5-EZr7iLcWHrio1435-0tDi926c5Yc-PayU8hZPeCsa18eLBBm91lRpL37zFUegJvtc7l9l2LOcjTH9ST8ovm_C2zLvwaLpeAQjj9VS9qHNhkhC3mriuVbgBeKcG5EAmFxE_GiA8RCKE3790GgIK9gmyPIEyoK4IzfFCQ2e0mwzVf0RSE1OibHVgwdhnYWE4-JIqeoTZGv96eLntEDKcpShSOJCtmxKuDIZuyYtzt1a9CX8wS1FDCerdKRzq4AAYUlvwEI7ag1KaMOA30jEJqgCocDy2PMYCm3cce1mPQjKs34JKu4vMavkV6I4yOJNk8ZojAsez2Dd3fUM76iRbyu6XRgzs5P6F0_l9296wsMyhnYUFxfIIpuQ-_xTPb5Kkovcyu7PAkwGQN_uXXk9smof9oyl_vc8oXmqpkNt1tveHlTWUqfwq_yZiY2eDeMFN-SEfyNp0-GZiuL6yrMSPiEJffsWkwWvqHFGcrMJLJiWHIwW7QtTx92qNofibdlY92meCKMZPaRuPFsNogltrMYK_1sE1gV2tXNy6Q7GdYBwhM9kA9AKMeO01n5YMTWsGHpwTXARslZOtulkD_XLKaB8ntvdoBn0ildg3IlIUctfGp67nngdjFkvg:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGoKawk7ZsjnVGZLbfXL22E6v8",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботильоны SCULPTED LX 35",
+                "description": "15 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1549900",
+                "oldPrice": "2199000",
+                "discount": "-30%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbtvHQCuRAQAAWPpb80TygfHWvk_hIux2beE0ZNDgyDxZhy7IPobh4nAGee0HckBANd6b6SySTXZ2fRWvJl8_18IISihoSfAXiDvjJVhjujbOui-gyZZ2amjNNSVLirHuFbKzWrAFFgHFSENdweTAVIoKvRe_qOwTFy0W-Tqa3sorVdNw_LqWclQFp7KWVsZDJMujItB_NFu8T-fFGAGuO8aeu4df9eQ_w9neRi4wD012ot7PZ3iq1zarplvD0L-Gv4iRVJ5t1i62gKb0pkDGGl439le0v_84-fA6JcK9TPyzIe25DKvX9FktUT3i3JAF8BWyWqp-YuGOfI0X6Z-EvTcTNYGwClx6IrJBA4bbWkkZk6SjYzF9Zi11dVHbJHT_8ZG3HYTLc0Z-HdT7gGQvLGxWLPqLZt-LYx7I6hnyGkFKQdsOOO__Zh9A_k11RTb-6bn3SUA73UPrA8YwlXnU6Xu3Mparrm73I_EyLuU2T78gUvyrgqDq-qFjdSrsaFdI_cL6y4M0aA4L4HEVcmpCfaHsfVinkMy8LPGRrY3fDm_EXLe7Za3Ipmc.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbpAySEaRAQAAFbP__1reyXcIjj5IBCvrbCAUO2WgxxFHembZWmk0FWAVern2LnZy4iVMhpet5Q11hYNuEqAjl1WhJNjhReTrINcXyjHY4klSFw84Iqii0jGtyLHiGQ34HIE81Y03SpiiSFhf3thnaWDc89TBiRQZicPn7MjXkvvDIf7HgCUkRihANHsXM7FqvNJG9Nd0XWr3rGkbP6WLcwQKrOFnkjchZ8BeCE4DRuUwKODNfpSq1jD-lxSf024YRs28NUn8PzXKb6JJ5CZAvN-3C485pOgRLtxxSvfg205TQRcnOrq4nO_lBOGnkx5pPS9ndcQhFj7dTxtDfI5ieu6lSxBCBWommc1T07pGPAdlptjIVggj6MaugxLbhdBfduljlFfetoqMf-tAvuosMADhL1jMiD1aJzN-uF4YqSoBB3a1oQtdhDdZISMUp_a6R3bR2VZ3pNE7cusiQESlTKj-xUSRpfV6Epx_l_tWqWx5Y1S2a8x18G2tSruej0O4_4Hm-ZYg5p8oKcrwJ63BJCLOUdUlnMKNSpIvG0YSRvj2ftpbPRLPyYA.gif"
+                }]
+            }
+            , {
+                "card_id": 4,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/62f/2a/75fe14cceb74.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbvDoIQmPAgAAJp7FSlik8bqKAT4mBryB2LZ2EUddperBgWeZfNYuwxXEj7ZQzMXqPoSv0v_xmoePZt4hsOSUlrSQO1ulYESp8l6KsPtsor2olVWTSbZ-tSvpWZwtAQvh4Az7lD0xn0bDfbl3bWDiVvuuvtQpBpXfWPOvWFqZ3pF--tLVabejXwA17S5VALImkzah0GRfX9O_rB1vWrZc584luFdxdSgnQsahxh-XXFhnhS6ggnlue_EEBimHttrHdlsoo4KloGFs1GUDnBvo-V9VWI-Rt0_5XjdtRcNPkbVYgsi3Y9P3nRJIec_yHH9gK2Fv_zNxUeC8HPIaUPYF4Uf7br3cD_UCbT_WpjbljSIkc4O1wZHSiSd0OlT1skmnp8NX-k5LNnrND2BBqQ4VKo9lJeQ9Egqx9uYVwmgv6SH0FjNTbNE9IIkxSNXoIakJoRSCDQFlVPKg5b7EMBtw0HV2dH-jQ1FruBHMo18TINFhUJ2KtbSZCcj6Ycq2OGml25QcRWbZhSh-tdHq0cLx1ixdpMPnq4ScBuu_uRvGfIPVEB9d9s4iH7nHUHNBGhr8A-twMw7R-5-VQssylBID46RS5oSkBT06X5S9l0voh86qYkHw09VeLDX4IpRr0AghDyMfwBDw7VHf-WWFo5WjzquE_ocDcgrwsuB-_fd_zANN584dp86lS5eaLHAYnp9FT-Ahn5-RIc21t5Hudj8FXrY_LFUcCm6Eo4RAs4YB9d6tkw5CBFW0M_27VYCdcZwW5hColPEL0iGkE9rsVttQmsaWmBLjhwJ425-bvgIkTdXw54GzBbzzCAJ9BgyZi3LVagqVP3MuebWzJYtFaThiHgt2wdsMYMOAWb05vn9zT1x_97xB42mCGVA:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejexzSqAntNJuD5rioaR3T3Lp",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды SOFT 7 TRED II",
+                "description": "16 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1699900",
+                "oldPrice": "2399000",
+                "discount": "-30%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgSIfjOQAQAAPuR0uRaKservqJk7IYI0qP8POOg2k2UCAhnFiZRbteon7ZiLkliEh-pcRkt0zwtcVgwSbzVFP0T0RxP_oVumr4OhMKLvVew0p3MBwsd4trliRemIWF-6AsaofBOnPuUbCtbWxfl48sG2MweOZS1FEcOdV1ki-TgBh78iHBF99V_0tO00yh5VRm0_z6LiiXnWoAF2YojpY1ZoTnyaf2EieJV_0-s7CZd0OTAP7OQstBhlz0mCPyPJYSoth6LkN0jyN3ueaR7oYh7cPGDTG6JtcAZbqAdtU_e86dFFvQzCFOPXPVY65fIHsX79QbamX0Os-1mOUHVN-34ZEeHA1YZmXyn-8eXLgXzRa4_Afz-zFo3uRHMfEbJ-JT3NmqslAEUhROfCxgO8th2OiN120kHeWjCyVDeJm_IUC4u3sEzlAD08vxD_dfq6-kQzS3am-vD-MNzWOZAQkX5oIO-_nR7o6ZJzFm0e-0Ej9K5M3DNhCptYGF2ih8Sg2gaTnuRgyn3_M2cBx41FAiokhuIP0mBrZA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbip_aziQAQAASJOjRr9bWiWQ2a2tiAWWnncxPK_iUx8WnPFviMVJvYo-ToL6ats5ifoE0MIjkjuzU285mXRvFYBgQuPER8MYBpYbfrxbYvP-QYYU9R1F2WFTKk-bCZyIRfs_vHXLgP4SEPoL2iDB52LcfADwqzIDJysi0lbXYRflLFFVSf51v2tN2s7ojGiYIIZpfKQnU-575RiN9maAPhxUUobTz-JkIW5Df1yuZKEm_-kIH2EBHE66IdItFu9eUVnnclk24eZYs-rF8F9KCxMDKFNo2mX9vK4N1mUJvPhe5HETsXiCVdInCu8ptXg-b5i0tdofzQflQMwATWvWpaFT9_19A01m80ZjlYjfTGIjvKV6x3OhUH7LYHwjXGipmHesI3sJxBGijhHfEyer_Dgz5J4pn3nGVA1UxBxyliGIhPYm4Fv6M9F43mw7C6HXyMmVc_0VEK3JKvKRsB3K9mVLU1EC7E0iNqVp5KPV-Z7hafLxMTy2ZPIGh0UL6wwp0F_AAuIo2c7cbjzV276yQ5QPJnFva_MR0A.gif"
+                }]
+            }
+            , {
+                "card_id": 5,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/d50/11/e0d83a55538f.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsIlJAqQAgAAdS1UHF7-Evj9SwD76HwuRMk818F9ol9Vta8ahN7WdFKHrpjVi0tlpBLm9bzGYcJEPahfqtdSOgZfWXNhlii9gugU67lR18wHqy6V2K4HJ9SnS1T2Zxr7UlZJ9GkANNVFOtFvcyO2MJdCLbzI3-DpIf-suAkvKq0Ph73rV-lqkPsHDwvYGo0WjgPhqWA0cMnXQbFxpEyeCNW3o73zB0f6VAhGGY2R4K2nGGI5Tbh_IY9q0p77UrxBwmXCV9UoYaaItyMF8lgPfGdy4V6nvugT2P61fQKsIgGiD_mgfu81rAAwqZrs6XCb0HipG20MHtyhOsMcytYkor1CHwNoYElSEfABYNOnjZaSBhVg6Yj9TC4WpjPJ2ZW6puNuW6Yd6HGNjvhXJLLCO7OOVnzLoMhcqokXBfUrgPWdxghubwgRkGZVT6BbJt-WtDUgPgSr8IdMIG4GwIqugutRMXVhqG_eBIbFr6MRfupM736QNBVWZfQ9BQBxyEjaXJOy_hP7UM-_-U-JUOSxM6JpVq_nD2ADK1GXo1dmSUjw528N6w3pCml5ni8DGoLLVEJtrGwDop01wGfUQ7VeEV5KFj_uxkG5EKN9jcoCKWE7GS9G0hpu5KtLdz_1NT-VcQdvQehHoWCJV5_tfb2sDuejzph1RcsUh7H-0eoy58sTUjCsh7-7x_pqXAtmt765GONN4voFMg9aKH3tzKVKTd68qrFNiBpWgPNpDVXsKR9OY2e116yVam5RVpShjofbWn12hE3wJPfGNDlYHyJC-kY7SVUiPQlVmE3i6PGKiCGouR0NrnPVExvOilGP8YWYnzSHgGila8H8iRW29ppWoGDM7bfU7_FYkCDYFO4YJ2LLreCE95sWatM:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH1PQxuvLBX5ciasVCVXa9Y1pQ",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки URBAN MINI",
+                "description": "6 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "649900",
+                "oldPrice": "899000",
+                "discount": "-28%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrAyXVqRAQAAsFZOu_hzPrwYmPT53rBvUu3BQBEjOYBq3S3Az3Mz3b0v9rrfxJQcXKnW_xDJ4U4zh8S54doSGVmSO1uNI_jIkWA5sGfSrW5BBnRq6UIr4lzUBNK1p9e2LCrGr86uYm66_ZNd9BKKhury9Z2d0voLXQ-hB27Z-tNiK044_ZJizIfyoCWccokBVT5FVyfhKoaUlSYrjB81gfpRSIae1ISD58b9ASoxhFuUyZ4ioV25RY0AP8DdrRMBfr0iyMOA-Rg_2WOf0ruKnJMqaQ35Y5QrYCVNUqno_VTfYUBhM2J41NoZtZBEGZa0bxmk_-ifkZp4sqoh68lkowY09XKeZz7ygtojrrtCesFuEQ0ZWTwnwl6J_-2nC_L3M0_f8BsShTJC881Pve9Z8z2CyH4KzDkJgf9_A5qjAIaE_S-cxRFe2VoAeA0RQVniYKnO81oyzNdR_Hv8xAbyRtHB7dxH4Tnfzs1iyTwojiitkAslwdShelm9siwqby2PFmm6sv5uEOvsbv6f0ME9uMVCYr636VWwk2ow1zMfXJrerOZtRPqifmg.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkxVUVuRAQAAFhFjtb8yqzIJiBboWfgVKgHnj6ghaHtNgGcj2-GBqDOwlH8RQnF9D40Btmmv_zUjXObT5jRQm9_j1Te8NXanAJBNv1RjM2vanwxzbspDXyjEwNbM39JLiCEAmjDmjRU97-Uv7JXYJo_laFv5ZSkQa-IPyMxlnylH4rCTnjd-NMn3k-ljxptJg1_t6FUxR-T4wxwRImkHZxKRf4xEpWrzFMGSFoyxZXELe7yAZzM2C8mlpSzxkR_gwsrf1H-Nz9-LxenRFWcI87OrZQMMVFwvOcwYk5MhvUq2Zu_T8RPJRIDZY2K7GIbyGpK9Qh5ljGO5zzmIR1A1OJ3tjv6hubwou4ctsWVsbDpizKAjkyQmvpv38I46xPUX7qKk78BwlJUtVs17z9BXvUAePAOU9vAS_D6UY-W3kw5lEGuWAFDLLL3N8RxcDHUn3QpnzXIUrN1WQAEDW0U7RiLtfyyNG0j9qLx0BMK-n0HfxbkwbyaVYUIP-GxBqeegkZResEos48X1fUgMSyIE8_7awI2AWnIZ1T2YxQy8E3YJNwdtg5eKo24.gif"
+                }]
+            }
+            , {
+                "card_id": 6,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/6c7/8d/258f7d147cd3.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqhuUTWQAgAA0N1JOolj_5BDcmdZ89ndsHGOFrqD1j_YaoQKqkSYXIjMXGxuy2VS5sHYhnAejPnVZHoU7xZ2IkuUufoc3MH5qcbgIcPa2Gwc-2K_n9zf1nITwWmZyim7mXk7ZfIVYTLl8e6y5HO12EUPCCNrtPMnMXK9LFA364i3vfWD7wWseIWG5QUoL6HbsxElmZEaI49FmZFedll_rIoI5xdg7S3ZR9N7ffPKFT-tAWnHuE0HHZNpz7UPWdbPZJT3CAmcUQ7OoqPv0FPkOQzdqgx-BcEUFMDWxw3mHCxVYTHkDi3R0_QQWN1LehgTSmGHjIolFAMMmPXuEepS6U5sZ2_anHzZmtnU53-XvDj2wQJTJhmo7aA9ZanPbht11TMfCoHMFIS4ocBJeBNMV10Up1PODSV6QDTaJJDS4hGItyU-EcmEAZ6uJehGWGQKWcVlP3IeNg9Yu9GHBSU6dC2zW4-mdsrLDteEJG35a2XVlYKHUVv0kbBErsja5Yp2juM6h9t2b18ngKujthEnJS9vF-r-Oeh_HJ7nWEdDMJhCts5eWvAigzYUVFGdej9Wrz3RC4H0iT7JLJHM3kmbK6v5icjzy1mkYkbka93mrY22KAL-gF8bazRDyUqi__ggLfLDQnyFk0n17ptswSNK2_FR4lWU84Qt-QVTNLKh2j0GQRBxwkHHuFEXEC7z4jZYO1lh24VN0m_-MBAYkGDEaausJaYKcs6X9A9fcB7BSzesubTjR1Jt29aLtBWc7k7vb4FbqF80IyTe3YhDSZTccNgJfIfWm710i3qoU-gMxmeiIB-JGLpd8VoEG0GFv-QJe-So28yGvb32tEaNYoPlLTWJTYrw471A0T29QcKxU9EV0Wn2NR2fqDw:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH1Lgf4YFDKvm4gYp17Bj7oNDz",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки SP.1 LITE K",
+                "description": "4 799 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "479900",
+                "oldPrice": "1099000",
+                "discount": "-57%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbr3dUBuRAQAALQAL4Km26GSKpbs2pRwrHsI6JZ9Mcoo6fGxrj6Es_CgLyHS0r7EzAwpPDWaCuch_RkmzgZZ90RDyB0aOgWvCbvG-LSeFMpG73f3i8S2eDyWFNi9cIsFdzmvY46WUMDqqbM7YXDfd-S225CgPHsRl_rtHgoVAm_Wdqh9HGrFqP30hnC3wJcNu7OZB69OuS_ZG4sgOPNeWRsO3X4NRPPdRhhtTi6Inb-hKkbEXsZWE9FFdRnU2yuZk4aArYnpIKdWU8HfPgBiKlczq420OZMrRGzpqNIJmTae0Lm6T41DDlyRpAsOyWT9KHX9Pd6khVyQvOiBLvsl24kIkDdYqGS31nfUeZfoxk2-DFnUKA6yEwDYrTkP3P07E3D4tYU8is1lABVjXDsVeiMX_EdsILk5pOPtUJzyIA-89LecX0XDn05sbIYyRebxcp9UP0updOXCtPwC_URMepySxJyzhkESh-3WqGJE7Aj6Jq-JdGEeK8zbjEOpwCSugff3GLUyHgjGDRTaR7Qxt_PCsXKEZI2SFL5XWGH7JkINGlOVDNib-vbs.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbplaL0uRAQAAsSaT0p3goB4OfsetUfouY9Jb1asA1Ij0hUZ20EkDFeh_3Za3ddskifyYmduce38OyogScAwq--OuDEzZ88YSVxxuswlZxJbMie-p0EAt9F8_v0wm-3Mv2zEOKHomh7oHF_rgCz3rUXGjK8qKcN3ZHPu05KCo6nykSzqkDB4kuhIVR-MlxUTlZSKEfaGenHv2hzcIqoF64gRU3AtV5FEgtKqOaEikW2ZAmJOqjLmvTDa7HM8LshnUpBno_f5-_p1APR2Xm4OE7GD2GT84GJOFn3YlaurBgkLZzyFlFFxTNUwa2Q5Xfz9g_mS_qiBWE9I_GAOH1QCpFNZEOOLVZrgdfS2PPY-FrCJiOkn5KVzf67GeDdXaVF7wSES8lsFP5lb980sf1KzCH6T7JlMjLfHmzrXLOe1N08ZgYjv5Qprno9f8pPChGMz1DbKZXMKnY9p2mHwrWhQxyZmzdTawqKtomx8-nmdUikdEAfnDF-sbyY8XOdWQ_Uw0XetKAAo3V4Ehv9g6eDHDn52hzFQpyfqfM0ryW28NSfRxOdGwiHEOU28.gif"
+                }]
+            }
+            , {
+                "card_id": 7,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/4e9/40/56bbc8cf0910.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzblHTwF6QAgAAUWzEbxeuXHDMLnxmPLMY7LjKRtAHqMTAd502aLvjP1GqtEEB5xh8vRrATU42fJbbWo0UHmAxV1CxLdzUYyasz4MC95MkZED-mhFauNePbve_m00-oAOKzrrdNO57QocLt3Mz8yLWYfgDh2L2zQnWyhW65TrpRuU0c0NhO3r2GBjQZ8aPgEVCcP38Iqp4-xR1QPKUc-cjab5YDKe0zWYU0v_fFCtp_MPZgXY9tc7RrJ1LBSBK1neJ3plaboBpgUnU-Ivql_UaqUx2artAFm94axN_a6RPTJLVki5ZnoIyIxrmQwRtjRkh8wL5LQ4ElironcqEgykz8yyt_tuSAYM5o2TEneH0rfVO3ObIF9d41dsTNHJqzgQlPTYLWGpm22A2au8tfBEwH95_zVL8It2dD1yW7KVKkWhHjZffs67d3J9iGqDqUnjQLZmVsdGR6X5NnOut1VhJwyIR4A7v8UGZ1C5zDDVhSpp04ZRew_OVYelL97Z1N8tXXLkWYb4T8RA7X4LbVKpqTjQqC3KZgvg9pBb4iql0zyjSsLQi5-OpS-BWLBhgeNqINtCrckfOAz7s5Wp-c1vUNoTNtkRcbFlClGh8B6Wel3Udn81BJMIo27WfMl0KbHNcbE3eQfC3fzCR10gbF2Z0R4kH9r-n7fXUuxcOQ-3Vb6R3fddwhaGQhDoXlnAL43rnbL-5HX438J1QndpmM5vN3-SUKBkLFhSzL0log0RcC-Rfc_1B3cxYcmFbTBJ6R3OKd26t_31AkugdpKwRfU2P-G6zpvC2RVkos8TkowxVZMM0fL69wB8x6YIPJvV8lAXvKcVzMdyiDiu0Q1AcGfeZG20qH5Za6sPUD15iqXk8WalCRAbWP0orjH0:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGvYAhBhguDaGd2xXL6Jy6e1V6",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды STREET 720 M",
+                "description": "8 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "899900",
+                "oldPrice": "2299000",
+                "discount": "-61%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbleyuCeRAQAAuniCadbKc6lnY9h8faRPF8Sw_3dgtDlm-YmXJG-amGWfCqeTcpzJ5l8YYwcinyykle-LP5egIWRJxIRbuh-2cb3azsxuadDw21E7_oO1oXbvLxzKYXLBPrJMZcGjrNm7hd93ribGIIOs5HCvEjLc2IWFncEIsgzP2tJEGncm3U8i7hNtzFJ64um2BhKoqlkJbj1ySETamL2WMhlewsiHI51m6VZKygHeX8xD6RmIzsg7m6x18JIhtGh-UmIcPBf8dg4TDBjjc9qf7m0nINu0_bBYuoF43odRFP7VkN6zYzHi3qOmEZkQMixWxe2e4lU9lMJbAroJ8zScTAiHb1yvPzvqOr_dTrNaU2NK9tKZnUxok4K-Jhd6GoFrdyap8A5nfTCnhZjZ8xqBIei28040Cx8d2v7QVzoc1jCSmJ0TI6XBJV5XRIbg66mOyS0adbWLiWKH0TlsrYIYoPcs1rzKAb9qvcw3vlj47Lt4D52rhJMERR7K5i2uoTpPdZCwjqQuTUwifBkNn4sb1gRAZdpJHw8chJTIz0s46xS7PKJ6xLU.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsSbn36RAQAALaiNb-H6QLmEdj07l3mqY47JkoC0hi0mTlz_0oew63IGROmYXOIALxZqhTRe1yMS3pedhy_eKHYmQyp6B1GtJS8_VJ7cjM7ZXQCqBmlbBPJNnx5DLp3XjcIA8Nyv80WTowdclBIezHk7pREzeD5Sv_ooO44ybX4LCegRMbbPOTamW_rHOjJro9VoJNcIZ-fcjvGECujn5WQt7mjTJ2UGoyP7H4_L2IJJwehzKx0rIOm_VcyXdTIofYQgx5_CqkGMCTX5_xVeQlmuTwgumRJnB42g17bXmqlwUSsAMKvBOTcRwK1Jq-fv92aogbEKkNWijWBfwN9xoF7MeuOY4OM31riko5XhLIttgo-TB7yLADPAlICAn-HfSSG3p_WNjyo3reAUUnKn8mGSsRfTOoT72EzPsrJTYYIX33dLPjWZ9xY5Qm2WfCkLYpLxbF4HP69sUptAbc_BBMiWv-PMsusGLUdaO6H7UFv0YtyvQl7OhaWaKq9RsiJwKKPEY3XCtGNcs-2SA8cZ9t3Xr_LrhyWAwNID58MzBkO8xDoOjB4kaCs.gif"
+                }]
+            }
+            , {
+                "card_id": 8,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/0d4/7c/fc9c6eb36e7e.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbjYl_gSQAgAATKszRu0mNFa11-YvTQaAcMOiQhQHZai8-9vn_Bj5rAVw0gZWhvSPZ6G09okZqVXHGQsnOlnuiFs3x3FGdcz-06YC1vFL5LwarhAl6riPwilQ_wQCUvzzWEppo-b5FR47s69cPNDXd3W6ebqxCzToxwuepmfs2VBSL04sRTJwvab3SSSR7NNOVlkvzqJ0ydAcXQnXbzpIwCZ8NggQzCVuy7ypM33Ko2lKkrESEcdYOUGbJsfNKRcgobrV-Kusy-fUfF0BmMXcw5wlokkaoQhUjNoE4AN14bphPa0kwNzThtc_WGjr8s6X8MQVhXLDLMgE1DJCOLl4FrgHZBAe_9fRn_rohCcvVYHQilNyvy9XOQrIr29pDCgC3OxM03fhjiCluYdfskFwzOQfFh7EAVW-OCp2f2GeJ-uL9sSmNfSGdxhElQ8MdQEG3vy-idJDCI0MokumIAXIzj5IHxUJeXosTCtvbSj1Cz3Khg1ZhjYiKLw9lpIFY5gCwD_c--TQMcUbkYDx7YvvYmNNfHjdGxh7ZxYcsDrbduiEIFy_kHU5JqcsqK_kD-MIQ6KWW56kyJuOKn5kx6btCB6Mi9uIJWXcQaqzRKiH4IykhCcyPiiCgMICT5vHsirCJPoIe16NgsBQtr5uESoQcR1FCNj6VQk1m61_O1GDIxiUVAmvAmKr6hfV17ihPVNeP7SvpSX25yS6F7q_2UBtGmPzv1-Zwg8W55jMnzgICcFZrkMR7CQTNndDtXjN8eDHBfVvmK2bOfV-7yb8U4asE9iFjQVU_UMfxuNqvmgTVvkZ0LZ2yk7UbwHawvLRpNxvpOEi6xf4mAMa411NfMFxgHK_F0NXlNjIlZvA-8dFUsBc86dYTGXYSc4:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3kmBKXB9scQwcytdXJ7U3e12",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки ULT-TRN M",
+                "description": "18 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1849900",
+                "oldPrice": "2399000",
+                "discount": "-23%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbokW-kWRAQAAQQ3LschAPrqJpgI5fmxhbqZA-2k3kayelUiDMXe5zytnOyJRMYMfJ5dDbOHaiQ7Y-t9UPQqZP94CS1hutHBfhXhl8-15IevcOvCglsmdAyURtjTdDZsOAN-64EUHRI7EY-QY7-4uQHhbAGBFiVDm4X7oseOGx0SREPRggVwZ11ojL-2xC63bdmK0e5dHkEd7p9nEH57DyxijYJPC2w1cpjATpWcinzBydkdjUPLlbE1J4P9UDShhr-8zU9Q_vcNNaYa6FpEl9P15mpBvG4GlrAPCTP0jrP-6NPQym9lPF6-XueFzm-kcmrvrA7lQtGVc_Iels1o_gxd8hYunLeygAiIjujYQ17-NLAGfgtHhtPCDlPdsbN6WDNfnktgZobpG6CpVsLT2b9XR9JvBnK7qjIxesqfkR4bDj86E5tG0KXjRhrCBfs0YnSrHTvKnpzFAlii4POR-HWpOt434k30_PbZZV84VZ37jBoAdgvB_VoJzu-NhuSPorSXh0vPD96JIVyZJfScoYb2L8nl0C32OsBgKZXHcLNi4gVQyDWcRuG4.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbs_6Z0ORAQAA7rPSb7tSJtOFAfFJqomBP5tD-3scJ2_3WKx8N8E6dXBMtqhedccnQPUwuBpZOQ2YwoEx2NYhH5vTHLLtTAOPmJlSsQqSp_FuWpvA0b14JcjMfBOgQjG8GRzJ0Qb9kt_k4NvscbJQoHBf4DkNVGtpsb4OYdJnsQCtcIRYbeYBDcnkBwKVQ4n3Sx8Zl6GiozYVKSARSxU7CBWme7hLaKUcCa3iTUgvyModcEexQkb7Tu3RcifSDCy7xoIQ1HhN-xYQ9RX2xvlaR7vBmY6CkxOeyzgVUXEOQ8f-BghodZLIdUHCdXcU3PC4qXJ_45JdaBGHbnME2j9zyjoIjGhwxSl8UZl_Z2g0wpJ_1Gq7TehdAWmTVeu6NiTXEI9QLs5pR8wAgebDJC0DlclOQydG1XoyS2pTtNtDJP7kmXc93rBeUV2YbLRDqblIADa6-3NmFziCsQY6hDo13qerATw3K8wjhnxIil1LJVYm8WRAqqLY6i_2k1RS1aZRDTLKtzWfEkoFdQ5QpBXNQEJCmsyXOrqN8WKTCvO2IHpZlywtieeD_O0.gif"
+                }]
+            }
+            , {
+                "card_id": 9,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/098/54/681cd402a675.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrjcyEaPAgAAnpSMpYG17brlsQ0Ecwq6oW7pmZ_l8xEMtdGLAUODbw98UzC3kM6HZTSultnumf3201WtfJFn7imwgIuvv95ZGLLPMiNxB0OZ2kmhw1yvhu2Xz0LapSWsCJQLl_il2aSUBFQjOIgz2MAIXGrcw5FjOz9SWVPqxStcuMIo5OX1pL0y0wC3Dbp8Fkfbmmf_qmKuYZgFDCWRG9ish1q_Sji60TUyL7aSEVQL6jeV44PIQ2DVN7e0GYpbf2v3BOtOUTHr6KKmFVWOWaqxZF_GblQF4vFJTaw79_3VqamIPLh8R3uazRcIH4gTEiSgugdpb9ohgZeutcaQ_61XulAt88SSNVJ-y8n6z92fTdFJIgNnctApKwRl01IaBUaPUk8SmE3A1nIpEgcmAfiLdo6ahhQAwaqDGrzrUdlnU5myXFr-G9wCTei0QQ1cHtKa1zmG8hnBduQvQl2QMC0T8yOnkgRhjYsT3mDahZeXk5IZqhp4IbFfMUtOZ5ucKgT2YhHzASRGycwVCVeacUJIfkhES60xMCrwdQW7hCkmg4jayHda3ZZh7kUsnm28CXwkdJwP_Qg97Q7mKVe0G0FJ1aNoMxPD7hYlX5uBZ5-4fxClUmsZl4sQ1tRosureIngP6dNADByRV3PKmJTSv00gztwgmzc5pABR0jkrsR6mqtr-dyEmUTZf-CCM8Js5BoYSu068F0OBDDOJ1e9IaX8MV77v_OQX4sSr5yNIKspnTJDIFrB1-e2ZoxSF9pna6B7GF3Gn8AVBkCb1dUjQ16EefwTIGqLUNjNiRAKrRIkYfSDiUXFRQedUBiOiprQZYjawZpeQg8UaqSUiuXwcQWahGrbD1TxSNHJVzeZP1eyAl6dxModwIWM:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejey7kLdhob2YUxUnfpFkyeh2",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Челси NOUVELLE",
+                "description": "10 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1099900",
+                "oldPrice": "2199000",
+                "discount": "-50%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzblK-vgGQAQAAtMT1ZPV5mAKis29GUmcQ8mEfRW4Fg0wTRGGK--Y7AU0-CQzm1WJINZxQqpqCjB_MgV3X2Ww_XbOClTswhFk7osrprfj5rMgBoGAsv1bpxp5cuvNPgX6mWInQZcJsfewg-Nv8eHIN8W9ZtsQSW5AJ_bQEgpDoMmiDjSq48zuDTY3bTzfEFj8a4Kg7oLK7WwQvJdjHxNEn4GmyTNIf1vElgU4m2ewSOtwQvbUFjhw4pN_tVfoeXbx-G_aqpaj7KjbjDayet1hZnAzgoYS7hrc0iZ804PpnNc6vxC7TD0UcQ54VCxpXrhi651mO86Eb2w0VWKjIDE-JtxcCGHWDwvIY-sAimshvPPBXRHeJRWsTgPVaoKbXw7Crc_p0ee-zy0kuFVEjDzVPI_tdwWHbYIodw2Irt9joPniwE0BvybytOwNy5f9jpDaez5ptCJ2J71x9Wr2TUrDCO3r6hlHQKC4XDCvXn4CGgn75dOmV31C9knyfhE08VpBZadRFj5U8kF087KTD8knGX6TfzxTPl-3zBA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqarfiCQAQAAHvXcXG_yeJS_ushBOh026ZjV1XDGRPywIAwFfSkUDCHgb1KUDy7SQYXeIG961bWT6UNIXkwi60QWBRsJjB3Loojg0JFX5TZ6yg4Sp0peTdod1utNy4JPMxj9pkhU90R9-UbRR0gkEP8ey7QckYVEiXUFLD3UUsGhttdlAT1RHuej5l2TzxPGDGEC5W79JH-WLrLRnwTUl8xMsFTiuLE5YNME7-hJsbj33DmplpVB-KRYvMXf0EljKp-xmi3vrlrQsJSLE1BT9XQzrYB0cEtWVgGrQxnma7oItT7aPnwuxCLDZsp2ZT0ufedlPS5EsJnLNbkbceHTeCIRxJLNylsWO5WZ4pm78UhtIIaAH1YEgXps8MloSr3W9GZjxkbbja4nEGvodTmZfsa9Ylvlefk-DTAW2N9gc97Fqr02i0gPtOudYKzTnCaearMC_1N6FSdOqavwaReJ8BLx57iTJwwN6CY6F9wSKX3ZNcNC_KRkMi1-bV57QwhsheWy_YLiU5vVKtDYK5ZheaGOvrRChytl7g.gif"
+                }]
+            }
+            , {
+                "card_id": 10,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/1bb/db/95f82e4ea6c8.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkyOJziPAgAADb0scc942kemSOe1HQQbMi0PY2QhZR649gPQZ5rF7P3a-5TZhvMvS_VbSSEahXhkqLMw9mC6rFvwaFF1AxvsFF8o-modXSJ-Q3t28b2Q4hIykJSnN4UlV86wlHucqoYCjZ5nhCiw-cmOcfaTgPZVDd2AYuBS1Ys1Kn1qbGW4Aw4O2EtV9W7X2elvG6Vr1pWNJbu-u9BOyR34Um1OjNou3CTpLREXy7x88mz9r4PyX-F8Hli_HULTK9HJFKIaR-U9Q65fK-UNwtySzviyDnVAJzZzchvDEBRLMeR6IKYnB1aO5E_19k9GG_TK4pFPRJT8yopPFPcfBFOoBqr-Rkf2UEWrdYbihxUWZZZUy8AJhEGLoQfO9stdk3ZxU0Amo8pEV-IHCh1lDfkeSPHkvJbXyA4wdDNai24igdwE5uhPtXNPMEC2J_xTfA3G8bM56SWayiT4ilwIOhcYzb8nHoNAX-fkPNMJjAObZ2WabcjKyuzz82z6Z6vBfPrjmhvn1wXf97Nh86ozoWnIQUGjn8bzV8h6A5PBchYtygQn7R48pgthc6aTUcWSRgZuTjsH2cHjf19EPBu0eWuT6bQASpyvslzfGfyredHlIHtiaqiKBhfRy3LSmFEt6cbchOfiliKflEOL8rQQ8NhXgnbWCOVYRKgpYgn_WSD98KxG-RS2AQGCbQnuQaspRnj6LwxNZ-XV-o1BGN4N1v3ysSpzNxnfl6Sqq9EVAWOjo-2yEq4uhCWGo-tRbC5Y9rLPoOYrt_DvCEzZboGOI1o6nx6vJGahG42Wo_db2i_6IasqUeZUc5-frg4Pyg7PZcs4nDDCVViTh3Q1IYSgbotBv9M6hAiv09IIS8YeRG_-PDVn6ASNXbE:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejg4qDakyGaJr2P9BkAQB2TCg",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки SOFT 7 TRED W",
+                "description": "18 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1849900",
+                "oldPrice": "2299000",
+                "discount": "-20%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbuc7XEqQAQAAvfcrNkQrIBiMoNWMjc349D4InIlAY2KOPLisPas3Jdv8cDuvWvkgpRezBlbGeJ-dhcLe1xmXNomkSyVLz8ejiLvq3l6oWFyPjeNhDSZd0_1tdd8lHL55aAF8v1EF2VjIVAdugATDoU1xT-e8_nr5Id1WlcK91hwOKvZI1cJSMGHXs8AE8B3COJDAnQBI3O78JeithHjN0Q5V2vePGYjiZ-dJvsmcLcni8W9qevVps6cwO_3H3k_ZaAxlLELsecSdOSacyHfHEFXi5EKbhIP-104NhAFaZaE-gHWLsP7gNkQHsv1duRukdKo9e9J5ZMC07G-MDGHqcTiy69uegunfJvA74aop49LEEdaF75GEr1hDxIKxDRytZEWd7aohsMzAQuTMxvaQAcRSCPAvrlL0cJxH_Ofdo86nw6jJczxNz0kD4Y9smIweKJzZMTPnCm4t4vmbDwFpewsnhNJ5MBYF3H9de91HJy4qI4gu8WxODA9tuYcklcGkvKRPu3PK-VCnnKxdoztYZLdLZKQj6Z1A7g.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbpd06CyQAQAA19QJGweM0NoyJBLAl6qmgdo5vhGQHfOPLYaEKbDhVjM62FENQwOLmFKTC8EugCaW5OCuYKQ7ef1-nrDTIBfcobIkr2Qyj0XS664rFlyGxGY0laXf8XkAFUYwWnZbZVD-vWfBx-oQNyoM9bwg7OumNggSoOp26ywbzaZQisNSwrTYecHoPlTeG4A37U2R3B0ibOcXOyOqCH524qL0mXKTHc_t_aQqpN5Vu3lAT_fLWTeABzeL-RXGQ-LyjbiyghCSvSe0MLnoSO4A1PAlpcCauDxHJSO0CQoZFFIUVC4jtdPzDC2hPX9KfLpaWi9JhcgLqB6SNe0XQPywapoqJUZzXcXGc4FH-tz1u_8becbWEzyL_Y0vc6YqxO4i9Sgmf4jpG9HdogkOPODT-tS7kTmEL4nU1qDbYN82TKnrWy1aXyM8zn-dIIl88eoVMnsaVdCixuD9dYlbDavAXdFTJwRIAbG94lqRc9F2ZhdFOX3icIOJkW_kMJR3z6CIvlEdF96FfGEFtCeKD6eFh1JAidKhig.gif"
+                }]
+            }
+            , {
+                "card_id": 11,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/e3c/ab/c6035d440ab3.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbjunLhyQAgAAeI3H7BBU4w0vYD3YdSjNPAehJGrFtj3dJACeXMcKk39RXNlZXukA6vu51_D5-WqL_djnXX8LN2VxJakJf3_RlJAEC_HEruOjtLWx5IlHaGYl30dXe6X8dqeakmCwEuaIrbpjSElJKx2uRxXkSNtjQnRmvoCTw-NjF6KXf26oMM4iHiq2Mvyy8PqN3MMDbkqNGmEUA1OzwWeqU97ZPm_dEtGR-BYIeaR7ZOpkFeA7FtQOdYGi6dDbhI1w012zjc9_uzdSHuPKVfi2fVYA_EvcnQnihtqIq6lsqH_Rj8VVYmodZqVGUAzmWR0JSprrTWQ5V8jR6BJE8lPuE2NLTSaVZbTOeDhs2cggkcLKBchlSiKyAxQZnEgOb0g0CSe7FmLX0ZqyY-Bl8GJzDuDLQT1hsjdoFlRVu7-nqCh9p72Lb90pDk6A-zL1iI0dlulTBZ-w2If68wR8dwVW5RqeWpr-HOFuegVrCup31nxxKQzaSSsR4dZvap0FmHDBXjNBwal98gytOuZ0wW2DqS1HhMIr2vtKQLZUnWx8aP3fXrEpMlKgD7fssLdVvCER-dvhjO3bdBqJx6nasfbOIVbwbcGEid3kv_xJuibvTYBs3HsDCA0rso6rDkkhfdHRRbo5MjGyk7qy5Ldmy0mEz--rB8CloTndodTx35BbX6lF9btz-1ihy8OUTsMiJqrjjiwf3JgjVKtmJE5zcyZ4q5DWyvsRWhdo2qmgTUC0LVA62AABgXC2yaAdGW273KlpHoLSgjoM6E1iZQhQwEXWDyCyf1tWV7gpqErkiyJj_tbQQRmHOkjO3lHO_d-cAIxXC0hCFw3CAWVawbCz0exzFPilBZnZz1Bojxpt7DyPaQhJqaSdsQk:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGvZoXcULtQYkACzEZevniAed2",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Полуботинки TRACK 30 M",
+                "description": "19 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1999900",
+                "oldPrice": "2699000",
+                "discount": "-26%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbtC7nVmRAQAAU0gqgf-joMuAr978rOCackGCvAZqb-sfKWrvIICDYZtJNyS9O_GXH0gLfHPnjZ-Bitq5PagJVSAbnpjbfEeWRmgZlpJTknZwaa8ZxO4YGXdyEafailkoCpcYLZm1B41-KbYkPOxKehuyACmsGdaJDZwHJtht7pwbr1yaopJ1KYyKfa-JX0cQEbBWcjRGPDFmNfKjJP_7euQrH7Xu5JsHySiaL_OHjTzJsa728SadQ2uoiwRdAkJ0G4J33dKJOs-U-gFYSOjnnWVo357rzvn033CUDoB6BA3hL7-qKJjsdZfmmOSoY7YWqFsRttm9y0JTkFV9VWZcYpQkAe3EGnKZ-OfVwN-78JLK9TWpl91Tq7ToAXGDz2RKO3nhzlEyc1y2rI3kaatYdWfMhH-7g3QH2VATY_dAC4HkXMlowP9-eEA2b5rie_cwPenVFMH2FrmDvloPH6RS3Yo3JJc253jyBzyklkSDYrlYkFHgyrf6BwUOBDvKfKnUqAs6FGNRAh1qCWlItttP1noZqkEdXIF733DV6JD-e9Q5WPfIhmNrmKE.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbptkyFORAQAA26Wx1cYGabmhMpiKLspztLHR733oR0KRGLRsT_B1DT2e_En_JgP8AE6RQu3PG4U9ZQjssOMiYuoR61gISqmrZC4R8jJrntvjZrtKYZZeXnM_35eIXXxRG2-6sL-yrAaqxJeC_Gglo_vxKHO98r-hVZNNwVBs_yrJ5y1ecCR8QyZ_sMzXn4s3CAqDkCPBIqMbTE2C3wDXfPqx6D_fVBxZpUn9ymMzEf80IrQFjTpTtFo3gXcoStmQy20P7Ho-jGmx8cPoIaPbjrfIwsl5ZxfpOVWx3feMV0oDI7B8rPsgGNUPIryhGEsRcKzUhKpDSnCyfu1UqKyYdGJvMBLfueGD_4KCEx3231elbwdZAx7mMvcvTx5PvtQ5I0jN_vbfKf-zT5DUGh3sg3gdOjfnWZi39O-uZHHaGrIFQGEdx5pRxTG8JrwFROF8hmn6pNsgtmwwILfFmjgYT6OmAXHvoR9lCd1EzuG0CDujJRZFAGD3xjsZE5LCMA4DsHUo6Gi3BQwtSSYmtcsEA82oS27dgdkSD-9CIehPP-WeTjcCKdRIx00.gif"
+                }]
+            }
+            , {
+                "card_id": 12,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/26c/57/5af167be3eb2.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsqW3mWPAgAAvLOY25zu1wFtzrRhnnGVLxdzxnOMkXjJ9vrye0mxqeR08H_Ytf0Tbao5sujaS4sDTGKPyNBYGuGPNeKcaNm4hmynPLLwEUe2SBVCY3ZeWCfrfuiN1qpjt-QYuNZANuSsBUZrnJXZZ5-WXL-y6t8DNSqw-MYHLMCKxClEFhy5rRcYvu9lx3WfJxM9GEQ9L6dlTEH-TdoHPaReC_SBLC_YDhKII-qeCBXxwLVVd3fW_3b07gST5KUXkhCojRLt4EeJvb3l5E8qU8pCRwXuM9yaWFT4Sg5xs6iH0XAS-g3eTQxqsjX7V3fK7qEXnDkgjyopjfldC5nfbyj8aMHwRt3PUP6WN176-Hxt-uVPd-dhRUwcJGmNpa3XMELKE4QNSCO8KzK5Zk4vORss74mIf1yF1g-3hWkyLBVzkQ2NtkH_QkSGYq8Ad1uXPGuY8Z3gRWA4OvsjOVwKA_2kh1N8x_bC-fV-R6mlk0sDEhmnmrUBumRs-xoP9Q5TjhzvTxhm_zs456McGGrVddsMlXe-5PbJ32AzXyir26543xsn1-6dzTWFl2FNWCQOBOdD5Lw6LdfskFyzNXdXhiPsUIZldMDDkL1pgGDMUAbQxJRPw1fLfPlPP4DFAlQW8pHqTQwrTXSkxaf26ja5zYdvekmc1jmn9b1S_PC7JHCyz029OihwqRFQPUHy_Mh5ZiO74jCIIxbzRuQ6AoKxs2DEbttQjKj1lAYOgXp3W4HHuFV5q2vN7ZuToofKKAxnUTr-AU-Elc2x4vhBstzsrOLXzvxXijFn8MYIafG7ya7b_FBHMmkZYobmRPryMl7cjpXLg0yiPNClSKbQPHC5xBT52CSCOsv4u4BrNTrkcg32nOri0CX8y9I:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejeyEoFoWiLMJMSNqFYrbSdpQ",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Балетки SCULPTED LX",
+                "description": "6 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "699900",
+                "oldPrice": "1499000",
+                "discount": "-54%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsIHT0qQAQAA9Jcwm4Wb1nIAUoqDctN9jDTaUQznxYivOOx3Tj-TeBOUorjeCalzg65m2pYdUhtox0KkPZutWu-QlfrHkAf5pT0ZW02mVH-IX7-2jc9mRL9UKD8LIih5LzktAXN68gL98mdqOeJu4oD3v1c9Ymq9dE3Gpern7mzROQ-YFMsmDpHLF5KxZJT2cVMWutv_NXdNLmDwEsRmAAo5cChmLrLiXO4YfnXaDP_WkpbhipHZcXa8n8ZoC-NYz6MzS-HrAz7q2TFZqXlKRmia1CaYx4Ehwyjp0v0FRdlSD5K3_oSFaboQNJ06D0iFjzABRgU10gxc93T3nZt66GEDfoMohlFlifHDRsIo_N9BPO82ervvkrGRw2Mik6wSAfpwWsUe1pfJHNklmSzuAhXhaWJRiUa2UrzpIUL6rzdnJTHq7IeA_H0EzNjWGmmVyVp77iPnDyr09T8GxK-0n_3IE7fhyw6rwq6Jq1lbVE-cfSAn1Mt99ql6UUPGeQ-nTBlpSF2YePczp0gio3NrMJqEt_aiPObWyw.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzboxFbg6QAQAA8NYQdegm8XVc6ZopP6bn-LUNuUh-77jfZS_q-yfI2wbE217RpbLBvdBP57gtqenCy4eQDBG7Ifja8sAUALnw3ZKgwjjLWbzEcmh1LEW3HGEVEkolbEZkMJ2k1YQm3KBur-uEBN8BnjEcMsoLkhFunuJuLNtzzaZ4qUcnGcBRyemL9if9qlrnKsyHKaS-SZlEAKHgqb07hBEBNTH7L9QE0DnN1jqvk7oysQekgImUu_aEVlIqVv5GkPaNw7j4Ah2h0EJpzZfuvD9Zk3PuqdJ8Ex9lMR4owctSl7uQ96obaQabMR-1XSXnBhA017rDkv6f5U6pQnW5EqdMGt91zT2SqyIrkKAx8ne6zjUK7anFOr4majohu9PwM__ztLSERCIlj2Uitkx4k3h-4pHGCj5EckFyrJNM-MZIbnHXYwO2hi2F_iMvkBU4C-y-tbaMCb1173ZztcUwb5ol9fxnMxLRy4Ju6zEOEx6ejcyBsCphbePhAqEG6zyQ-RVx1bMhyDauh8YYKcoRcNQuDNEULEc5Ww.gif"
+                }]
+            }
+            , {
+                "card_id": 13,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/663/82/f3b4edefc6f7.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkBKYCqQAgAACT_nAw51xy3IFnM8RI_ycnALhQjZIyVJbx3dhrQv8VZ02n_Kdm3SRbypHwicTjJgCrmb7UI7dfkwAzcHpIv6XyhtKB6KL_FIbfJKBA1sntVPIZThiwz40jAkqwH0HRCUTuc14N9Pp4u7_SENGLWtw6PqIEQUmydyuSdq-8YWIyesJOBZcHp2NhMi44gaK-mJLVmAF5TMGQwptYigUltGMPMOaV29QwB3uU8Tp30dBIopaO9LWoO-967n1gnY8u2KhxbXmmz7PTanUDsJmYTaRDpgg7jjLzDy9YW5wCUMWokPjbdrhntKSai9sBf-aF27tuLrvjUvt7Rb0gRagdJ0-xlbIA2tGVIg--tB07A9pYVYOyjJR6JVB3pH0HabU-Nn_xPVKx_lWb_P9W0RERV7fGhsYWCL8nfkgZFj94FEw565R9UjzFnuQkOmf8s3-SYShuW-wQ1PEmlJYscSWrbiTzZXTFueLfDd3gXdXO23S1VtOWJo64cN8MIy8vaJC5uy_2pVHGGPD5RdWg_k84RWG5CtiIfpZpCBRvLPA27B53fUw3cXLc_faoeuLMIQJOfx2aMz7sbeRiIh2jjw9Zo3TjswTxgbRH1FZgjhYJLYSnfWVZMypZJpeOzlkNKPtg1POcQ6LQnMieLW5dIVg3WGaxDk8FjuZuyPOeM-wxq7Wn7Y2ZvkOrAPrzrFCZ2ZK9uwah4hvCXvUOjIvJ9pjgAy2ALbjnViXS62X1eh4AtOs5Hh9fHIBJ9UDdw4s0HAgj3A4frSI-WbjGaZV8WiiQOApFv2VZ17hzikPeaPhbG6DTE3ZOA64g6u-xlW4ZPHX-mzOvUcmTCrGjD3ECW4QteBeHJ9NHc-XQVQTsxh_glMiQg:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGvYApD3KWLXnLBhkuS2PP2F1v",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды STREET LITE M",
+                "description": "9 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "949900",
+                "oldPrice": "1599000",
+                "discount": "-41%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqBfJD-RAQAAY93ZttvO5Vo3WhXuJP23MIRJaYJV-yo0XTewF6D9eUljpKY-V8q8Qed29vk1gfuBv5ykcRwzuJHy3EzxSfDpk_Ee6DA1tepUbzXzB5L1cqXqqFfkyPOrvzgV7zqflc5B25lcFSK4tLtBm2fO3HwO4efyrcyaXrH1kusLz56AMMgM5nnZfkiYloI-akviootDmnRdmQQ9zNibO52XbMESEh_rYT-DYYiQ1WWtDOS5bFwkYIR3RAuldUhuF2lMaR0NNmLD4zSSpEfPQiio4ZzCqcOK7wIk9So5jCwuw6ZL5Lzpt_kk3nohJtkGIkRvk8ZtSZJ2s3_QMUWwhI1IAT5d0C937Zu4Lu2pXhe0JninlLALa8pBnYCqEzl4wcqxND4tyHspsBc_RqempvmhsKikzZNyGkqNeL0y1e3PaV3_0i9Qg4lynQzrVncBpcyS1TD62fs6rMMJ_0fUbO0te188any6E3tiIkQ3zF7sOwyjX3pDEJttzwnFRezk8bD9bUJ0tAUD90jHiH8lm5F-Xc4GQTnyDBc19AsyQHjWq_oKJNM.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrV90wuRAQAA0BYUwOMJ2Kryy1fNFbUKT2W8a9P4rc431sAaxmD0xo9S6YzfrCcWQyC6TLIRyr7A0STMEQKJVu80V_rWyrlgYdBTTO71TH1WaN8SsF6kZvvxoLwc1ImS05p8pb23eFm4gCgoid3_HOgM4c2l96hjBuHue9MXXmvY_9mNENXtCtvoJWHBd37_kO8y0S9ppcxOp5iWOzXIpfnqhhtAXFskem7CLqWRrgNy0hXf3PKINtUB7LUkVxeU1VM7ricr6kt5meXN56xKCTQnV0gfrHtP0Q-NO081tJZAYDmRoospnozRaxJwAVne-cL9tKmxffkQDe1iN4gzQRuK5gBouUfS2tCkeox8Vq5uQvm0UEszwKdSxwmONcD7IShO1Gwvs5gdxgy_jnBl58P8UiLSiZfg2t75xpOfwnGhPhm7ON_eWyn5_h-FBZGt2sMzzfm3aTUWpZpONRVmxN3lAk7X12QkA6XhTlBwXgnFeqovI4FB1fB6UIrIFq3ENQog13UfbmBL819tdMtH4cWL6_AbP2tgt2FSpQlzUizOtM8oiA0iSsw.gif"
+                }]
+            }
+            , {
+                "card_id": 14,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/a43/da/929ad2e453f4.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmwUGEWQAgAAD9adXxzmj00vozSVptxswg_86igQCBzkM1wcu461uxppg-DR_6hrvdWqvZTEAHdQP69QFT8MD5_kt-TroiMhXBjjYBfU8UktJS7fJ5x_2zQ9KMXi2X-HMHPE3jIE1fFXO8qjpJN0BORAAbx2CQf8eF5wkpy4KDOqncZWLQfOE3b84dxsaXSRDAmQvJTWcqwpVC-yxZXsOjY-2tlUlIOkEyn1Nh8EAX58mL0Gv3tQWHK4exVoxo8eKKFKdjyn7d_J8V-FAUx7_tJEBc9IzJWUORShuvBs47-K34TE9GUzYhg2IcTgbtezqGM80avHNRXJHoB0no99aEN7jBN-u5N2Ml6pNXtCeffPYuvDHDPlZ4n1YPTQPy9N4rClK-_pT8U8_KusIwIpEeTT4P1fZJMREd8HiCbayN8Um4YU4DJMBmPEDpOLvrneuHeUj10pHaePEz41qet0vdHkzjyMqedvUQmPf7pbCwZATpvi6DRn2GKgtFsteKo_2DFyQMlQMze7t3gJ9Xh0bku4dqtrPZV9qqIPz22yiMxTLnFKQiB-yXELeLNOY3To2o0r6pgHUxZgr1lt31ddr0ZDRf_rE2Gfy1eCMaPmmRzdYA-bTksv-PWgOF6XhtgeB0i3yRaIHl6VVdyCTxa8AfhY1oDUKHu6BVuMi3vZGJTv5SbfwYqrw8Af-X_soZGF7OwdLhIl4NDBYFtNPtwGcjwnA6QIDAZjq-6E-yMoRtTS0nLgrU0wbY3YIzCG4e-ESFMUTYhMzhvBsD5s1_N0ZBrUo9Wh0YcQtrl56Lx-_nWNHy-ySZpbPrpSJzzUMWq6idR0odu_DQCko8D45WgHfmGzdg6rFDbkGPDuGBYM5mozS8fFh0JnZ1Y:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGtBN5xyVW2gdoiSNLJgCK53gx",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды SOFT 7 W",
+                "description": "8 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "899900",
+                "oldPrice": "1699000",
+                "discount": "-48%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzboPJrSqRAQAAdZHMzDL9S2na5xcHtlsooVJ-62DGZwQw8tt-s2tNa60c8_8YkQ3m6b5j0e0pr_9himGWbDuKKhrmWTfQFokdrFVB97gUHlt_5GjOtOaEHlJwdSjILviotPMkOCwyIOt4cqtYeqbqDPby8p3P3K0G3OzP3rc6e2RUBfdVp0aPzyFL7pdJPQUoNNvrq4z3niolel-bByVMNgvKGPmHY9L5T_Mgnm7revq3PpRDEMWzkqkFODRx86YxAUWCkYwbUbWQzU-6ikgmmCrlIZsS8SYCynMs_XvsCFrrW7hPuQ2Mx7GGdxFhQl2bk9wPoxopm0CSqBNevtqQudwrni-0Ag0Wo_D6dpKVLyj2KA-Fju3AfJluhA6kDWIEqwbwXM-hzb8JaUmUnuPhsqnVamWmZLApo_4bxKjZwqSptkHFLcy99W29vBvUbtg0lne11_Ma9X8DspcI7o64l6ce7jFuN6H7OEdEJYqXgdcDyq7KDu2Cp4NrEpc1pgDxeqLBH9JbvjEdtLH2B9wJ9VLimwHbb_1VxoFl-Zg-oj4ZP50oGP_QcNI.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqFQDxWRAQAA0VfPdcffbSjSCA-iMsX1DxcQvz4cL4UNfUywrjuw4GTVO5-IM4ol_77L_6M0p1LgiEbyQz0A8XtOt6q5fR6vVhGAojgogwtMw-UryM1AA_Spvqd-9VVA_-Aqb-pVBcHMNFN1xdNz-TvKAdV_ZpHRRgnN0DF10cIZWC_f-GAY3z5aVKViB00gcLmSpvAJPPvKQY-z5tIxRMSfDnfBq0tj11WYqtVE-mTLt0eqnZ408GjNMH5J44ar_iJj5uwqKc6uhwZZRwZfO-UwSXPviSM2XhzzRAl515PxOmDxymLdh5_3NHScehUnUEj_XyifRB_ArdgTML-_8s0DCkrwbDhCeZvCSX6FhrRmn0-ppvz2d1u-A0fNFtMn3kR3JPsoUsVdRK8RuVg0Nb_j_fP4ohH8y6jWdVV9OAPO3S1brDaZAx2ZX-sUDJaGKdis8XASWUKjYUBTs6dzkM1e8gEsdbaVCETvIIfRsS2hqdVd4fASESVThyQKcxbLjq6QiwfnDkIzIpPWcy3omj9efiAeZEuNeojJhVTNF9o7QrcbV5IHRhQ.gif"
+                }]
+            }
+            , {
+                "card_id": 15,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/0fd/4c/2cddce820a6f.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsQpTj2QAgAAHHKBjmMjQhTYWZN6qsmUnMHxrq6gqK5vxlhn5-TeAKklmOpcrjaz69gHk2eMUtAKYGbpPPR1R3W4uY_fZ3vKSvuoM514kc98mLfi1R8Zf8Ul-NO15pWfWXEBxnO48Ea77eBPJLgbwj-LkktUXgTg_FWU2-FEC3c5oz-DdLQWyAfs4_yBkzBc3Yc2m9tNil8XZYzaG58HevFPsLaEqasu3EcDRP0DCJ61UzSOuFvt2eBYiH78VgaNMCz5RVJuNISLjI_B2Ja2WduFWvlwolJ-vF14BxYVnDijtAkrJHeSGAxx3E0o74CHXs6g_89fpFCDVVEI3w4ynWdZhX2nNy5UOwvY75jtfCVlekP2NQLyKgr2qI6ryhFjJ1ZCuI5XBM1Gw3zzzQhyEka93mQ0n1OMxdP4SWXYpz6Mx1TVCLgdQ48Qk8iYVmZutdQGJjSGIbPlchfrZHvOcNVtm3c4wtfHsSgoCPZgJXyAiXHhF_L0nlcIrlt1W9RZ5TT1zIs0wg3oC6OffrROBcOxho26DyVH41eDbluGWBg7BXcGuBybKhMPmP7z9cT8aeU4ZOLElfiy0YMFsxOZkNHTGVZYIq32k3qoSJMdqG8LO5EmHToafChN5O7p-9Vv12TsW6rMbpmeO1PC662vzzL53CTmL7gmEhhr2lTmqLsULxO2SF8eN-sOahsBW1R6nCDCxNswa6mNnOvwPcR4Hb02BzbZwzd_3W4WIwDltHkfygF3pGHygizXUtSNy50-3a9zGLBxgEkG2uht9PtKa4tRS5DyQt_SKCe3cLD6AGosbLix_napLLDuPld1IAlD5iXaYT8KQDvIlcMDFp51tBjdFzeWTCRqld5ZOFw5k1zxNih7PKKNU-Q:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH1R3JZ2K14eqqFpoiRXKPiazY",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Туфли ANINE K",
+                "description": "3 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "399900",
+                "oldPrice": "849000",
+                "discount": "-53%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbslSaTeRAQAAP_w9LahqLpGSN2R6KheDsxXU0lS6c5-nEj2-qTcvieZQNKqLtQkUSvsna_fQ61pECiMQkX2dgnEeB3vQXapaR5xCfOpmFrl8u1_KCcww1k8970rNKCkCXAXhCb2OwP1MfN-58cHrvzAVMMPR9IlFN2Fn2MahMVZ3c5kwnIZyhcKi1nVjXVDK04GqdHqvJbybS5vMeaq8Oef-67fcDmqeugrlsV9VF0j9isRxZplKzYdblpW6a-dfdwiLHBMQuBkWsrMpdWVeCLTVF3cZbHpNw0F3_BTcVpSbVBBvLhto25M-3doN7HdHhHp3FGCCFWfvCLI2xbKPdZfWHfQBJQKigyivGLTBZu8QkSWzfTdpd75Y8Tq9vm1OAHE4TIhfTlsnpcUv7HkwrZtl5AmsmQIe4Vp7iWUj4DxalCYNN-Ce8pCfTwZ776xzW0o9fVtBxajsai4Ov_Fs-4D9AG4T9bVB-neKrNF4IeTZGjWY_BI3aDCC3fRgtkVfwdailxdJthoFsS12iD-ZOGYqC3N4nLuXJYly5uYVaT6bKd6l5s1w9fw.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbiby9EaRAQAAkEnGxWvX2F-gaTw2bpZyu1R5fPB2NwLktPnpu2tAsDmyUlwZxCkCVMf4N3c92WphIDRA4zO8hSbNN3Mdia4MXHHLvmPWXwsnLBjsT4NsGmP7-2-_KvOvOQMgZ2AsglmqytqHj3eKboTpUqJMoRDZliEzQgcb0ydT4ZTuJhZNafUFVo47M2g95kOnz2LsLRR-4TXFeuz6rriP-O_7laIQOvrfYo9l8JOUWxUhkV07bO4-XPHq1V5laXzF4N3dzUBBC3d9Bu53MGPpWSmJpJxprNzy70R_A3d282cLUR9m4YYGI9QFuj9rodBAtkxATqizvvdNEbN3gW2F7hAX26P6y6WB85dvuX0kZdqm2LC7tas3FGvQIvdWmnAmvpyWUyYTfPdxHPjUiw5qXmw7oKifY4_9Ot48ENj7M5iSgV7oNhepRr7CXJZNz-380A5ahuOFAYHrXELmuTgtCJNqzae6Cgg-8QwALNdG4A38E9nw137aDkA0N9RInE5RsEINXH75r7V8_AbBlAzYWcwn-0aW_lHWXZa0k7srLxfkEl9qpVw.gif"
+                }]
+            }
+            , {
+                "card_id": 16,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/efc/e2/f7c74df8e2e2.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbigZMWyPAgAAk7rEiWIKvJmhpSTcJ5p1POnsa7ERnjfbtYDv1gxd_YZJetOBNyMYufYH1xrDe3JlgJkBv4VvUmBi7LfyPE0mDWWXKyKKVnGTKf8mdRJFNZkTdMu46kYKrZk_EM2k5UV0HJQ_hEwev4AEUSHz-TYAklQO29J0g1jIzqo3ZY7PWlfEvz70cPvxSDElNmjj-KF9UiwGzTKHRxMUx5vKujOA-4WOFLgjDWBxQ8taUXnTgrFJjTMTRMQ-5PYDwRQ8KUDsOZwxPkouGJS8ImyfTXa1DJ01Hh-STw0Fvr6Vl6hr9ghCRM2YdTxIoxU0pxvpVwtyhMzHg6ZKudWOaAVLVGVBtyoVHH_Qx2I6VxiAmXacjqgZcpHsZRhbl-W3aFxQP3Df6ko82TfP77bq_NZx3Hx4LZ-U5h9zkG620yWRS7toZEMTPPqcta9ASvw1z4wOQZro0DwXxSQUzRwdvuvIYkFtGV2ovL-GyFvTRPQw1uf6s1hMBIbEKUICyybqHN0CrGClj5Ktfu3FHHKvibGRPgc0-N2xCtQhBCqlJ_Fbdslvfm-uqDMTTqRDFK_buX6HJoDqGh9_WG3Qydlwy9hefWK5AQLk5o5HfgwE8_GYZd6HkSJDshkJnDpNp0V0JRZPAh4zzIDlCD0ftGxOIdQ1OozZ5fVnhujJthNW84iRK5n8PSZl-CJpaDC0u-DTjNBDgDE8L9jupDdoDjWhiuHwan2JKR9soABs5B4Fc_OOwZdsoPDYmKw2BT6GIzANBNspz6beZ9DP7qP0ghX41LwwrEjtBPqtDTbtrjljsDdC6yIKBXXerB167UR3SsQrmsrSJBRiM-7j0egTm58X_nz3Cl52LlBuFcD00sezJzjXwvnzTzs:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejhhJSLvsm6f1YAWM9FTc8mm6",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки GRAINER K",
+                "description": "7 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "799900",
+                "oldPrice": "1299000",
+                "discount": "-39%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrLEakGQAQAApJxACM3cX4USgBFzGrI-0B-WwkJQKXsOdQajUU-XWPL2uujT6XVkVka3lByjd5XcN29I1tvxlaTuGBmaIFqqyLy0sFmJ5juV1aIdRca3v1mLKqqI-3wv1_zY3U1Ia9C64UspnN_SBS0I6F9xP2MpeEt_CBP3eySTfzEeNoFvc2KcelX8hzIo7HjUxc-ecGgDaoyEtHMcJ6HJXdoVcjB1CvzpE1p03cqg3iNw40oJ43VJ0U2fyQF89HCNWC6VMTYPb6NDg3xJNEKzI-bCtFsXMPLPoFhjUoAeW6fEB1L8vUIMZfS00WW_a64ls4u_lxrmv5luu4SLKdtsaTyh-8ARcASvfZcWpA8hSAaEEyVxEiee-YFa4_Fx73h-K3Irv-fgu592FbU47WgPhogEkw-XDUsKeyOVTN6BAD-9j9Y8zs8TcqVWddlTVD56ce76ESwh4UyuPo4sNAedbGavxyemkGKa8wWR4mk9b4jg_YKrPz3YaCNn7D3gtuUOCH9J4DtAmV9vlqCRqfG6c6u9v1WHBQ.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkJAtU-QAQAAcLsUN0x0ubLMGKAvFOAg2BqY1DMKl4eJ2G-o0JC0CHNIBs87brc4DfMz74dhAFxuwqzXKXmBzn4jkxvt6NvoFhHVvIAmmb75j9WYRsSG9mqKW8SawDkGT7XWKMHWRg64o0oD9rg3mF708abBsqLLZGh1od0fnP2zJURhzXlB5_912MN44q0Ur7zURsPIjhQX1EIOldJHr3SFr6Sggq-sioW9PWtOEqPEoj4GOsNknltZXXuNHeAPjFxhNX4KdK7to5icKkuaXHAd_FXOPcs8TOkwDMFf-MZ0PCVRqX2YU4l7LvEXUnkju0GoOr8gV9rHyFpUxvWi0DPczyPOuHqk5RmfO8fOD_iO0256aNXIqb10MCi76_J0D8BbbqUgyyZOZl8Pjfqk8c7YyeVwi36s8Foxb4Pz1F_W4UbK7eJQJeL5MpBhFp_PNs7aCed2v0Vtyt6Jd3gstWrHtfZuJg4yFiQkF4y-wMZjLWGYRY2sswPNomcqQ9ygY9qDLuwCsLrMoRc3hA3LjrJLcEI5GUa6bQ.gif"
+                }]
+            }
+            , {
+                "card_id": 17,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/d20/1c/e89ac18668bc.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmPjBV2PAgAAM4_ykZFp0Yt3LJITV-RcUcyrM9RTPYUfr1oMs0pFdX8A-N3J6zpxtd5f3IijmV90d3SGZTvbvgdlH_PZ4utkAvLr5pnYGpWAvSO3CSv1ptRE0qEIzoyVbJB9gbzKcf_s5MTe4laJKXA20AgjSzCqAHo_rElzbuR9WKZo_-GnMBvsdISGBIyk7ps74VnXLkH4V7Vuoi98mrD6D-Ys2V6qA9Q8JRsHiFnV_NCL40aSYkZa5xZuNIrgMqr7TGhFw_-D-q32VUjuJNu9jeZ-UqTSU7lEBlT_Kzndcy8YDNzJ6EdtvvVBYuqHBO_mxNtAVjraUwly1B_0aaPthA-Yx1qkndwJ8RZEkCmavPjTqQARc1v-pClilGa40PdfhzAyULnBz08PdP4InZhLZAym6LeBVLHmP3tdmUu8JvJfv19snAV2S9WM2N9V2LFw_9mcjAf6LikNsKCI3f8Z__OrDAclXlaIjCP3fbp8Ck5QplmlbSBKYiYTAJAAHwR6cYM7VXykQ9j4x7G5mvaseFg6N9DNNRocUfYh00yyN2Y0agZc6TXObnKgTc0m7Ya880a1LJwcZr4e0-Lbu3ou60GJzNcZNnHYJqHuojh6gPhbHgqeilBVAPOsHtHzLsfQsLEEdQv1hr_N-UWOF5kahwADhF0S1oUM9tneeGHP4-A4IMhatXrJNoq_Kry9ROYNQBPapYF6V5kYj4W9VaPxMH7zW0Qevv-gse-TCna94OfkcC8iT_aitUoCDxwgPXkRQSqjcL0KhJux9DceW94xhOP452cnnxssz5HpZxUz8z8NoyK_XCQ0wTeaQi_H3F4rVPF6JXPDmqJmBMkl3Iy0kVlbTw77m-FPHPgrs2zp09b1DZTxBXQ:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejgbpuDD1eDVVF196gaWmtkCL",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Туфли HELSINKI 2",
+                "description": "14 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1449900",
+                "oldPrice": "1799000",
+                "discount": "-20%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzboarcSWQAQAAHkdANgKt8J1jSJEsuaySdYDHHzFLcEXntBcYjmrvpmfdd_U1D7BINUF757Fie7SfMZ3Zx0tGsE1GvmB_AeWb4_V3LTCJ0140Fvg7QGDrH90p3y7JGjDrFjTGir4kFtunimE1-jMsJhKbCGbCxcg7Acq-kl74Z_MNgnstOZZ4eRR5MpB9KaY6YlECFendwKwecxlSuH5D1tFoOd2eXaIJdM9qKXlOHITt1SC5Rz8o7FhFNJ-Hg9h_4tyEdVd8qo7h1582reoBZSaCVMjeBRtt_weTH-a0odtJVngrkt8gmoJG5b4ZwKM0bkox8VmlAvUHWxbynfiswjfjl1V1p87HbgfIfPaUorqvKTconvLOgKtsrubB_LTJnpVrCqMSQknkPQebjJu3IstG2UeAPRe198ECwBlIj11_4w31pOlwqhFchVUJuBsCX9emBDA4aQbDefVicbuAxcK-dpd_YEjJpIl0tL3yC5X8XDJ2OUSzy912kOoi1hxiHrDzFNE1IzsRXxl3dW8WTRBTuUaUoiJmuw.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbs0qXhaQAQAArp1ZICvEHtEgsEgEfPCqa_fCVz1JjcWe2Q_vmgNSnWNHSpCdVKJ5V4k8MjgzKl9RP8FsunQ86z7QTBxZmyDTY-SxpByJMoM4Uni9Nvg3ohkOL-qcFhMnwqbQDpbLUsGHdqedmNOUGI__8egmtdDT-PLhX2hhUpbkDYDS_40df4Wg5OBHE-7a_w5UZp3biHH2-VBvZIeFAgBMqt4siPd_w6mtwTYY3KeqQ1z9m3nycyA1wViN8y-NMT_knn9zmD0RmeEeM-gJE-bzEluFi1uplN3wkdHApmvY5LFKpO6damNKPrTbZyYKAEXZaEkYhQaA2NLnFtST3ZGrS13DphglBkjpA2OIKHcFRV3WhUeamxAZA2IkVFyhOUeUFczg5fp_9_YUl7b09GihBQlWe6Svtq78QLEW8OAoX85uiKUapu1qhopjQ5BpyDyO2L6HI2VmMtGI-vJbcAotiiqmH5rv-B3wWlM8CRoM7PLxWtOabPzUZzIoDa1vLGKfSKHLME4hy1bUrFeSDEgTyVVkH8Ebcg.gif"
+                }]
+            }
+            , {
+                "card_id": 18,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/7da/ef/5cac11775a8f.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqUwGmGRAgAAwHAGNryObHru7cPhzgGdUTEZYuIsX6GwsJ0hXZ43om6zKUJXOQqwhkJjEOzZphMaYvLpW9Bkf0JYOJItQiPxt6RNLKhPto90KXQXgjcK7EcX0oKXRnrxLFK7bWyuwMBDSOuSmKBtpP9Xq3hJ5w5HyAIWjObs0sJIgi0O5p-AbW8acxgNmIdXDhHk4sHvo7fz2C6O7kh0QPGQnWAdgazHBbAIVv67h0NzTPZPas6xXhCMA4l0Jt5UvktqQN-U15qTrFCBRzLhcf6-EBqBYCEse0d36kbu6t25I4pgrXPg5Vee2kot_vDr45Gq4zJiN9Jmq1-tiwyId6hjKRBaG35vgJgqjqyD5QcTeMwrkgCKWSYY_TQcWt2kMKvSVp9-ix5bxkfHFOfYUZI2JU_2hI7363Cl1FhmpAtjinkNemxjMd6NvlZPvKUcmNZc78s8iqIoVTz3Z8AVnCxlcOHp4CRRVFYsgqVZrob4ChNkRbIu0RuMeNecfbPnY9kxmHujlcPePe8V4_THL6qVZ_oUj8aNJClTV6ilFmzNfHHwBDkDKSsKd2yVGzRF5ccWXT6MWEQkWCZn-FWxJ9C4_znj-OOIU9GqF-qKTAciBksuXNo8oZeb2gIwieW71rQ06WCgJhdr03MFVM7L7mMxLecTDlDOOLfOb0T8M2UyGiDrTwgxCurm-ZkjgS0g4mZvNSGTP3xwizutY9DGZc89l-L4yyJ1opItmO4ev3Xh9XwoIoMI5Ro_RgWlSPudMJ2GtoJ2j_czQLjrlBQROnchT4biB6VWBJNApNcxYXrN7FtqkD4eRBDrRrVGRJWK_muE8i3EhGiPTTdtlJ3dItnTHG1k5cv7Dd_lT2FqWFr8PP6Xp2Yg-UnOi95mwByhGllY8pVrtevs:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH1LgXvkjS4Qw3XEh2CVMV9UBe",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки BIOM K1",
+                "description": "4 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "499900",
+                "oldPrice": "1299000",
+                "discount": "-62%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbvrEL3KRAQAAOwqDnaqd1yvpQrp7hqgnyNGkdTIjdpzBfI5Oj2MOJ36qggYv4KHR_cF12FiElOwOD8iUU2OJ-ae6rChe4CVp5JXRd2HqCYmzWoYh2gGt5EzX0IOcQwKoNBDAW65zTI7Gxj5w3PPGXlH-w4qAahFUleBsV3tinETseF3DGeYEwJvSTl1-530zNxJSECA4wesxsbzBLygJu7Fuigot7xTlQ8PjW4Bydxkm4Po7KgRSkeukGPKoJGTH9fbwArev7NVv-dEWdXIwpJanCaaVW5ixux1geOAr5u8LYhqJHVLH9dFGICsAVnryFZikcWK9K571y5YlqijGG20Upr6CQQTN8lnM2Zkjeh2i1-O4rKU7P5svzgxlC0mVLN1dUx2mS9uwrZJpRO7kiV6xC2S3cqqVMYn4QmQtX05t6F6JkH5u0YEc85PF5OIZlh9UBVToUjfcfpt4UA02vedFteNF9upK7mNFyQKA3xeMI0NtSNyuwlY2b73khKHxkVFYhslbc3ZHcDpj6eWjW7IPAdyL6rn4hU7txTrtXC5aTtX9vntM6nQ.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkdCehGRAQAAB3mgeqx96r02xuV4vsejSw9fFjYHUhos_JknkCfCgjzowChMFfN7YsbC6ECsscRiMMIS0_4eqqjwQQ34UlvHn-dATGHlh3bSuN3UEGlpfDiDMb-ZZtV9tBc59_t3bVKZZeA6ZGpVkoPBW-kGEyQ61odrDiAFEmzxIGrH18iT42NWR5aEIL9KedGB-VqVnhYuxSemqtU_h9wc4PjU2OYH6MFHSkq98rnJsP-0Ylu9gn8JhH6XHm-xFOnkODw30YUnv7b6MRqgw2zICqtgnwaMzxGb721b0MXUx0OySXf74Kw1oISyJMW1sB8mNKtf7sSLPLV8WRnUMy4Ken4zDa1QQsEHuTgvQcx49idjwe6LQVy3W1OogdhZ5lZ6YRRErC4GgR1j2WvTSooWmPOPosNY0D4fuBxHAfA2bCdcZxTWaf4Q8PF_afoxi-DWTB37VGOelDhpj370G_BdIqQLcCwUZyZZVIriYszZ8YvCRAC7UqCv7Gn7f4nY8FLeOJn3Tj3IK9bQahiN5Eq2qQZcV3Z96gqiTMoQ4-IXX3k8ObOZTBc.gif"
+                }]
+            }
+            , {
+                "card_id": 19,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/c91/1f/c30955ddc100.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgjlCFaQAgAA6TxNBiUgI-0ULlnLLWM1JD7MrejnDeVlraRboCWtuN0eRo_m-_rzSj6uhwFg3qegAvIKy5PnGsjksY1NogBaJjgXhJb2Bvhta27RjXLlPP5n-IKbRQqRQCAjWStMoO72YtP0g-2GMQ5SfCyvqxLjRYWkRMwhHa5NE0EMgnc9yKEYCfauJHEVcYjlAICh8QFQCOHJZnDN0_6DMkGFZJ0Ibus-sNCtA9qMl2uqoBf_OaBPfsIJ0-TQ5rBalP6qbAD7HMOUO1LLL87Zi9ouHSM6AJfYhEAoi3txAOTAKPPbLtkliPtUueSSb6dvp-_8lmlcdhkanOP_T9QZuex7FaGZzeEOWe6lX46fTm8bWWuodjRSfrkbMmujURT6_coZrLhwXUAT2zyQGW4ldukp5YjahsRBMKpnQNXJYDUne564KCFu1AxUyn0acIYccVZpShczKRnSg344_vpneYQ2khxfYZ7sfa_KIIHZYruR8pj9AF-U1_YnWpxjieKJRwU2FstjQCAWvb4Y5CAqnNF6myU0wYk_lqyUh8KeHJ0LJ_XBfuYXrrVNuuilgXdA4skK3PnPSUmqIztrwbKDMqshMVf0nzaoXCQfLx1c_OSAbZKWRCGjzYQBcrI7xh-PuaR-COlCAZoYf7Hg3kmkeF-w7gX0wZi-syhnLXyf5u0wxpcz2A_WjxbcZkrON2UN2JpO5tE4lK9RiAkZRt9fkKHrlNZ6CPBx50t98iS4DJ4twqiddzIBA2At1bm1vfRo4LnU9GP6_61-xl-9vt5rYsyG-khNSTdQ9PVfHDjt4wizRvSUGq0vGqS1oCnZvwBEmyVmv_4j7xEw4OB6Kk8yRHYJI-REH0SoR56mVNoz53us1cgaIJc:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3pZyBqyzwaxnj8QSnLuz9VHN",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки PROFESSIONAL XPEDITION M",
+                "description": "13 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1349900",
+                "oldPrice": "2399000",
+                "discount": "-44%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgZIWy2RAQAA7ckAxHLqJrUgy3lgBboXCyWp8ZUGyMpe3KmEm5WDXY2aCKOzK4RKJC734Kgo0CNskCZO0-fBCXF-q9Mwa1ubd2GOp0r3BUFDf4Zflk62cDo07FqdcrPgyxMHl4gD-VJddaebAmNRdWxdFswG-yqZHwrldlmxkZzT2wkygJqgocnh_lmnzF5JSFVSFDyBzXTROKsaBs-I7NJxWEKKgjNYgDISxNrlhsJ2x3okjVaW7jVEwMI2x7zp8-k-mcSf1hl40FdqXAJIA5Mn79Dia8P5-S_e4VvDIJZDBMOo9DmnmGt9FJLZsoWrVpUb2qvmeR6E1Yn6okfVTRf2dry4m7wu7iP8S96tUI4WOt9Exz6N7RGBS9MTt73Qz_csCuWeXtY7zcGp3O2SAMEyuw8LiwreiEp6vCbHqzjBlyD0EQo1zyEi4MCbsWn1dUA5eYPr7Xi2Fj9ESvw6xhTYJVKjsTPz8GZZLcMK6nEQgaPW_8Y-eoJJm2L-n9r89d48NTH0nuTTmLfKJjrazpD_NAmE0GC0zNLZi1qAWi3JmTCQCaWONkg.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbtkGhkyRAQAAwsCmxY3QGDHf96hT6_F22oEhmkoRawmzUK0Wtx-urkFVY4SouAuCnEl9UKnHbGVjRlVX-J-fm6QbgMn7fVMBNwH5TyWmINZQ6ccB8Th7UvRIRy8jWGoOZbBgiVc5a14ojGlHVgV8Gr_PXI4nSPGsGhkHfhGWPyaRuSoOVgQhMl8QL53p9Dxw9PeK9DiHqy_n1th5QZuPifccJg0QWceU7cHKdRRonwREMvK3LR8MWmgWwOoWz-d8SUGrbNIFDMJTgep7uEfg0NaGia9QdI6onjuayt27AblR6ilvz0JJ2FiZ5Uc7AWRLlyPqAavJbkqAm-WfS2mVkhkPYlamNEpt5K8bcVsA4B7YGuxMmp0R3A1pGgWdTHIvxmimeXN-dIVj0xSQVgyeD6l_G7xBAJ6lmJcUKFROVf670j6HdS8VMajgWY4t4h2opQWOjzSAPMMsTA7ay8NoPGsaaaQf1UBo2lXuxH7DrsliUmTWHThzEpiGuPG9mm0RGV5Gbsj42JDvp2sKIbtZZQLrn44YPo7BGvak0JFXsUF6Ss4w4gfR0Xc.gif"
+                }]
+            }
+            , {
+                "card_id": 20,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/e19/00/feefb7bae3f0.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbow3HAePAgAAyb0jTZos3n6tZOs_4JsRLCOcn28JmqXQtdNtvXK27NdGCnmtcXAFynlGpmJxDg48365NV7QAus-qMS32EYvU1hxZjmdkIWvRZIYr92M6oC2jTnD2tydFEs-28XYc67VuzKVkFTXXPw6KTdBmVPTwYh3Nc6CZiU69zq51PGQb8SUpZWgAdAyMp5YqRJkhYJJnOGVQoMPcajm0F6Q9MWPP3tT5697IAkc2TVCPtztdu8jcy89CCsdssZeQ9DmJWvxHlwwxCm5UG9mNFOpDt5khP8qL3KfuJGFgfiPR4KdAZ-BmARWQ4dQw1w-hTOejjVQnAtZeZWRjTphq-rAjK9-VzsplYC3ELTGx7gCNz2pIUf0XIuHJjO98BvPOTUKyw1ZjbBZQ9PPEQQeaKEOy9QbOu9GkdKGHa_KpQSgEwwqNsoNS1PjoRU_3FZ5cFClFOOa0ilUjj-39pPM1E7l6JOnmC8cgy2iB14_5ZecYS4YQ3xve9XYbT7PKy1tmHCPFI4XuEbRydxuzBVxodU3qWh_s_4QOI-chhT0xiwWm09kUWFFoNd_Df6yHwbhucLB9lIAEKRYlYfVSyDLykHMutIB5VrdxvlX-5Gte3yo30Si71UWh8w9zrrf5pzx3kQH35Ak8wbUr8AfFoKQjRjahmbBL3j-8yCF4j8FuqgDNNjKZYmPCi9ZSARxZAmzkDGxgJIanFvq9YWMmwg9XQ_he1OI_b8lXKcukUmGHUwRLlajl32vhx6IJDvN9VuM3CUIeX8KqrJHFvPdPL_v0AuRwNniMfMQwUAU67lTzNBKPGBP2xwEhPrAbvbCpV9zwgk0hu4vlZYgfT9btmme1BphROSOjo03CJ3_PThLMp-WuCf2nTrA:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejgcSiDsrbeZHbayyKqz6zyBz",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Туфли METROPOLE OSLO",
+                "description": "10 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1099900",
+                "oldPrice": "2099000",
+                "discount": "-48%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrfpmi-QAQAAYxevJwunDhOIMsExGD84uwaFKPH7Us8RdLx1bmmp6XofI-5UnDY9WEHZB07-V85F0Md0_UYAfng-oAh7MBW3ubuuF59oNI1BQ5gaYxER5TPvvi7cGzKLEFB7hd-2hykQqvYsJBZ9WOm7u3zGUi1y-kr6dWm1ggnWUj1QojXM4NeT3V_aJ4r8Vjy6N9SP4-ro9GRH-mMjvrt3fGCXAzXdivOUr4BPi7tbdNf9kJsPmCNG1gQxJgqUx8xSXzot9eF1D4YgnZ634mkgyoK6JVAa4A9tdzyxpoYf676yVdq12uxrEcWlSu953dfI-b0iypyFFtpG3oD0dq2-HLbSK3FWDUL2qRAGReErVrLpNHZhIG7unOAcir0QhtnFnHu1luU8sfmMp-vo16BZzYi2ElxGMv7wI4A2401P36BbgkcrtfzPDnZrtcqM0rE1_dJMZS3YMfpzupqXgUoHhHYsdluYYr1wtpdlLek4IoWFgb9KfO3Gcpgf5-GAOWZfw98wHVIiXc9YBchLFvzHhx7nJMupzA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbvKlOEaQAQAA8Ol3V6advXNed7urwXP7c357Ng1io7GcOzwWrjyFTobq2IV9Udwn84PuMJDGGQCXd4JrP2pPpodGTSdbYF3WqV8G0RGjyinNdVj2shLrZ__m5TcpQSa0eoMjC2uLpTgfM35qpUFM62oMD8A0Vly2sFwQMaEn2MfDvZ9rdBGfzHuB23OZhXEf-JgtodfefPFIubG8jba228I288FiVJY5WCut82q9DyNb4IEdJRr7WeUmumYe_WixGQBvu0ygeobXcPSpWjVSWc81YZ75imOZjco3HF15yhP6JZSaGWxUaCM2Fq38c6J29C4gocdkMKUf558J0Xaips_7rl5h3SixtMfYO8wEHw2WXReBgCjl1fQsKUab1OL5cJRCnQCTj4JA11gQf0beZlJ7YeqC-6OrhSrsxUIhl9zbCLYzGsusczB3d4S_3LRVz2Lubc_U5C8qG8Rm9gFngJeMgSFbD2AhNqxJShp-4fd2w3PLv-6y0faJ2w09WUhjLtRosSS5z9HYMZX1prGBjtS8-8YP1vWHJQ.gif"
+                }]
+            }
+            , {
+                "card_id": 21,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/0d3/36/6cefb98e57c9.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmexUUqQAgAAYeohUELCxF1XINpcdcOgE2Jnneg-DV7FBYKkM2CfEYXzo91v2Ozt6fNZanlKhpdAI5Fxqbaz30rEH7rPZTXu8Huj6E5eGeiSWvxJ_b6XAVg1CvQYWabs0AreJVG6ZQ70sifBDZyKf2QbjE99yeY5ILFWOmYx_SOYUNuyD67nTiVtpNbex6Kk_EmtCd499ITUUApZwmuqstdRLJpwOWH6HB4rw3uJT2Lem5_sG_5tXqCnYpmF1wXXqEnaGClboRmmFxIZJpud6GCwjflql0UTUrFxKlzQF9ELKUJKJXYclZKedAbB6zNzxrmPFgl5QzQKBUseSsBTxK8Ms2PsZsU6v-pL-x4rLW5PenVhl657XiZKIMWXzhfWxVL0Bsi6c9BM6KO3hJTZaM0H6wlp7Gk_2NW0Db2Jfhn3YZ5oxfUgkrymC4yJXqZR5FuMNSpFItryTqp1ZkMqUx-gOdGBncL2yFHR2ly9LBMCF-bj3KnOy4-VwCAsgYwnEiqS0eLYI6ujDOLz9TEXqEiApjjrbDCsYhcsq3xrrQVsG5YOtn0HnnOjfG8YPZ9pLtt9tx93ghYJpYyqLR3yBC5ZXGtLHYCut8FpD26HqTm52ngCf328UoekFgwUs77jkn_czHJ-vm9U0m8e8q6QFs2pyngfaY7ckUtyslxDHJ5R_X-Tr76ul32A_hjH19MNPmEDRaxpKwOZB1SGIFvbxXhEKFoiXRMSvJ0yLHybXwwpX9ly_XxnuA9UT4-gvfrQY_Q5wLmVs4OXX8euVQHRFrO5qzaL-RDRUMeegSQtGtP86d7V4sTM87AyC7t3XQFRWf5L_BgRB56MMo3gYyy-n_QIFRBzSEE71pWZPDKohdl3wPcQDfAdRZ8:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3mKQZwrB62r5on9oEc9vuN7v",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки ESPINHO",
+                "description": "16 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1699900",
+                "oldPrice": "2399000",
+                "discount": "-30%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbpew6hyRAQAA1J3JfHPj_2VD3nQK_RVgAOutR7VvTysWtjksSoVs3jnRMNfm2bvo-wOsf3hPomdcs3EbW9bQrpO-VYaYY-s3SyzCVmQnldjCZzl_2iA-gusLYElmtdmw-sTRnoqdHN1O7Jw9FDTpDgpkFskhiH73j205FhPWPLDsTokI3RRWdXdhzZNtIyDVlTBKc5XeZdaUazVqGT4aqJDDZeQJlcFbRXzdYNFnazftYl4fJ914fttkrBJ-4-BYMoUs9Z4C4yd9LjzZCxBRx37Syk_0NIjJB7BXJRqfaVzxBgD-3-Q6ZR-5TVnGCMlQgnnK8uh3GRr2ZCdsj-S72FFXq6eLdvOCYb-ERSoZQNw4oZooNNS546XtYiKhf_ASJv1LvH1n8ZMPBHfYjD8160hHmbgPHrSh3AaSmfQuD0xhfYY_KyqCA5SAudnt_uxE48d0t2983kBdjYYsrnLZW1jAfME9CNS33w8x2ZKgdupQ9v-yxDOrP9J9KWnmIQBJ9A9ByVyU6DrnVrBkfvjQEss5zY0yNd7IFee0S69tOarNW-sV6DkDh0s.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbuZu8FWRAQAAbnlr0Kv5kIKa0TIuK4EVAve07z3NSarZO9V4BkQep2b0bf7UekMJMpsEseTgP5dwuNmg5j3_IGIuT3SF-RknVV24igRYeBlaHoxoFJsu7ed0S3bt57Iipnkbv50PqnmxGOTJ4p4p4bR8uOCt4E770mJ0yPFwLVv0C2wA2prPSESHOtK9UiJKHH79zVSf5FrBPIPMXTFvGCcXQsqMmjJpVo3E5RnxPG9pTsEm_uNBjnsHx6KGK7c9asrFEhxbNKtVWv-LLC6u64ot6T0VaB-VJ0ZvFjuFY6yZ9d47a1ehJ2jSTokXjV3Y8_XcAlZBqVFU5Co2b3cXj7OKharI201X7S1B9izOKgSlb4bNQ3PgLTh-8wQEUYZEZDp7TfW4AlC1VSaGSgKObW35G6JrSfhCVqJhZRgqmyoPY1YGAKxq-6XoUVxObBVMIvJff3gISMKLSHltwXa6qYo3Rib1H9NzefZJlK7pNKOktLKTUzdJHtU6cfsLC9RiiUG69B8N4Fjsrn8GoHnxw1VV8yMdXXIdGb-Z2GnfeCPkIEdJx7wu0kM.gif"
+                }]
+            }
+            , {
+                "card_id": 22,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/458/f8/eb9e03d26d42.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbr7R6WaPAgAAJGTofuSh5bZEUWZPvHDJVkd1pKF0w7Etdlq-Or9_BP3XFSjEj63wNXF3UaRy-OAIYoND56r_WppouF81Y7-5e5ifGenzeQZsk1xRR-62AkU8XTPMR5ElMYMiADck4oS-gZbkHTDzFfPaEAvnsaGYzBMF2nq4QZDBDoadXH1N903_OGqVF4a6PtQV5aeP99B-ln3Zt5dzV1F758W6GXIc4jLVQ61QPALLHrQRZ8f3cB4fDdalg3XtYEUuezK6s9Em7P9uWssmJzcI84UgZrKdzo6Jgbuh6VcksYgNxcqzG6eGYDG_rP0FKFVTLTyMsMZO5rFODRailfV6_DL_4fNT1DJuf-rNAxPLYRLTHYIu3gOvXQJzM59tqmg6cKLvNA5Gmy3d0yNAT7tEIBCAx6K29lVmVnchF3EKmKfoBXYD6pr_FSJNGR_NYGDP1Vd1Z_0NVZoMc8wshye7YLPnxIq43Miu65giw88Y5i6LoqYcoabqtASjqvN00QouMeeqgXtOOpipfmu0m4ndpMmMjnYMf7JHDKedccld9RIqhJ1j8ekZ6Ze9qiIYtc4WqXMiX5PsPW_WbzkbFhpQ-9fudx9TXZuDwfZRFmOMFEoPt2ARhq1yDdFNeh9HWrTw3Zc9kQBv27cQWN6Urxg9tqobfHAGCN5NrVJ0doBxrTauvCJ4dqMhwKELsaoNWKlm8HXaYuS9BEqn88rf1t7ciPh8UOjzBEDfp06m_nai2GxNnvRx1ZEBqAMfi5V7sFeakdK0lAmOriuQLedvlv59GxogusbU1oHjL400cYUnIWeMfYinNXY6QHTIud8Wq7VAg0COKK3bmlfctZDvfJZ4qeEeJ994nqyGiDpAGMN5kXEu3jKATtY:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejg5Ks9c3v3kusoRG8i6UJa2Y",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Челси MODTRAY W",
+                "description": "14 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1499900",
+                "oldPrice": "2199000",
+                "discount": "-32%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbm4wG3CQAQAAeoCVRD_ZQvk5h25Bo7MatWII7q7ZU9lZe45X3zvZyiin_2cUBa9wmrtrYndoovS0XpEF6HvTMOzknQix6bPt1GAOvEsD5yKxXCYNzwSS_4yYwfC84MQFVS4PP3MP7ziehBwbMFeTWHxEuQ-qN4uBEZWq0uix7_v50crdrTsWtedqMb-q74ruhtAWo4gzwGKwsqGnTzMZKFNTAP2OL7MwNJp6ZT6do0Bo3TZ8qHf6AO1AoLJkS-Gr2Fzl-p-MIzZTx3S_ouXkv0tPpdEUiPMGDGEFufoxdYTBzPbDl3wVNHitRyyPfR9og5C9RwqLVroxCANIf1THwXm5eSnO6oecA9Gn1A17HQP8JJh1DknO-kKkVC8p8O5g0k-nxiUp3c9HnnWG0a8XJlxZNOM0QQ-9NplVBCJUo92DFzJ4Ab0ahitT_bSbJxCXAHscXtW4_ovLtZTAnuxouN_wpOr9hhTE_wXiu-CVRI2Z3SA3SVWzmFoaJKl7IE2GlIv1Nv4SyH5uzePP36hhKw9XFjHKxW41Rg.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmY_bGuQAQAAa3QOoLwKrQMgEQjyQutDeEb9dnzJra5OXr9JCL-BJr3U63B6RsIoFR5mMxCv9C3PAi3cZz0TVAubsAQMjx40wiJ7CdC1k5XP3iVd_xEuhho9hzyiz6FAkaE2CWA7P--HvkSLLBE_L216uIGYMg-wsiymySWg7andiTsYzr3ZKO3mLQ6O1ub9s8NVT5FmopumfD4NSNaVayOQxF7NgEM6sV5ipyKBQJeMFNAUEmBpVEoS_9nPVind_iiHzYUf9JiQ0wInxHC8zuQiE5qku2HGn048wQfE4aC-IJoKNDfJZK58eFPPIaukw6t6nHGZ3TRsUV_QyVpF-BhIsfLHFgA-6SNMqc2_2JhHU5WALiVC0IoG3sGJxLsiZRnSGhnqPH0BZierDq6sH2TyxJb-YKsAT48Hw0RH6VPLqeDM138wICnqKGIoX39I4VJW0OkA7yeNFze2GJ8w1CdPsAw8IZg0pVDdbWDo8bhgQ7NMDsuj0vfgDItzUvxKFim8PldTn4Y1spos6DuzhokOP9X_HiIdYg.gif"
+                }]
+            }
+            , {
+                "card_id": 23,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/e04/bb/cc41709cd3c9.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzblVIQ0OPAgAAZ3Nlmw1LlNUDHe4LBaiaNnnIkPY2ecX15z_gVfpga1gq8uQwLsmKW-Nulnm6s0peHYRgA48-Zf0QgEN9IeI2fUek0D7p3983ijv0tzMJ3ppcl9LQd6UprQ6N4JRBlGM49ES5odVqDqIbEzhkyIo2Uwst1fVZw1QFZ7Ol_gO3ihadEVH0ZuDHK6d6dGTN7cnkRzGOdwwGb1Y1VtIRBBN3mvqJrW1cup6Ka6qRbFXu43DnHC9T0p9Pae2iRtSurTp0BUdK3mj9zFNyO-XG2igjmR6h9-UPBlV4erFjTwOjnBrUGa5MkHLnv4vTe_9ScaR7yu0zkC5WRgbtqw4pSUdzW9J2XXXdtRa9wKUps1NugSA5r1lIl2-2EIisMmL4Yvg5mgs9z09_2s6_wN5MdvH-Tu27WjpuHtec4KSg7Gvx5vHvDNHFlTUai466LxKWMjdKdpJx-AkkB9VIDo11UyfrCdNPa8NAUvwIKs2SszbC-e53n3-l97ehvQm13igTWNr7jwDjSeOUNMQdrA4jI4YDooVMufQNz7ozadRRlDpoqqKwFts4Xb2r1Dk8Xjz0F4tSHvHffV2b1tGCxeLoUd9eN8kqGDurYQx5l7b2hYRtBLJAu3bQGXfYZWAhjlyT7YC5bPmpDV8ykLh2K0dmqJSPDopEHSEf_ltXGvnN1gW5HGQ0-412DuMsyZiETkVRcUxHFkTfPW0GeKCWTHSFyXnfsrl8QPG4-FJfUa9Vm-QPKDsW1osXfkzKKOI0IL-82Y6PWTGrozPlaswpXl1zh-LcewqJOEuBGXdIr2PJMEQde9FqCTuC60MeWke1oBnOFd4ujxPpG5Rj8k2mILsN8TKB611uXr3STI4bod7UliGs6jc:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejexzaxrA6hPC4a5p74eA18SY",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Шлепанцы COZMO PF W",
+                "description": "9 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "949900",
+                "oldPrice": "1499000",
+                "discount": "-37%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbvhZiQ-QAQAAYyo0Ci9MhBOmGld4FefJ757_uAIjlCHXeudDpbyEtrUbI84wDpbfvLOxTXoDyWNtrdWI6mSzRa-NaHBQuNZwoki1hynLllHwoFMUAQQoVT9UYDHoDvzrHqti0qpyc_HH0mLhzfnd_I2KlmcUj8gLwq9JVfzFuaXR-_aNF3p4L2zggLEYKUX59MTI1gSQrvZDTLRg3skWzFIs8zw4dZR3NWyQPmbNQjLHLDmwT82bPWV8ErkpowP1ng_x2ISzu3JRPRo_tvpvROU2ku-z17ONgtJIAi1A4_TE4lMX7OuQQlHUuaImULiUAkHjWz9jua_ZkHXslUdlMeZyy_v7oPJy90Jrh2nncSWZAWSSCizRCG1wZVe0Rdsjmh77xkGDPxBM4TG0Poe0aLtnL1vEHW0grZWz__T9kfTxM2IU83Qdh7ohYBSDn_zOedycIgpIEDP4C4atNQSgALBBTAfye3JZggymLZzpKXOk8MAuzURFMS3UvUzBEKgVaIkMqHg4imJ9wuTWRMIxflF-R_meXzOHmQ.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqOi1R-QAQAAdMOP_czzt3qwFLwyjl-xqQaejQTYjbfCTPQl3C_ENc4H7Hvc4lEPR_ApRkmvbQDMA0oTUaLO57JD6W4jwsbA10T42tDhf8nxdi0wCzzLjW8Ozdpucr-39uAYOcrlB497e98H7URwNG7LMk3FL1WfsSQ1cqUUt87kVpuba6NFu5wAKj7c9N8WKcTFFeqec-JtI2UBcQly2NY6H5ddLS7rqG4aKh76spIZ4ypRlUCaSUS34o72fVV7qbWp-GTU3Ve18EWH7N_-0eXSp3ePh383Nml2JnduZ3tq5Clfn9aMxgRcBIqqJmNmBqGGE_iYEXepAldjBRzK3b8YMq1Hw2LIk74xSb-KkGaiS5txtn5MZxWhn5A6Fbz2RjB-8AHQE3--G1Df_7fqDI6XTRwM0dD01XaySOZo8TmBMTavh-WvcYoETb8bQhYo9HhHxMojZ0xIwfYv3SErambBFGZ3ohBTlTGEKByIfDn7GrkJCSot0ZlcLG9lmEvKhs-W1IvPtd2XgWV6CbISg4VnSSUMijqWvw.gif"
+                }]
+            }
+            , {
+                "card_id": 24,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/c35/f6/02d02a16a558.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbna8OXOQAgAAtEL21FkmeelasvtEAglZQq-FW2PtwqXPss-_OA0HfnCmi22amt4mGl15ElG2Ziduy4CK7MMCgoeN5PstqPU_6pmHl77vhBa_O3mbDCrlShLkzb_GEJoPRXoOC7elxM88pmK-MoZHUtdAJW8qHuslbmrSAkTKMyzrscVmulpt7iTaT7C00RVn8cx66KHOP9CFld_H_-y4mqwADIz4gRoqLMFwBQBtrW6mgXovbZVST-os_sZgLGhaDoMp592N11y8Zi6pt8ngskwBGRA8KTyuq6rlszFeAT8RR21yH8JE-_gb5llyA4u3TkSDpVR8mRzZwd-uvrCmrbbbqsPVf4Ntrb1_JPcjOwcK_ldel-bqiOFgj6i05qnJ4RnHuLEYZJ2JBRvneL59_H-Arsq60YF64qBoxw_r2R5qEEruvyrV560NyVZmEJYknMiLtvz0L9L843ZBAN8vUeOWYTflQmO30nVNvAq19VK1EputfrqgmNYzahA4eepvTM7xlpYIsRlNbOVv0bYtf3bypMfuB8Mkgy231VrSDFUBxPKOt5Qs2an84DJD86dk9gOQlc_1KHb2LZe793MPqshlPiD4NBexnOon-YsBCHZ33hOTxPN4gFGEEYR4cE49QQKn2lXhXh7VMk733IY9zqvc3RdL3nVgwfE2PxEKGPNiZ-s-cZv_6sYWyz7UbWTb0vE8zR8n6OjgLY1DBrWonzzP24IsJsw7ZdQyEn6dYUPqRqqITcTPv2Y8ah_-Oi-tF4XBzfRXQN9s9O1t8hALOYmDdpWScD1H4A2jiLtrSfbrERvxNlJ3N8Rk91BX7zKaDct5ykgDY2Vu0vGVJg0qNgWaBNLKDWbWfZ7wjTUvalQ7ZiQLzccsmk4:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGoK3LMvhKkKHfWBRvAsbVUEUC",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды STREET LITE W",
+                "description": "12 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1299900",
+                "oldPrice": "1599000",
+                "discount": "-19%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbhTryWaRAQAArl49eSO6hT5vb_fddetxGsorxyNtyQFDQeAehfYsjlmjiDAx5TDbvj3x_1qD0GXG_D6yeoEdnbyDu52UsIoVRaLp8YiBqesnikxigfdIDJem3jvhO3_1W-aYyELslCQ4q0CZPQDrt6RVzCMAVGW9v9MAT9e_GyglnF7Kp7rWWtCu8UV_G55jSBUDdJC6EWW-lR7KtyM6tddhcocSwENEh-YyLsTV7Cz2H8K07YK3AgGvQTTOIslRVarILTi-EjjPAchyF7tQmCu9qrO-XN6NAmCk264xaZNS-f9RI4Oi_s5ZxQul_L8X0ExK1iJnkQTtzCRd1yADJnMEZw_D7I4k60KEoiieqD6NhcG4x5d99nepTN9p71mpXE71eIhq5CTUUI0GowFgPicaFYURvJQPpMzMI_odpvhbbfaj9IKilkIsWI6nH38W-CRME98hztzBNzdzwCNBl4Ufv-_QuMWdCJ0Wm1F5-suioxR2HuYP8aDe9MLwbhy5K67stGbFNQKXLfFfsiHqz75NSElboef6PhiZdID0V8nujlPzj5FSkbo.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbv-4_SyRAQAARyePlIR_k6znH_vJ8BP4OUCzW-ttqDESTka49LPl3o2HSrFQlD11yytFtKtSQyZj13we-tgggtxQbqj8UrG7A9D9CD0gr4f7B8WT2MLW7vJP81dOKBB5OztA7CJIpRrfzp5nk53DBSdeggr4d8T8CONQRJZ_XPYQhWS7DQB43489ehhEUTqW-FYwzQl7Um9Ngq5_Jayovvsa5Eag9nvRYHk2YTObXTb8AEYCXF90EiZHcsAsFmaiWyr-FkcZZ1bq6mDyvLJUGy86TchOuTW_tqXAjJCg95wIANxbFwpNtfs_Ah1g8uAB0Zrehvd22NFgGEpwYfDIQGWbJ68BQ3OaHk9Naqtcq8VUI_w-STwgiBd_fMCdmj6WwKRqShXlcdxjE2370f-K1vott4GD8ezCAaQ8dzMdsebm7SVMjz0p9aSOtGJ6svUBZUpYsBoXjR4PIAeb1dii8pZc6ypx2RFYk5UP9-rP0QBCtTIpAnjWyZ1CdcbQGx7yGAhihzShcmOZiVAUtqHxfK5yYzc54VsOg5S9nFyvy9b8ow5Jc2g30g8.gif"
+                }]
+            }
+            , {
+                "card_id": 25,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/bb2/1d/0ca1f0cbcbd7.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbtJX-yaPAgAAZcy1uKEZQsepcLDNcFzo3Epw0OsGdMRH_Ij0So-fqe7rwItGyhRJgyJaGb7euDffXsJGNmURKvh3XS33Cn8KXlzFzjLDqCi5do3hQI2PExbAhAkFMK1QiCD5EubsKDBkLVzmu6yzKWS61D6khzVbGpwOvOSvaSLCkBSbWPZze2xH8O7dNacD4Mx6CospFaEsjvi0GQAXRWuVAQ3XjVcw-kSqfNFfof4igc_yjKSV7u4k8yrAZxkl_ZtRZDCnlHFtpTdmPLK4q2BTirIk7zX-U0TwTmtKlKA7lGRI8wn62uh8j3kqKjrjtpPlD9RIteETR8eZJKN0qYgyFr21nkV6FdmyrWfBLdnIX4vJqmm4iO50aA1uf8IJjxQLfB-i1CbfO5r5Tw1KTjjIkjbnWCY2GABWkIVCw7byN3hvUaebdLpkTQiZFs57k_rW-AKhJ_cPD5XlqdqDDsSdCHRCBmKZ9aRM6XMGy8lkl0Ci3s0aadBUqa2jKMcg9oE8THPXRjZIucxeg4-_l-whUAwVqQDVkHKTUgQUjiqZY3UOX3Wy_bJP7zmqRTU0bxatwBPttHzp3Tw47u3G5j2UHfCfKTGbJc0iVrqHH5nkb-pzWZ6b8Y94o8S6ZKyMcb1HytpOnEusuYSLZwkJ5tyZldwohKutpBJF3Y1eUgCTnOzTYj1Gp5eKvWd0NSZVAqeqc9BbSALNoaVN46rcg5LjIJ4S1rSwKukedxeG9zRTf3eSd4oBVAcpId6wKxXHBuHg2vjdSe8F-7ksWpQcu76qsGxnujQH0rewN6LvMRkxs6Q8tji37xIKbRk_BO6_M1aAK39_9PA6YeKbIvq4WyYHpPpebUzKZRgtRgD4NMNDx1_0UNNuxaE:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejiF2sU5hvTDmTgWMJmEHJK7A",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки BIOM 2.2 M",
+                "description": "10 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1049900",
+                "oldPrice": "2199000",
+                "discount": "-53%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqi6MXOQAQAATM2Jy681Or68a_odfeV-1ZLcvmgGY96kYjFGG_ZyMAXIqrKu2zMdkw_dSmfY9IAtNJpQCW3I3lOATQwttaIRTd7M4j2-jiQQSwjmrUj2gygNp3te6O45N2pztfBTNkTdyRerERdjCk_N-0QBdMFRxf8vvzm5a1gxYjrFj5oRMQkPLqNVT7eJAVq0hwOPQOGtO3FDSdsLEf7cJu3LgiEfoO1UBaIHLmEtHsnJstsfq-qSd5BGXAF_0J0tCIBmQlrMYgQXV2p-PPS6yevQmOF1RSlVcPmbsiFiIh1kPIpc0mRkODPZw1Vb5RcQg9QnlFwGoppdlhSfWIS8yqL5iCUAgCx9lBnZ1cfgwXshL1L0O2mIsNW6LipUXV2MExP5qxPAwpfjltpd070aoQEgovWX5T1rY6kV1okEzI_MbqYxskOOjlh3trPmxvSkTnQfei02ggJSDDxoIA5DUPtfrah_WZERgA49FJjoW1YOP74607ue2C8PSUY1jEqZ5qV90YSX2Ab0SFrEbSDTBOQgfM7GSg.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrfQFGOQAQAAkn0QSLdE_tY6-yL5pNdsOgXl9LYhh_o7aTxYzaP5ipT9nD_o7Fq1ROiydeY5A4qYHqNf1ynBVGZA6COVHCHqCnqX5CmG263ONxLrZfFC4ETlCiGZlzYuBoAk8ZRGbcFDXVWlrj6C-bo8MLjuWv8uaMYpdpWaY6KsGBVAo_5Yb9Jb9ILUI1--2zRehsEppbBflhHNYA5i9G7vLwpZlpmRHdz6eKb5He_x3kPGGk6LEJA18QC0O1IUftsmFaKTk8jQmQJw2LX4j1ez60wEapBjkxgVDAV_9ZWWOrQMrYmZbphyEnUimcx-P0BGxc4ReNqrmW97lz1sAy9OevkZ7ZvtCqVmlm_UWzUmO2eH5ub_Fbr8NQ-l87_UNIFt4NdG9o2AU1C_oOPKGxFrudecer-tAkexDCdo5SHL5GRs_WhRygZHpknomtun-YOiH71dEnhZ9nJl-mqyD-rdWaeH3qexqEVhd54dhbxsMijuo-_5_YcV8BG1W5a9ynshZjpU9yv_wXXEu1WTHDAJbE2miVCdWQ.gif"
+                }]
+            }
+            , {
+                "card_id": 26,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/d17/7f/bd83f5f77fcb.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbq-wWlOPAgAALDineYtTbrbrnF8jsz76e97hl1g2JbVZWK4vKImbXIHdvyW4b60Tmbs9SMflerQGO9-jrWmGooTUNm5teNso6qzs6ylKEmfY0OVA4bNVDlarJY7JQruLpuJAAERxAtSOOgOKL8Z1rlelzkw0-7qj3yCUsO6h7_gw1sG6_wUA_Zdkn_AvNQfhwIeib2QV6s6GzdKemM9VjRO-jWiHnTLO-kFqlQMXe1Jta8NfjL4-LHXB-gwEU5gM_3f8Wk5R4-OGwhJ57Hm7l99zHP8rb7M_y2mDWKVafs8lzm624LIA-3pxxZFJtvJ5FIjVLWrh0lowl1BvTwZNqLhACYTZZUVjhpZHkFuOva6fuv6JsjvNNheCNzFHJ5Wh49H8DAvHctpAADgpdZ-TH4K3P26QHKCMlQ0aKcfB4TW2pzB2oqCnlC25aQrI9pXTDeuw4_eJWIxNZ4RuftebGY0e3yD1CUdD4XKN5PRGS6yAFIMEzUwXRpNrj47uttkzoE_ti_sNe7RSPgj-bGgVY3jhnmVeo8x7n-q_5uySP6Ea0pNgiCaRgz3GPELylPfMbzS0Q1ucivxD5ZOLGGKu9JkrFyk8Bxu-9Za2NybhMNY0VwbhHlP0xKNAs1Zhp36gVMFhGcAOq0FVYUAW11UA6c7B7iarMam9uZwxLyjGbvrI7fJ0PXTc3Op1d0d_cG5pmb6GZmRI9il9dl_c9_aQkxodHWk8GtFYr5lTA-Kyn3TFt3ORQEzQFPM06PDyTyF5EPkc-hOHXYpv5lE_OMj8jv9nsWl7CFimHI5Sz4vJlTwrJFFY2pkAdh-SEU0u9J7mJVRvh6XKVRL0rBIAPA9fQ9_QsIhwsLeX5bmck8ll9HDcb6QdNFDgL74:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejey7h8F4Pvw4qaCWnbNjLzZz",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки GRAINER M",
+                "description": "19 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1999900",
+                "oldPrice": "2399000",
+                "discount": "-17%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqrHe3aQAQAAmeIikyq33vwGDag6ugjNJQxbwViUwT_2CYo9sa70tUfjaES1KzUYp1nyiqY4pq8R_DpA9aLRPyIGQeKbC6adA0MHc_bGuXPkmVoeny6AlkONIHSAiboE-q4EIa5Dm6X8X0LWMwv8N2pIfK__2bcx2cDBqXW4CpF4rUUwJrq_gJ2uNNQINQxkUAPILeTtLlVudz8wGggzP4rLAtIpdlC3cHQXkuDMkQx-W4I9YvvaHCVF6YmAaQNLrKfRpSClI-qEVJ2e8c8Nr8Yr2ssMq40J0PYLKyLQWjhKt7UHojBjMTNoYf742JaBSpn3vVX7YigGgQg5wWPmiccFgpXFKY0F5qZ0veKwdvCNd1ON9c2ATaca2YVYpG3FVrFj-FZIzAg25BxMAl-JK1qvbPccwPAI9JDWaHMtE2bj8S4jASTludUMm74S4-UNGbbB-0PhNxt8YrJVmmPMYrHZDyzr4e9QE5s58Rf6z3Ln4TW5pA2_UN2lGyPDmhXuwPzon95YKMp1IlVwYssHudUDQsat_M8RsA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkEXvDKQAQAAJn18njYSqIbA7AokkO-hBhxD8jB-yOaHT1yR3dqBEUqnuIoJPVc2HJtBNgrthrfN9bQE4SUGSThTKfkf2yFDW4O8zTlQ7-8IKq06ghzGnZG2P9kyx7SBcNoRDPYbcamHLnzVHJqZ-QHDhq0O7FC2gMe2QM2BgIh6E9mLFKHUnAfogpLSJmlpgt0qjSoK_5abMjic1RcrxQUUSwVdYRgjtIOcpDIn5FynQMTXZrfsd4D_w5hz2bAyHw95aGjbwltU8GdqZhJ4SkK6PKdvr6yRCdr567c0t026Ib-cMgUrQcBXFsr4ggPWGL8rWcK2ehGI6cyz6RrFDka2ImBs23EsrNlI3fz1b9M955FZntRINzR0j5r8ttQAvwKF38DYDikCTXdgxNUmufBC8iPxM3tFjPTnoqi1dTWwCq0YRSY7zwPKkPvJHO9rHev-ax0YUx1dFsZUAT9KTbVgouGvSmWquEiw1uKOruzNZ1Ew8SSMtp7UaaxXVstFZjdnHQpGNYaoLsQcGzkXj-T7QPCuE1o5Og.gif"
+                }]
+            }
+            , {
+                "card_id": 27,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/702/4c/c5fc23679bbe.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbjeUDF6PAgAAsE1iOVDb2Uk6R4vp_afiyGSGvaJOuKCAs_sva5WVl5JyAO2dzrqXrPZA0n2Xul2eHGvX5BLInvyM0YnM1ejcDNyVgXCwrwtQinY87NAELDDLISXk5mFRDieJ75nOUy1a1qRmteweURSeD3ncnF0DYf6bPqNMqIi9KPqnZEomLnenbysq3crXrdk1mFGf5WiuPYjQu9zuzrrwOhk6yshol-jH4FujXfBgzDKar6X6cp6rYobRzT8Jq2kSd4SF-1R5B94cHn-gYzTr-LtswTnOLuycmbrbtaFHHmD7P-Z9UVXKEo1jIg_bU5RHg1qgDr37TgiJI3Ub5FMt6hdFYFxLpsrjEtONKdQtScoytQuk01WjCVJOQt9oMVQ7fucz8bIo6-Z1AZYcjdvE5pKTRstJzEKCAIr7NZVxtmg5usJZoFrBIpo3Ub-ZF0gkdgM6FSAmZbfFsCyeL_zanj_Q1e4l8svFjAIpxm_i9Jq2N9z5-gjefPnr9JccLtiGMGo3RLeJhqNhjhy4FQbuSltO_9NuYMXPmJYuDEOZ6culjAqkdmKLWmIp0vaY0cNNm5z_QNCdi4krn9u0fxACaUPpE0vxK5aYvFUv_MUCOU7L1nSSskbKgU2CvmhUqiN2yTSi9WUuGfeHQYbWDTAJRrefSG6oBg8GhikEIOK5QAEBaE8U0pIW4HSnDg7WOFHZfCN0_X_Mb-WCNCIyuQ7TYlq8ZsOa-mMH5B8q2BRxTGDc7D0qCmJNOGoyjcywzJ9ddUqlCTaswRJab6jQlaNfWbqrQmPHB5UPjWbacFzjcUnpRuDFS3tGXG39lBNaeQQevy6nzP_Z3HM0Ff-ACb-aHWDO7s_55HtWBtlp97pu_zAHUeEZmvA:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejexzayaZ3ipmD35xEdmmBJ3E",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Шлепанцы COZMO W",
+                "description": "8 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "849900",
+                "oldPrice": "1399000",
+                "discount": "-40%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbjRv9z-QAQAAAZrL_WEy-vhFkV2-xzQrqiWHuDq8bGXETNAPPGn-U3brIIEX2HGbHi5xrGAe7jyI73QhbtnKJbf5Kp6LjD-CJYZloFsJ5w1ASAUYAsWG-NQhOKawuWtAybz3c-gmL8dwpZOdbUV-ggiQNUAzjtJBBC-XYVZwVz2hMjAnBWIhprioT_ViLlv-UwUtFFc6e_FhSqSWHzLNdfUA9mN2fOkLbzA-ggz3CrHf1x5mGIxxn0K_BwgP3sJE9Jv_L83jdkf4Th0M8FUsTE9ytV2_fhEthF5VXLQpgweLdo3Rsz4sHkMAgo9Fhh88zNk80xxlsyy3Zo3gGWlhmDpM-fkk7mpGhy59PdhHfsqarxGK6kLTc9g7lrrETffgROUovW6XIF093WNeEPOnvONVqIzaKW25zkev56yEMxJ33Rz4ZRkJnGqWWS_hTbfj3ZGJQRIgfMBNzpF8fPHaPlzua3FrTY9JAWzg6dPnhLjGTZFwBZ3KF2BYoLG2MqQlnDU1H5ildP7YeKS92CO4GWvNVzF7Fm6gaw.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbiPr1XiQAQAAW2GTGpy3DX7JJt5NnFa8z1kgHZlHTq9IeOT2Sd7iDAJP971N-10tI1-mskdIWGEYWtAnnfou7rMJgmJ0o0odWj9DYxvzvodWxBbZwzBu7DVVue0cMuAWsdRRmEROpl79ZpHHGFS1iPSE49x1dc4CBo83E3q8qznhz8Kbx0iii50uRcakmB_MXRZWJP_ysF0FxNrtN0Z5zRKpAc1nVMX2nsU3gT5aw8pD9wUiyV3FCjj_UYP94dv2Njy8COZPy1Tw_T6WcRrQujhB5XdYI9j2BWXPSqRr9Cy3rk6Lpm8rG0Hxa209ZpW83yZWjID5csKmLFobsgbpz3ep9vdcMhLPSWnKWP-Ae51LvU-7Uvj7zlI-Lg951pyF28tmvTke3k7-OnrT5ls-b5yQ42ipEpUNAUqLGXfVIfEqf0ygTXmq8Qba6XWhN8hfGKK1C2NC2d80-ujtIoiE0W3O_1Ca-474ULvnPV711zumhPWVj7IJutgQIU-BUiF5EkCpaP6TlvYS5Pbi0_C5db1J9ipS9L8MNA.gif"
+                }]
+            }
+            , {
+                "card_id": 28,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/f1b/bd/1fe63971037c.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgxIDzGOAgAAE-fYTVW21_Zal53DPApFKQTT6Bd38JKuhC5hbb4v1CKB3o5tqH5ljEn7h4ym2InDZe8fkUCT3jMzLMUsR9bqgkMcRjGdW4sECj2MnRUQOANaefZSQfOcBoZtQQLjX_ClVJb6T1nqop_Y7TwB0FYMcdqGd0eYSrAY_00pS3bdTSkdiYIfYHtwT79E3ohDy03pyiWdw7CYV5pTL78MVuKYaNgJtRP4n7ONGGb8pKnzUhAYZ43ylelZPHVPmrj3qWmVEavFIm2JjI86tz-n6cFBbZ-kaQCOjTbD2gVQ9_Q0zaQBYmxm2HkIlEyI88Pt2JrxrPn8sR2o3UN7K67MFzEZW203BhTw3qNvy2fAtQEt1kwEmEo6aCfB5AZgcsTiYJuu0LEoV5trCIwuVTxdRM7ycs9qgi6jhpLZnY-w-l9yWvSzhGsm0LVcg7SBMZ3Sa4pyDT9GpMZbJrR7iQZtbpS2--mRaA-0CvmO5Y_GS-YsRlnpXs92D97v75MEV_3RaTw7ViBkU6NvpuCAbPJJbKTNpp3VrFC6J0HLvSvKBRKH9yDsFNc78S3gPeobf9IlrVC75aTw_bEely89kpXhDnFx4Q6U05dCp03ajEGXyXg0jKMWj47oFzE8-Ear5dxs9aPuj-fMWB8YpS3MqtCoV4u1AnlCCCZ2aZs7eNnB26EyftAG5b7B57mK2De80HqO96gbcSXBJhTJKOC_3Vcq7PHb6d6-rbRpi0tqui6UGdK95HyzoSTB4hUdwF58MrNKGT5RClc-qOy1HAOhxJ3yDBmpZBigJTHpUtPz5pBJCjbE_he9tg0vAX7df2oRwqxWCqnMJwyrfCZevfC3Aq95n8gNmvk7rCOsqYsIdj7efyrszNs:9fteurqB72Wv72KUqk4amUzuh9GjzfubCUeWk4iwujanB7h5AZQedS6RA",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки SP.1 LITE K",
+                "description": "4 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "499900",
+                "oldPrice": "999000",
+                "discount": "-50%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmXC_miPAQAAUh2V3AZstYnWV_huhVCzBc3jr0YoZRDnWihVglym9c9iqMsRFPWoWFFAcS10m09FAKbcLnlmguP_F3hk7ntCc-AZrGOR04YJIsIJVbK10aJDxIBFSHVv-fgegErdJYjv_4lxs8BBujscOCbmi4WthdbchAr-tcwgdMmi5kJDePYYA4-8eV2s2zhRqxZ4Ou5BFjlREOVL4rVQio71hAryFlhFnivncIXR5U8ZOK6DTWie39gMm96_6qLRxk6AC_fajc051xxUZfkpZQONrSrkZkTu2MObFHPJM1iHtwydLtMY8l5m2XT3R0JBv1awvPKrD9-FXmdoGsCQTblholesxxBsd5G78wgmqhgdU5gzWjQSIr6dyyV4rc_Qy6nILjjxZiBiZ7tpwxNWImBK8j0tRTlfKkc2rP97iOdldonZCfp1L02iVMYjncWXq_Zl0MAYyusYtlW58xwBnvB2k5YPOIlLjvxjTwMLNv9eLuqhg4lxjJj7Y5Mcfsf5bapEC71jO6vjTzXzXH20GnnywaClKA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgDvqCaPAQAAs2ZW6xS6UD1IDncJ7VtsGIw3pKcRxSjOGozL-tlEIh1UyJkLplL0xh2ErGQ9-hLzJ4gW34DePEHaCbzOT95XBh9SjUaAPRilEvPVDPuHY5Cvo8RCIOvt0JkA802vn1AnSHhhC07nX1tgGRXOtSBuQKfe9FLYp1HOJP4Tksr6lydLqmGJTYX_7Imf8YPd4RsxIWAubPufg1XGR5wKcH6FzqM169Wthg5858T_wwTl_Xq8pwPSWaB2kmaLVMHnvuGlp2eGJyKcXAP5MC7rFg6VOrqzt06RfYiWmsB7HXaWODDMAuyD_K_2_1CVClWWbEokKsZzK5J2Vw9BI33RlK-JsWzs8ZXzPXxtYNny9CXv0oTO-3OJEIroZtoAHgYg6syfNKjplYtOg8uJUX8gcDageOCz7gbX2znfd4EiMANpW4MGKcCRDc8MVDsFEMhZIZ_v8DHjzVIykw3yVNkHPoU7l4ReSYrOw6nB9ECCin-aF7fdIrduXXGj1R5-mhmt1Suc9dT33A3JLXP0AcR8o8Y4vA.gif"
+                }]
+            }
+            , {
+                "card_id": 29,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/289/55/6b13479ecbd7.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzboiCPjWPAgAAOoOo3HejBeqD6Fx1rixDnej9_6QPgWXPQ7cXqv-qEMUHNVIi2irCupExnbKuqAogfukUc6BogCGizm3xmhgO4ByKfIY6Qy2sagBadWC7E5ZmKZ2sRRh649XrN5vLDjMiwnW2v3lP2KDfMDfBVIL_KGtIMVO735MmBBhm0dWO6WuEOIimWZdlhDoyUMd3bYj-38rhPpCjgGEmWL3xt7dc9dn6pA4FZJp-FN11mM_-nIDEjgvGjlpxtEx3AD2gCv-_G9r701r_wQPSLjWpi2BjB_oWJXyDITmf36jE4lRnLujrvi4SV82VK1Jqcbo-oJuHGJxW1RGszVXhxbbIJbi1n8zFu27uHuoRxM-OQfxOluzhMONBVw8r_6F29_ZTu5cSzRIAyTd2iG28AWTEKqYmoBWn1LzshhYSSDCgts9H8Em3UpV8ZwW2FOcNEab5AMZQ_UF-8-S_JkFxF1EQxGox6q0jX3yzYgDn4hKlPxoRTwcGbCqoiJCAGDp3uo_gMijt_ziCNK88KiheyxxdQrxUCwkHI5whstJUlf1Zh2KGpVZAIIHoD_2abvnpKOgdhqUBXHrqRHKVOyJYVJkNwG_u3S3lQPJNWOGOLY0gA2sMHmqy2hCa5MWxHGVhCvi9rQAzX2TwXwoSDuwCtAq9lLMYk23CDgjUkvc6FXTlOodAe7TmcJM_oeNakI5K18keSFsg2QqEnCFlbN1GNWipCPmH9abb4NsRodz94_m_z4SleTGvrM9pnfElRBMZZQs8XX5kapDTBMbXjGJVQdg7gepKyjf6q4eg5N4utAjoB-OfxxPBi8XHC1gSZ20PkVhFZIiQABK_lsZoaE7289QWgs4G73oSxjhW9gfExQtfGl1DQN8:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejey7h8FJtWXn9oYc2UJTcwtQ",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Челси GRAINER M",
+                "description": "15 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1599900",
+                "oldPrice": "2299000",
+                "discount": "-31%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbpopoTyQAQAAAzzGVPAv9ES4kt-w2ycTUeWiX_N2zUyiN9evoT5k6ORmUqqetV94I6EQzj7cX-K8FvXFIPw9ihcLIfNUZE9eY8DxfSs5E6wc-hz0_k3-BusE-Ztke3-vzP3ydTz0xJPmDVL8M9F3fQ3PjLyXtksilXQVZjBpBP9Ljq9jvLQJphVOFS-u1i9h9giu7AnAAxaER9BgzD9TdMluPXNktAj8KT7FsbXSgxmXXhUJtm2RZSABUeJ66TIxVv3yOQgG5ER99wvT_ZhTEm1babphtxcangoyWrI5u_Guh_Rjam_R2nT7aI6aKBlPpCY_FLwGeY6lgmBgxKH-ll8GH2f7MR5fqj-TREksbO94eQ-UIOSSPsBG9W9hO4l-t6I9yYVopPooDPvp_yIINRkNhLgHNcm7LWmv1BkruF_SC1e2Su9HwMI97EPrz2KqqUVW4kFTl0b4bxvbPNaPdVLcIAj8OR6sPj5am9KbwLO5l8kX2y0aJHU6PA9iroDnCDKzZqptE5jPH32BRjhacPB3tTqC21D-ew.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgv4zDWQAQAAETWOQH-MSdebU4cgoC0zIAhNcSwsKZALgMNfrEKGLrHHlrN6kWncU_LTIivGxn6ByTAoltdbErjeocJnnmKYr5eAbXYAKqKq1yY-Ros3n0NMK1-TkFZUVLmy-ZTfDnqpJAQM09KcR4B8Q5ze8C_1Vdo_8AEU215uhpidCEfn8IUz4FbngmZCy675nK2-z0fgxI6IhlvOMVgtrdBAN-76aYd3OlR9QtnGfffZfq2xtpODnQ_IHu5wqNu-mnIPAwauPOP1UE4CpBElnZMTW26g0o-MNkysRryFNkLiF88EBqn972GT1nxMaHN14S76lNf4QRLN0OMJmvInVOGGejUhubWpLUoArTEBDSvbCB9-s2uTxmVsYlp_ox3L8eMs5Pm-FTYzMcPlXMzghB0NHC7KvCSAW9a8cndMOLGgnqa9I3LuiZOWFuxzSZ_A0C1FvbtBnkm2wpQwTPH_Wq5mf9uWfHAmLYNt2wqdrKMw7kicGKBE91_g6oWFZRPYaAEkjvY1OPzubh0Cie-l-d1E99wkuA.gif"
+                }]
+            }
+            , {
+                "card_id": 30,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/255/4b/44221006a0c5.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbtcj1XeQAgAAPTS1NiuGGG-70BUilCSkPa3hhO97LhVpHXjwD3dMHgrSJ116_FbdyA5Pwp4IBdIe8sXWHbe6CjX-eo_h7_pdR-C26l7m4r-R7Dbi5XPFyWwcy8yEef_MGnR0xI7NXgjGRdsb7MhZuLZFZH6qp-bejKNEFukkdfKv8rzvwXR1f-xbGjpLJvUocEbRRwZQkP7irlv_iuhKFxfYRbvPSqDlaEVpoDueDJbV5NwQcTaX6bYNp6p5BZtU-54szVOwpRVcM4Lri2A1oZphtCwfRwtHyRIoXPpW5ML2Gj1VJc1Uc79DNszAPNPdFcR7Ls-ZvZo1aqDruEonRd6lQAfIol42HjgAatEvdtHSMeVo2TJwgaIVBiN4CuBuExXclDp_nm5Af9SWR4NeOyzb2Te-F9j2mxWKV2RuG5CAhsbK-SfASh88Gm3PvvOyTurEqJhIoMO4Z4lseP2_QF1B-9hj01z58SWo2uyz_wS67B0LqLhGP3Ir7GHCWd1k3wVwV4885_1Xnkl7-r_4xwaJ5FFEpwENBPWzeFt1Pq2mzX_no8w8p9SWoS-5EG0gRh0P5aItMQRzao1kpKVDuIVhALHqlEcGgobJt17hg9n6w0NbWdwAvO51q1SVCLiPVQXsDbNSvHd8YEEHX9L_X8_QOrCIV3PPjEmQdoh-PVjggtSMNVUHvH1GJjinqJ78zndeRFersI6JU8I_hJUYZvPld-vSbTD0BADkuWQ92qqZEHhVHReIrFT99lcPLWBFocbNYbtE_dp2HEXUhFu_VPW4TcDzy0C3gCLaCEsHFv1rw4AwHf0Qp64Niq131U3kORjHxS6-QQy1WJwArhCUAg_rc6FJmtuXkup9OR80D6VlXzUjnAhCwk0:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3km4KoHrZouJqjDYkTX1RFD6",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки BIOM 2.1 X MOUNTAIN M",
+                "description": "15 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1599900",
+                "oldPrice": "2499000",
+                "discount": "-36%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbiRy4AiRAQAAUj2cAFQr2S05KoKhk1tOI9SD613Abe7qzR3F97pHsiq6L0BUv6Pld9psZlCbiMlqYj9a_-G7TJIHwmpi8ujS57MaJP_qR5o2qi0J_1WExoJry0csR8ukqkX_5A6OCBPlylD3S_OVOJKFhPmd2vroSxel00havo8kPmYoGEYpckM52RVrBkLe9KdWWyd8xYjxifKRBOzykZ4iqFunG8-3DSHVVeNToFU3V388Zsh7kq8RvKjsXZcnhkIV14uPKOK0P23eF14wXTyskQnf6aTGaxZSTscohX8nXi3fWB2PTwnkM5asWa2o-l8WAoYaZPB-7Z7aI1IPp7f2XkBeYQt45v9Y3ZYC7vlSF_HzoPjVBQTkRx1ywwy7tYoO3wTiMrczIDkt5r3aWatasrX4-zreDBhSkD6AkX83SXhJTKZTw6IhVsKfaId-z0YzxYICoZW9vzbnoMsNqtvOZOoYYql4bCblRejD8nRDp9QUKfJLcU0T_yLJPMmg-1giKZty3lxmn_GJOZPbwWceJnCROw8pm8g7LPAWGX33eY8L6KtSKhw.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqovh3-RAQAAOUKM97ll7nyoW7skxUVbEbIR7xALHFBoE4B_0KXpFBPVwHJfULP6A-ESiiXND_MTLNGusRumZXC8Qse47zNvCSJ3pgs0XoYKuCbQa3jhTGJWE9EKTtVrfy3dsvJE1BRPKohuziSb0vCVQu62YSkqZaAayRLF1EdzEIvq9lv3odvs8epVEojq7EeiD4EkQKktTyTUAnQL16ddr8_ypsq8jFCIW1H_ElnctARhCepPm4MHfLWD-Na2ndxNx7w7JcYwzHEhNLB4TBGRGfQbqRW3mf_JEZyqdHqpXnGnImPHLljTau7IOeuilHeZlwiEO5sE05WXSwA8_Y1O-H7djoyMRSYSkW0b8Dr5yg8LdOg3dcdBfOIV8gFxJzemZpPB4zDTkhh6TbodesJPEq9n1SWnNv78ivZd1b9pebQX_2DMEev63eD_dFTC5Bx9RpOWFqNeQpIz38rcZwABWmu_zl-VR4OcJoPFDVdHZQApdpUfP7AvVD8yWxcMNbLjujSA3jKz5Nr0QPafYlRegek23QkuGcRVdOmcqBJelHSg8Y8Hc48.gif"
+                }]
+            }
+            , {
+                "card_id": 31,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/c2a/60/4951afb3630b.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqGHsV2PAgAAn-pbiHJhlGyUSx8V51oQh6djEYGeFfKaHcxuUhFVaDxoV0cUc9qz00hhLLa1n57fKJneNfKxswCB9WZk3T6Pq_e0ZdQmmvSmZVo9G1KDcRHXdEn9qXtHuQyCTUxG9dGHoPJIcdJexz-jpi_3xb2AI-cGv9XOg-SX2QIsl6xy8P7OwKlr0waIY6LtRHN5jg4YHuTplYaac-sSB57PuMx09caO1MfndfXwOoK6TytD3eqYbjWSoHhFUtu9ntCLPLHv0pEJhd5iquZ4ovPzuiGLofEGnQ9zVJfIjoqyxr0XGFkx4CG6IY9bPdb_fYnw647_6xveCbeHF0asxvz7dvkM6Ei9hxYTGFhxxR9exVFWFYV_46NHUsi49l842DgpJclhPi89YACL_MNwpMkf-J714tsm3ivzcT2ukwb3ewq4C27sHPZZT46ETbFTsjaoHSL6xQNgExPG7m7aq0Wc2L0FSJLEei-nwt09hCtlXso3lo2QOs5Go5-bUtQ0MW2t-B65-06kSMsqrAp7lCKiGsWuRh5Lhyxqs83vSa94d3Y3-NkVI_0oAMhlSY3Z30jO7aDz4G7T40Iz_bz0yeVlOIu6QG6qIe-j0roFNfSEU-qttIpBH4UHgVh26Qu016bKY7WoH2Cw7yp9O4GVuNaGo-_HBVGHpDBhAv9j8a5W5u0icJK-7YUhd8PzCmvb1pFh7fsg7fUla9lzyu_fjs1XLeMYFrz9KDkrEOjg45-TOD81zWHC8_ltXrWVea0atCh5E_Ejwb3n1y_pBpS84EDHqyHdSUTb6LZdKKKDbx5O5jcUIZ_9O-fYVeoQHYh3mL4xS8rEbY3tWoA30LMeKiIFiTsgtnSMl2X6oF9EsPhKjb_Metk:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejiF33Bf1sBkKNJqrxvpqor12",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Туфли ST.1 HYBRID",
+                "description": "20 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "2099900",
+                "oldPrice": "2599000",
+                "discount": "-20%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbgenikKQAQAA0rRsp4sKu-Q_zri7azB_hdyxEBzm75Ydb_OJvjvj9iH17SNyKtOjmr4DsmfcAnXIBk-Gbmn5eNNb8MMVzz7EGbkkKYpSHGzygxlYXgZ5Ni0p8f3uVluA6NOOKU5elF7NiJJATmlg2qscZkoBNwXGNCm0UpNwrSinl4H3sO8AL0ckjCVnKT5f7ktGZFgzqMUaWtFnEQP2zrrmYuP3zRs4MwT1NuT65rsCH_ncF_ErdvmvE3zEM3CzROHBwE4kQUhq1razhMjP6Z8k-I7zkWo8Y6d7Gv59BFleuku8TpccgHwghgTz_HO5J_-KUlaPvCTZEpsQV3s0dgbCvs2tuHELznkmetc91K83POBrqZb2S9X48pic9Xgyfw5LmN6wObueq9DmYe9FIO6G3oLbiuWYRaxzo4oyKKfbCiuS8rC_gBplY6njfYZxOHz05QCe3sM15qPy6QeDTDXf6OonmpyD9Gfv1SnRqPMyk71KoHnCWL3muacSuFxTd3RU3sJdH4di3xc5FFzYbX_abXFH4EKwAg.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbo3_vUmQAQAAr1bQebvRKbWsmi1UP_0hixRP9FA_sBlf9j0UQDGP3kYLuk_P2XV7gZ8XxTlHqOdnHENkXjF_0JV4iIgRFnIaN9vspR2DIEXHs18CUkoli1Oq6nLAXK-A6klRTFGnTGj-DmmUbBZDsAWTzDJGkc3MdKBHK-Xp4HyPvHr3ifqvgbvw40v5UASbIX64YJTpKqnizIewqqsJQ0-JZ-HO1oqjuROWjY1UVv5DDz7hwsfNR9vZGpEhPozyHN5ysiSxdIR_kaeuzVZM8hQ_sbhL8_4J-nk06eib8kFiTs9avyOFYLWk2eWCmuhX_hmkpfLHxKarHdhnw12QO2cdvBkoJYLZRKl1VSXFchKb-CpM0GFH8TLgI0q-w3XjdMv72CWzbaGmrwa047uoPFlO-a8D8ei3uWVXcded14kmjzEUMUG3w_-8inAQNC5NQeHz-hQYibuoCvd7j8f7enKpYvsMp7EAmafrXqAdTIJr6JUU37WgpPYshg4POhMn_zUSMECzgZTdq1tGWWvwiFo73LfRw6sYWg.gif"
+                }]
+            }
+            , {
+                "card_id": 32,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/8c4/ab/7986be283a3a.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqP5pWKQAgAAHO-n7dnZ_qA-_gEwI10_vVvqEvyrBlbt215JCB3pDGsMwiwJCiqWrhvEMNOAR0XLOD-gD6Er5lL6f6lX7fliq5rdNI5CV86jSwMvZda8yozUDtYFx5IRvoOA9o2T8UvCWZ0_WoD2TkQSDLLmicrKi9ANvfrKeqO9IA2jnsSfePThvcSDxairmfuIxjszMMEuL0LS8Il8HrG8R1Ay86IpD_K5yiWiuchyuMsTlhcLAg5nRwL-hRxmyiGvp84852yHA8e-e6vh3Xrzu51JjzahM4iAkcPmQZfyApa_sdU2lP9Nti2bica6Kc5B47Wc1xl7J0hFXskrs2ecj6L_NeY4dLhLmcvxMVb1OhJkjZOMUvu3nERVXZKYFPRzUvN2A2R_Z5ViernD3Y7jhgVjRa-diisZME1jZ_ybT2Z8fMjJMNWnFmacMYxraUZ_2MW4XkeYPHdodlN98C3JOKPb1tGYasLMa1NceNrGBzfN56ZcKMctRTsJZe7-yZjgmotOmozm5gpX9AXinw2w_Ihim6fJtqVLieistp2eJmXydS69HI5wO3ViMLq4nPb3agpBa9JWSn0P33P6FIQl4uHu0zqQsq43IsUF7P4SWpl7lJXhnrrIPTwYoHZnebaMkm-hvk2sbJCrC760xbflZw-fisoeOdVymeyg6m84e-mdK6uJKzuKyd2MkkHoo4eu0gL1wOOPSQ-gxhRKT0G-TEtprwPKpgRkHzZsFXINpnEUr2wPKrC2_dEd4mNPUaEmCGOVmOxwj7CcIgnRGMf_EphZ93SbOeXCs55jFQrWEueW6w1t_Hu6TlcwKjLg3xrEWFvpVdQptG-ebZvH66WVX-TLCnjiXQdz2zcqO6BLhxStNiGf1gQ:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH1PQxuvLBVz8g1BSj4TjtobSc",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки URBAN MINI",
+                "description": "6 499 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "649900",
+                "oldPrice": "899000",
+                "discount": "-28%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqmAxn-RAQAAqt0R6SZD4V-HLnKjQ6Brn4ILw5nYyUttkrBOvSDsCNUn5ECbDq0lBrB9RNHd_MDakIes0XD7Aoo_TnKwaU99YrBKkmMXxE1UoYJ1DDceLGV0oZFWdI85VqYAWBX_LaoU31SAk5ZvTShG9zA0YxSefk8P-ajgBH_P_C8v0DlRRRNfbz99-BygajRYosPTNfOCqPV9gsC6PEmhVz79Z1LmEP5Ef9strwt358nu1h6wftKdmwFvtAwrfZdWkQ7JXvuIBnjZu8CZoDYm-wPAplE3Jpuv6SwR91C88tWxRFJNyacSwR8KausErPiWD0Nl7e_uoVnw6v2sgunW7Ozc4qxCDl1f0Gg2htX0SNvVKgEpDvkysvV1S0epxui2qLy9pq3oMF1m6DhBnpVM8WySb7CnW76cqVqtzdLjFKoPGaOm3Rn87mjmUWgZ_6_f6Snp-vWtED545opZllZfXCblWLshKSD280xEP2SlRO4GNNmH6Volo88Bj2jqZ3si8Q1JdnWD2BCibKFaGR2ICEgfDXvEEu5lrM8uehqPIhYzSqfB_Y0.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbra0kVeRAQAAWXEnrYb6IJ6vH9hpit8zOuWjdHfREQdDWbNK73jlXkqFhseLk9TeF9xWl_MlZObnhTCbY6jIR3qFnshwOFr7OYNe2iU49Vc4najIn7Nrj7Dwlrrgo_sevSJUO2WPtSCAyK8bSGmXKuPmce5UdpvVxGMbN4PG4YO52WlzeoMN4Co5qKc2ACyVWxp1--rn2OeGFVy-MK2TJikdAfq1lghLwSAfrCi6PU0GT82Ofu-0H6NlPA9li7Ml9Abmm3hywX0BO6EgxTuRoZ4jNwLJeaJ0OnyRGiQuIt8LfEHOirYo-giES1GRDX1u37brGrwYWeMBuqaB82zzHZooFCGAI0PJ4IAFm_pnY1w8Ip3SbOuWh4tMtu3rCT-4yjj0le7j97FXdPfzDL7xYm7kYcKFgw9NDUdBH9rTQP_AuyVCcnSrbwYCEyYp1YyY8gZT8eKzP_7hH9WKrBFn1lqz41n_-MNDdlR36je31N2wgfpZnUd2d8sLn3645ph4j7VZwtlWyTrgNoMkQwSxHe53ysfIQ2FB9ouOXCzLJRqdGkEj0YqFeS4.gif"
+                }]
+            }
+            , {
+                "card_id": 33,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/6e6/81/ed05feba4fba.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbohZHByQAgAAVRoLYu_N_pZ-NcAToF_jQZEChW9vUtHgtJxmjjPd4NbacZeNYQLkjhndYQWC-5JnLqybiBY1ITTVKAniqlp8i7d7Y3-j-TURJkFe9B7F3NypzpA28af7FbvAadhPdh4mmUKRv0uzSTEs7wqGXOrCo-wfBvNK2ctV946cKHjJpPYJk-vwM5H6g75A_-Hbah8QGWGSAm9WFG0hFBjqaVT9O-Ri0njy09-0LlRPgx1yCVX3HpNz9kkjiJVAT8JEHB3gg59R4YvETAHwWtGCYbC8ECk-P_B4I_brmGH9l8Ql252Jngx-4Pxo9QYO2fR8xtLMaZT18e-yc0EhTFisfO-iq1AWdHigh2iTYQxYJASIC62og2GemkH8hvkE2mU-OhDmPaqIkQl9Rd9-EIstdexxhrR8AQy8tqUUum02VwK6Atyc05tZkyUezCgBO0MqPL-5Loq5WTHBO9ioDJKksYFmqXlWajXmbO5GEMmQ4ZIe1Qt-pajwhrw3z4354i4FVI8pqkMBFA8Z4Te90ytQ6oDYZrjR8fr7qkNgmecIWWrRu3TEfRSJkYSpqb-_luRhy3kjJEEJQmxyBQ1PZRLvdB2f9rw3ohE7LIKWz1wGIrp1ZbqvIE07kH-5B-g9iM3Q7NrPYfVcLn0iAtSSqSVqt5pACV8ckuTubQZOebpe6HzeE43SossAKvAEfn9qQxrLv0EvTEwl5TeGMhmesW0BEI12bdYTt_KMIrt_BoLoefvO_3T2BikbdYnpiKzCnd-vcvaCOtSIYQI8eqPeQ7sQYXONK5uBCQMAo4chp5242i2hJLz4x9mXykmx_eSH89WQVyAl8-_fBJOrZTnPPaSgvaHkRaHUE6lTqD2zsPHuGDbDT1Y:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3mKHS8VhNDFxKDpEpy2U9KjS",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Ботинки RUGGED TRACK",
+                "description": "17 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1799900",
+                "oldPrice": "2799000",
+                "discount": "-36%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbj5tTkCRAQAAEFNnsugckYR5YMbYILWlrNEldwrSCLuL3YrSooQH5SkZNmok7mWL5dp2BlNKIXiMxZmF0Et95BPODEJJ4C0Ae6vapagRqDN_Gu6WmVkWnGANhvDqf9Z_Hb7WFfUB_73cVRVuKGFKY6GohOFI3h8jQp15zfNfMb3fGr5byoA3zIEPssZXUVOYrZU1gLf4l9Lc8hYZgj0YoQVSXSHgi6_M9E-7YWs1-uV2JhFm3NMv_6WSmZAEMtHqG0-iYX-xxEho6zow-afI396abYCS3BEiGg5cZwVsIucNXDvERburJcBCn6ZPaQDo8D5GPts6AKqtz2XV47lU7xXdySI82V5DAhOfi2Jd4JP80lfh8pyJnY2QWhu2pX7IxA9m8HtStzWTBoDyF8i-2pdBOySSXftUmWqRP2Fvan3PPAou66-Zoig6ko5SRrscQK0wq23gwzkjy2XfQfIcHB_y7LR_LzZxWyd9GX7XEPdkC_Bim6GBdh1rNv61sr0wjPUCnPFSGA6BtBYYIqrqNaNNZNDP3YfKo_k3WTosMH4iDSasmoRql6Y.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqiSL32RAQAA3oeKY9IEJHKVaECuvJDxhTR7nZQGjqlquEF1db-SbRUH1HA7i5hLJYG6GGlAhgwQXAwOyld4mGFezkycuHirgjuLBDYcyO2W1Hd4DSodtaqBlDd6ZmTyDI0LSSiH4zveCaAehBQG2EJtO_O4TD_pdJQf0XodivuyqOsQLLFT2tZE-EY7ng6OG6y5_WXuWSiKISGWASotY46hq7nubcxI5KpJkEFbkeXru56OYIGy_OyIr15ZHVeUauRVjITueC5-9TVPwVsLyPPj-28c0bMkFFgo8H3I9FEY-kssxOQYfXMM4q2GbJP_AEkabtlXwwpNAumBMb4c7yjWaJwf_jbmo2SuA1LUnvWLulh8BeoDxRF24Hyomf2-_IIx6XzIEVcK5i1klH4ZQ1n3nY9k0yBAYQEce5X6pvo3Pvbx88LC7gLtVWftBSdWGnZbEK915rVYtxGdP7tpEZIJdvRzb8f0D4kwPDtAm6QdBIjfsV3bXgz7-F-FZgIcyU8j4mgXpN87DnlHryEP02LY31iYMBzU5eFbZhUvT-bCjMj5cDeTRXk.gif"
+                }]
+            }
+            , {
+                "card_id": 34,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/486/16/965d19e168c3.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzblNsphOPAgAA3TlDSYnKSyTTOZtQo9DKL8y0r7sZmZfo_FYY3cvuAYVLFfC7XqWV2NCHhWMmSXZwlonj-ECePK0BV0GD8HpehPZR77_I6HaCasU5e8miBJpbKNFjeCUlEHE3sugC1SyUgpxFP6iooTFVBYTRLjTk76e83JeeJYsUnkQvFw_TcbX_QRm6y9iuNTCIqb7rvBq-kCHtuxeScKWnAzZ7ztGeBfbNQfmkYYw4Go5hzrqe3Dhgkk3ODN4MpsAlY2RB4FyLGi0QYrsiAP-3U2u8sdK1A0q4I6vUoSdvG_k0KGXmEDLDPAF6Jj1PAjL1MV9If1HaiII5t3pjesCXysXkJNvzsqFETUagoTlI5PzXdbZcX2wfWGl6nCjLpNAz-vCK_6BuodkSgfra-rpt7UgvyO9KrumPs3CpJ_p9LEC2ApV43pW24Zl7k3skKYvtYzgncgFltMcFdr_K7k4X-nbWuKyDSJ4CTBnEYtdJl89cjMfO4_5QnXkvbHfgpAiJqIS0sKbtQruqlxnxg8iMyvW6IH77l82Z7XEZnyO1nuvWm27SVtIhM1-uT7tpXSW_i_SgdlkMerpT6W9spyUELE2mjfo7ngKSEE84XH1Jod4kZ_p46bJn1uV6a8l2wv2kOXRwl40ZTEMfb3WZOcB1EOL50p8qEieSFlQiSRtK9I80_VCXxY9Gs8KFeaaksHxDM9W6kuKkdKEmDaewTPpMx17Hdzv0Jbnt9DOOP86MgQ2-hQWMaaoAycvUoqq-jYr5xH6llKDiA65AoxWaUfZkxE6NaYlKyuxDg6T_WSN4JedAHwQ_7UX-xMMlMxGe37hnl0p_x0cjrOhM2Imq2oO8NKWBqjIy3chaBofrIhjJS2EH8ASI_K0:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejey7qE5PrGMQh1bsVygK1kWQ",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды STREET PLATFORM W",
+                "description": "8 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "899900",
+                "oldPrice": "1799000",
+                "discount": "-50%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbpd0TyiQAQAAYu-4dMdMJXBs_p1Sr2uC7zo3Mfafo8pQX_wMIMXBWqDbwdWYM11O492kv1jsKaCVsfG6uvdpRboU5BTY1CSz2xwcN-cDE_uE75rwLVUy6W13extp_u71AZB81BjPmOj6WsF3Kz7BA6UEcx-8cHQ-R-A86L10vJQ3l8DaVWFqNc_oFycuX7G9dKj_776HuFdHpRHubmtZ3O_9dwul9xNZbUnXVPj6OxQ6qVmuszCwZkcfC77wp6G8EL1FcJp3bL1fr0lhpMcLANtdVOofQVyP0RoIyt-7m4gZG0OyaDFXkectzvj-dgkhNK13OdFTmDx-1E9Pcgby6_RcFWujdFEn2x3ni2WUhl5k_o6cdbTESjbzifYLP52j53an8c6uXjAFHFi-LEltqtQn-ZfLa3HVGcCm5qwVRL9SfARQ4m3X69NwPMwoncNJZH05PAf0XpIAR0zDhQ7159PtWKbv2Gx9KKrWoM-H5MjYGa5KMs5geNUy2FD9Fr3Uqr_GL5sZcMCFZ36VG_dUVgPTkbq4StkzTA.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkCZZm-QAQAAHUHLBgUyTD5sXRDB3C7245HuYd8SFE4sx7LntuSpZxNlF0AoNgXuIvCVzvWBLT9PiHblfNg8yYMLOAWP9LAzrunqz7BRadGY1h6fpdeG5D0qC7B0bBDg0b5Od2qCgOR1_zx9QOxTHgDLo3byMP23CuBa2C3162PytuWvkAu3Wevsl5g4rQEt3jn-_gHwHhCrm9p-JtLwM3lZXlGZV9xAE1G5NmbQD8rw3qjnOGtvmYHeygQcOg36-0THKz_wlsRzRWcjcnOBMbo1Ko6LXQcdu556ACoWlsBAeSmPV-VFbSI6r21ZHIstC5ioBo-y1rpIZNvCUHoErrsTho0Z7Kzv-zrhh3602pZRRwQevUJcT-NQDx5HxZdSZju3er5fZD3N3k6K3Q-kPmDF7uTDCOF4AmEdoZS6JRiRTT1-D2ZeKPYZgMqfOXS5kwnMFCPc3mXQMLAKWO8iuUWZHNINM41XIOhFjKrxmNIk5lpKfZ1cdcIhvYw6Ydj6TFrj-ZIYvNJKZ3I3RGxK8t41wL7FxEPBlQ.gif"
+                }]
+            }
+            , {
+                "card_id": 35,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/84a/19/3acac4915c8b.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsHlFDyPAgAAekfaqipmZx9EiaaVBYuE5bgnc3lN_-sK18U84D5MhLRu15Zs7fgPore3fcWDiIMLtatjrWbLozwCPLJvjGSkZltVCujIBiNi6kPxUSTIabj0SLHQAi6dNl69c795exOZowRJDK5Y3nKSiF5DLqOavWIJJxgMOzegjpOFpGf19aY1aYXZ46fw3EXPfcl1w2Dwd5BjEcS1Cz8R3qt7IO5xjxWTSAjUb-MNJT-HoJlN1nyXFP2jf1Z0PUYggbxwPyc1zunS76z4hXpd9Vaeo2VAihS2je4KiUaGRVJPMC20q0uHBu65vmCl2nG_nhaNF1zSK8fmN6URwbN7KVlQ2s0uFB158_uOKYehXQuPL3fyOpk4NTKbnW2nX7sT-Qn1CLdJT22xtANiKfFbyS7zgFaR0-S_PexcxN4dO3yjr1dK8cfUAeOP0WwC6tCJoOUur8S3_nXmrhwfgndOPIZXZ5lMLJXzY4EJlZhXEWK6jAIiKYtKPuzkMg0rYVEm5gBAdYKp4v_s8hgboskjQJFJZQXA0YJyjxj1ELMZwbeh54xhTzjG1LLljkTUi3GjxD8iRq3l01DzkgIF22H5hYQ1iqrc0Ej0y658BJiny4lhIyq1FrTT-cMNvPLthKyhdRpIqk4SoI9pvoij0uFiaLSzn9cgTtL09gzKped5egSjZ0bqvNumc-vBTpGZdAdJkoi4KoVzDpRrzJkpshS0WgIyTdWJf5g-xzOOG4V2JFysSnT4Gevwft6XVM1_iei0xJ1HsD18vyHobWiH2vAL1yLTdKSVRumnKi0AHNpFsrg3jIAgV2vuLGJnCT68JBs5rBqapZbocxN0dK5w-mDPO6LGR6LX5GEIHZnzNFFkK03b26N8Vk8:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejey7qCym1dYpfVJfLoDXCUZJ",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды SOFT 60 W",
+                "description": "7 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "799900",
+                "oldPrice": "1999000",
+                "discount": "-60%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbi5m2XyQAQAAUsE7Q1TvXdRr2d4Lla-rKkQeRcY3OC0OsVPWGETm-b_wSV1x5GG-eiv6BhOEFsPJZG2mpDfIIlZdKr0pu6VnwQI9OZBkjitOFI4-fEJYYYn0hjLAXiU8hS-ApCZB6yQt2psS_bvYFJ-_-QaT7Zah_TtIw5hL1Re-G02hwAKrgzw0_r1mpJ2gEnP-hsy0-9K-xi1or5mZSLAECi6FKfLrF5OKPtfNirgy_h0w9bOBhK5e_B3SRiv2b7_zmBhmIxmWDmkZysufC9RMSb8_7NDE8wJWOz52uQ4bzh4anPnogX_YZzZZXmiA-PJXoSlThdoLhvNL87N2ZXONAr-YaJ8vT9BMyQmjx-CNzlcEzI5KBIMiyrx-BL3s_6iyh3DX0VfWLVr5zF_esg8JSrNrwhDoaTWlF08PkU2TFwXcvzzVrVms4ExuBSzb_TzC94raHrp5uXATNuykfrk5h8XTFa-V0cwZBp-tdv5P1Mr3csldt7ZhB4SFmG0trjRId_u5ikWmOZkKpjxnE7VGFRzp9mAhzg.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbibm0mGQAQAAXXkAD-Mxt9-ZGWsrfCdb_NeEaTdyuCJ3fr9drC5M8i_D1tyQtsqLdToLZ74xl2BIXiQPJJvk1xEkyCO0sR9vnOVCU8uqVX8wmlVmSTpqAGxWi61h5IHHF-IPNdY9jKcpLrBCFmhKdCZPuesKpnOuYp1TwDgHzzKthWzsDAlwp3WeDJs85luJd21lJgyd8IPPrPLGY7ICVDsOdkU4Y_UB-gpEfuOx4GTRIkmDMCcyW5jS3WRMTgTgvaZQj5uXpPi2123alMMggATVM2rfWM5aNrL5w0sHQVpR5zQB5zIBD-QJGyyCwnCgVTx6RmnPg2ORRGp727QsamMm-G_cvyAsivsdrdbrjeEeS8_9d2DwnbV2TNfM78WMCgMJ0TiQCw5HjBQJndMaMs6_wMBm512loXedYp2tl1zDswwoUHv6Ckh2fNcNEQNul_aSwjPCegmXtXlky2xAUjb7GuiKMg61-XtC3LHkRCM1NfITrgUOml6yt8X9CcqsjNQMcU7EZl2UxdBaao-s6VzpXjxZkQYX8g.gif"
+                }]
+            }
+            , {
+                "card_id": 36,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/486/16/965d19e168c3.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmXCnlSPAgAAJm2N1F1zMzm2gAQbgRNSFJRjRKQT5kqv-RNxc__F81rsAx6vOl9renxVyN7jbwtxX9bwTpK0rkSew38_6qyiSsxZFGR8IhXwvnPlcOImtNYiguOjiTXMn0IgOp0lJU2lJW-sF5yXK5pofu-VPJ71JLz4_fQjWQIjRndauRYg53TQFJP-paMhx-f6G9XJ24oBgDwNIg8KsD3NAbgspnWyikmBnSOGakurIJkXlGX5bo-rrTfln5PBob_B9_EzzYXTEOrYeiJL3WSgqWuG7RXewT-2-dle1p16cDHX84noEjI3flWTPFVMyy3kxRWvhdFg0hmlTs7s2cT49vXVRHrKEgmIwH9TisbO1_MlsDcKsqj5QfUXRDG-vCcpMqW6YdRZwNOzCg4vJ-gPrHQhsJnbrhYTrAFuxGlrZScZOJ2LJwpmQ-hwUlTDFDW77ugYbhECbqOCciaLZqBfzpchMzecfrcNxTN70wPj-bVvrHitG1MkFGmTuR_y2ZHYXRhnMPg6AvYZXSWEKUCasXs2Zx8K99kDMaba3eFrQyNV4FZj1VlrmGB9B2ngYio8LC-GC1LBwEMk3WLLetcVLB657CYg3uoChzHK6tldSjfPD_2ERDCchZNRYlyf17uGxaS_b9QDl0PhRJhVhGZZovueV8Amv2R1bLnJSbKSQZrJODB-Qvc-xCG6nCUVkF1y0fwrBO_2Z2raYRGGeHsBE3bWtEDX3K1sJTwtKXPu7rxoRrJwJA4LvVg7u5Phbg28RPcuy1mC3kO4Xn-6mWAydYnXS3o66lzT4E0gD1sag01a3_5LG4Qcj5yw7coZrYZiKOWi2czLco6QeRZMux9q6l-fHzBnM456wEFvGAesMmUhONdv8hg:fGezLKbW324MdsdvRLXHRz9zcoK2zESMNejey7qE5PrGMQh1bsWySfAjZe",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кеды STREET PLATFORM W",
+                "description": "8 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "899900",
+                "oldPrice": "1799000",
+                "discount": "-50%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbu-iJAGQAQAAU-tcqd3e-qodeigmkjHLySFT-TtVR2W3izgculTqCyKsMkh9Jra1BSbyqNx7jCiIzfKX_QAtCMVRC4xdY0LHcL-Uvr6Uv8gQKmiCiEBf003tPKhLbEpvtXbxohBbyDe8uE276aMmG0eyN4UH7ZFjALjvPQi94JI6oiJqMMVUC_Luil9DzegE6xeX2BNy4vDpt5v3WMNnYUV3wlYEXWQ9xDnsRwn9xTiUhkaZlv4-BBjuB1RswP4IcnrlPn1F6wDQpva9iR1DaWgOrcSAjEqlk173nSzOjCHc5098SPRfrhZMnLlMlQqqCtq6O_btEbzfvEIlnZxPYd-9c-DxdHU-XHH6Rsyleo1K7osXjiCe6MM5V3ERtFxHWnwpbKRl76tqqVdgYPYBfA52dcmZ5W4rLIvxEoWytfzSWjk5N067vRlVsSk4tlw5r6Mj0tXsxUOVxfGvFFzMV3LRIture3c2Ye33oJ9_d-HaT1wdIq1ftQ112h5y7wD-mrnpAj4n6w-jfA_3d8_ERp0jcQvATNk1Og.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbiTQkiCQAQAAb6VZ3hLzb4nkExFvikrYgJbPwvqxP60lTnaPySa7rKcqjUM3jdLEUujd4r7gM9opi40199bs-Q8bQad1lXPZc5KdSvYuq2mYd1M112IqZ0x8BREloJbw6o_p4p7tbvJm8mRy1cXlyog9nvV-zLUBp6mK_y3Hl4g9kZFWbthpbIkFGbQnp2_H6aSYOXp2Q_i4Vy-s-HWzgoBwGW8-NCa5DU53GCFR7PI3FMqE-l4Fup4ZiLhdhGpRGhmWxIzfEor_ZN5xZiZ_7GjzrpjLT6A1x5y0qEioiCiM1K07WfGgcU26cXkFmMBTmP1KaRDTn--ys4Se_IfaExKSm4zZ6VF4J6xxfeoVO677GFqCIf5ddZAKY9y7yIvUWeLMOCBGopbIf9yVCuCYgCp0v6GzHlKlKTaRLju7uKJaGKLNRh9zf6nMrIKWUVZM19N0ybMkob6BU8wvg0pWUuTmrSMf_lz5NuOAQOeQyw4r6MhcA48X1h3mExPNctUcMP75X-xsQ4DCp3BAqQNnl18o1jf29y2Dwg.gif"
+                }]
+            }
+            , {
+                "card_id": 37,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/23b/3e/b1174cc711b8.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbk4IfSqQAgAAeJMsDnZnKnIG0mcqtbAakgnFSlI0nR9X61UgDzV55aVD_UsT90rzw0KdO8xVcwyeVnvBbZtiU0Zj2cVVQ2DE5VKof0cagcrBhd6IylZVimorR41Lw0WQ2BeKOsvoq0sIXxjP5IPzUsxdabqnC04qjYrO7OeLwpVQr2dzY5bVZStVJQauzOZ143VWQB7-NNIsMOnlUhuvvvqgbsaWt1-aQHsiNEZCABAcfs3PAn5XobaJ5XSlo6fl6I_U41hDif_nDjbE2VsNmrr_JrKH2KerSl5PJZWavmbB9RadMYuKq4sqLqTyxQR22gJZ0IeWaNW3qOqK0JlRMt1Nxv-unvY4ayN_A7joUusZm3qd9168cuSVRi-PUSM7FXHyQbOfRXhmq29UEEQnWzIaP6tW8wo2W4rCiQEEzwCSo3I6vlqRXjlyHNjcQbDQct8axwiZaCM_b-LFZ_yJH5Kf_WMByPNw4PI8tk6yvwH7PQRQUPC2aSZ5Iu7FzLLLqOmJ92_AUzHWHFZnvNmm2cPYOfWgrIEWNEMKks6w1gTsPFxzl7tnPDftDLRQFsjyTZiAraznOceRvurte5Qrn4EY0iU8LuTxrUekB0IJ1Eqz482YEdMSoiAbt2ATII6O3Ee7MI9U_umhSJIfeKfVS1OGyTwJznLwgkzt4XAxtW0P-XkacC4QvuQhDyuRsLI8D90FyaD-esBNdTz_Ga1sJcU0EdlRriHyXhIxq09oeSE8dlhDLC7aV5x0Hl9MHGvsiqT3RN0SybI25k52rsBhyjBP8IUNpXvayqvS-Rptn3ouwKbdXE7s6HLSMPyVTDnbQeWeKoRcDzG2DwwoK2joVa1WxrZhrHjOaL5O0Xz-7ZsUX5NKbyBtP9k:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtH3kkgfu2W4gGzgm1Bcs2ga764",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки MX M",
+                "description": "10 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1099900",
+                "oldPrice": "1499000",
+                "discount": "-27%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzblkcl3uRAQAA49blBfJXUXx_cqruCGrYsLaeswORjLUNfmmo1CjZksxFhwlLcWStw93x1SNztRTBT95555McuPseBsqijFH8MIKwpyPo19vW6UfS2gzvFczKVNtaAheD2z0mmdFWxgGOQXvkCWalEJzHbxgjF5JwKnA3DERF4B8Q-5DKFXRjNB2GmtpMYTM0Ymv4sZJ2DQoEKr3I1kPuhK3j0K5m3whWdeiG_4-az1idJWsGyIBdMLDqzl6_AY09geLuGM9TPl-8XFgQxUoj29xrMzbFttHzHqgh4ohn7F42FUfWX2VHiQAFRQ5ahYxTWi07BFWpCnNUcblo9EFGIYjl00dLQbpsL1OyDO1Zv289ObSV7O56sa6PTBP0bp3dNY9soMt8Ya4EN6d4oqYO58cYH1FQzTMkP_YgvxtMRpi7LEdFG-ZuT2RaDrNiPNT_bJbfBLxFsmSiJ5KhAkzVPsT9ZJENx_KD6arG4hPXq6Z6Sby0nHzvivswd2OIDW47C6Roown38mequVvqZF4iBtlGdrmVB4bPgPmkTEehXdZrMiPdytsj3m8.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbt6FslKRAQAABWrhpnskXSh8az6gHpUzkO98c0ETqcdUpDh6O-uT78aG4lplVwlMHWZQqZh4-bO56TiNGknfNAVaArhK5ESbfM_LJTJfE0zEhbpW5q8qGoUlS2Y0vJYcoSBIe2qneTVD2goL6uii8FnNasSQbtdodSBhIlDQaUn67KGbvGHCNhyuZLmxHIlQVTq9OjUO8x4oPanOZTmYhpADAoxI7T2P-_-byKgaOF5bQKNauG_7DfIVu7uSD_S0fHZb-tdtewfG58SzvXNbK5xqm4bG-tNbyPkbHr3FJwuY6bpCoEr9FL1JILDfmbMWC59-I00BMsB6c6bzoEcRR_BKpGZ8tZpHOwfn9w7thOhEUSVM-EJXqnonFxE3R5VvvtHqlWgdMXap8a8KheYbL4sp13quIPG5yJVaKaBSrOOTpBFQS-o411XQ92r3t0rA7TP35GUzaH_LcPwiWzn7NHU31Mgc5Ote3Kt4l0VKG9JsFRJPiW_McTJRjABtJonWHEnCFYMIe9xg9P0VzOMII8QJZn1tg1Frq9frsV-B66JlWNPr2_zfQWc.gif"
+                }]
+            }
+            , {
+                "card_id": 38,
+                "image": {
+                    "type": "static",
+                    "url": "https://d.mradx.net/600x600/ecomimg/7f6/88/44b179f71775.png",
+                    "width": 600,
+                    "height": 600
+                },
+                "trackingLink": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbnNjBSaQAgAA6mqjqQBy63nIiON44LUgs78y1tqYSOa7w4lgzBcbqFjQQqZg9FUu8QZrgOFDyiYNjn8EQJY8gvQiOKVRbo93PZhWiAcJDnGAnLwAe7dftdrUmV-YvwMTZb8OdeszI2MtZ9Dw25Ro5Li0qHHxsRgRfOwjQHDdNYiKsJa_vX75boLRZ_l0uGZ3AYQXAk1nn0GD9yWe-hnGceMh3AGPoNVlK86h-j9SsSDE4dDN_p6ZhtUcKVzoeQFOTOb8zdA7AmThajppLJLCdOeUI3HyIiVu9u7wD3m6g7v2bNucgQHdpha50ext5n-yshLD4T6i3mgGqS4vFZgLebFtQzPNqHCx9RNFcq_Pb7PyFpx2AEf_4LQfOSA-sXaga-MrOA8JZ4MmF6y7d7L1y3XpoR3co_IbC6usOp4cBAsKPC4OJxWjWkktOGBDpb6wZzZ_wtQ6SXg8sD5EhrQc8DsKdClBbrXWrrceguYL3_KA9V2ln7Yez9p91pUnz3_cQqHNo9CVSmZphpVsjAKDEuPjOoK6IlB9savIY0axq9WakBaVUEVN2T9S07-EaRyCU7KZwNx9REGTd1cy0PNgczcvTArUUrTxwwcdRkTNtbSaObNMFsV3XVAH9OZXAjyAXsIaAEEnbP3PnPb-pxuhLkJN7HI-LGG3K0QLqR8qvL1G2DLt89IMKGSQQlIpZfnYg8Jl_Jrqvxwa2F6xucbefvfJcyBhBDxGwtbA3ZWLRotd2ewFRCdQJFwQyyRbqj6mYS4urelvk6xjBmodjnnTRf7zVBF2xId-lIPT3n3Zew6Z_jYNRnjYEkwOujfQMRI80mWu6ZdMCJmK7RaHh7amPl3kQOEo_lmTqCQ8bHVPeQ5Y-eL4VxG17U0:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGkty4LuncfmH4VwdA4ShaiQfe",
+                "trackingLinkUrlTypes": "pricelist",
+                "trackingLinkTrackerTypes": "0",
+                "title": "Кроссовки W GOLF S-THREE",
+                "description": "12 999 руб",
+                "is_dynrem_default_card_text": "true",
+                "price": "1299900",
+                "oldPrice": "2599000",
+                "discount": "-50%",
+                "currency": "RUR",
+                "statistics": [{
+                    "type": "impression",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbkNQ5C-RAQAAojtQMjLwAcbfz9a_ipkE0ztOHdJuV9m0nHnHTaAN1FbCw5VHXuedM1o5CDQMhwZIy6KnFkq3AUMcFoZgENUh2k6K4WEhm0DUUGj9mK4M0FXaygwuwdHBJN-PVvhyAtgKMGR2o3_RG86iZ5f6X9ZG3U8HqKaGjC4FTWoSAFFzDqkZnzznJzGYt8-NsWqA6so3_Si5vHvFjFe81Yz6F8s7t0bsSCfAZMEXK-JK-wC6o2YegXND0WtzqdOSwELkMfixJXtnI0wGj-xonMxkixR9oZig6dEOSMF9iigvdvTBFgnHhCw6ReH74rbEYXkx4v7Hz5Vo-KEYMLH3ELa15Pa9hfbfPR2OB1W38EvmruvsjLYm7qbRsWzj9eliM5wKs5X3x90JxKwOcOW8x9XkNtVYDeCotiLjOjpWIAQCGsRYUbUQetLuxUbT-FmU8H7FHj4xap22y_USQjjcRQqnVqrHCdEDv0p_llevBlzylopom-Qkp4diB290WR8FVCDzzb7Z9Hj6o65GCQABaFJRxNoCyS5A867D8cKoklf4sF_wPGs.gif"
+                }, {
+                    "type": "click",
+                    "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbt_QYHyRAQAAhork0yp5t5g8GxUeRohBpuzSE8M-XkKGNp0AfQsiGaER0wgawCcPnSTBICsNK3YFdEdo0ZYI-FZJ-k6gnGOgL4g9O0qMELQsefLMZsYX6mnoC_qt0J4s6HIklejajP5kt39vQWa1UWFFzW7P2v78jeSMf7eVF7PoDbchtgH4wkHhMN0dXIrF15Z1dHZtX330lZRZFko8nGJe3WolHVOoODy_16ecGEAtMCNAN_vqEsEz5xEcF_M6k7WGf2xU0iF3_ddkklXhaoph40A-bxjeC0tEcHqzrTqk-DkvlqH-K4NR0Sdw4Cw4CB8SqbgKsPInhW9BlHwFmGwENpW0tJu-e9Ulif-Az-ZZCsudWckkRs6hTuQ1GHyxkozoCsPYEYDLuO_76wb3E-hEpy_XcupqOVXsAHKKfC84O2M0hooh5eAaQKMkwTXqszTvPeCG_Q28TKOhAqZDZpyT8aJ6iawqCmyw7JefJ17y86WTx-Y-LuPxqng5_GDymKAWzmN1-QkcKyDZ8Fzm6mOBuJGruEwMbuwC0kptqyohX8VCKF1Dhhw.gif"
+                }]
+            }
+        ],
+        "ctaText": "В магазин",
+        "title": "Есть повод вернуться",
+        "description": "Сделали подборку того, что может вам подойти.",
+        "ageRestrictions": "0+",
+        "trackingLinkUrlTypes": "pricelist",
+        "trackingLinkTrackerTypes": "0",
+
+        "viewability": {
+            "isHbid": false,
+            "hbidID": "",
+            "percent": 50,
+            "duration": false,
+            "referer": ""
+        },
+        "audits": [
+        ],
+        "pad": {
+            "padType": "mobile",
+            "openInBrowser": false,
+            "styles": {}
+        },
+
+        "adChoices": {
+            "iconLink": "https://r.mradx.net/img/DE/30EB91.svg",
+            "closeUrl": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmdyaCzWAQAAslRQOakNwDMaSkkcc0RxH_foobpKtS_yOuIOdUnd32S-ofPG12K5-oT9iGSxmI9FmU2WCGaBP1CKt25BPmQyAAOWO095HwlDpIdQVFgHuxGXjuaB8CST2LkEm_OHcJr3Cdc2icyALiF13fcOSlbg8AOF790nXxdZShWCGiU-GfBaRieaJtZX7CLiyqVZCA3Aimf0IBJM1BgOhb8LYcCvdHHSHQOGj9YgUZ4I7GJ8y7G2QZsqg-0QWlK5gO3Un9jRcNpA_k3yueFNesmyO9t2FkklQnw_N1aJ6DH-oEcsJ75Cheke0-_fSIZK0ELcjYs5ffvDIvCJ0-u9bCCaF8gHCjKvspymLoaLJzekaDTbTn-lQGr5761VgV_7xscGvYiR8vWl9zrqm00pbuDmLdLHyG9T6tcBi3jeCRZloXKK7ecgf5EppMaY6kcA_LSJfs657sn56dRpDiJ1Amr_Yds5JH2xe-CONSjXHd12o4H5UGHDV31-t6oFl-os-6Ok5QoA9LVxT-LSlkZN8zwhjcO9mcvCzRImKqj4BYNQYkKDCfKp92PsFRzPYVIEbCGGdnMdZ61XjzgtFatVcYjHK5SRUXmV6snryjBDoi6vuT78qhTKnYbL9ZS5BnsSAuqM_1t_.gif?reason=",
+            "closeActionText": "Закрыть",
+            "iconOpen": "choicesIcon_0",
+            "iconClose": "choicesIcon_1",
+            "iconHide": "choicesIcon_2",
+            "iconComplain": "choicesIcon_3",
+            "iconInfo": "choicesIcon_7",
+            "aboutCompanyLink": "https://ads.vk.com/adv_info?id=AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqylIQ8JAAAADBKDuRrnD6r-fj4Vg4NKEg",
+            "marker": "2Vtzqvjkzn8",
+            "options": [{
+                "name": "О рекламодателе",
+                "clickLink": "https://ads.vk.com/adv_info?id=AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbmFhY1oJAAAA1ZjKf9IcV4YudB23TdCXMw",
+                "shouldCloseAd": false,
+                "type": "default",
+                "iconId": "choicesIcon_4"
+            }, {
+                "show": true,
+                "name": "Скопировать ERID (2Vtzqvjkzn8)",
+                "copyText": "2Vtzqvjkzn8",
+                "shouldCloseAd": false,
+                "type": "copy",
+                "iconId": "choicesIcon_6"
+            }, {
+                "name": "Скопировать ссылку",
+                "copyText": "https://t.mail.ru/redir/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbnNjBSaQAgAA6mqjqQBy63nIiON44LUgs78y1tqYSOa7w4lgzBcbqFjQQqZg9FUu8QZrgOFDyiYNjn8EQJY8gvQiOKVRbo93PZhWiAcJDnGAnLwAe7dftdrUmV-YvwMTZb8OdeszI2MtZ9Dw25Ro5Li0qHHxsRgRfOwjQHDdNYiKsJa_vX75boLRZ_l0uGZ3AYQXAk1nn0GD9yWe-hnGceMh3AGPoNVlK86h-j9SsSDE4dDN_p6ZhtUcKVzoeQFOTOb8zdA7AmThajppLJLCdOeUI3HyIiVu9u7wD3m6g7v2bNucgQHdpha50ext5n-yshLD4T6i3mgGqS4vFZgLebFtQzPNqHCx9RNFcq_Pb7PyFpx2AEf_4LQfOSA-sXaga-MrOA8JZ4MmF6y7d7L1y3XpoR3co_IbC6usOp4cBAsKPC4OJxWjWkktOGBDpb6wZzZ_wtQ6SXg8sD5EhrQc8DsKdClBbrXWrrceguYL3_KA9V2ln7Yez9p91pUnz3_cQqHNo9CVSmZphpVsjAKDEuPjOoK6IlB9savIY0axq9WakBaVUEVN2T9S07-EaRyCU7KZwNx9REGTd1cy0PNgczcvTArUUrTxwwcdRkTNtbSaObNMFsV3XVAH9OZXAjyAXsIaAEEnbP3PnPb-pxuhLkJN7HI-LGG3K0QLqR8qvL1G2DLt89IMKGSQQlIpZfnYg8Jl_Jrqvxwa2F6xucbefvfJcyBhBDxGwtbA3ZWLRotd2ewFRCdQJFwQyyRbqj6mYS4urelvk6xjBmodjnnTRf7zVBF2xId-lIPT3n3Zew6Z_jYNRnjYEkwOujfQMRI80mWu6ZdMCJmK7RaHh7amPl3kQOEo_lmTqCQ8bHVPeQ5Y-eL4VxG17U0:3uv6g4KxRn7DtcpiyS7jWRF872ZS5ybatCtGkty4LuncfmH4VwdA4ShaiQfe",
+                "shouldCloseAd": false,
+                "type": "copy",
+                "iconId": "choicesIcon_5"
+            }, {
+                "id": 1,
+                "name": "Не интересно",
+                "shouldCloseAd": true,
+                "type": "hide"
+            }, {
+                "id": 2,
+                "name": "Уже приобретено",
+                "shouldCloseAd": true,
+                "type": "hide"
+            }, {
+                "id": 3,
+                "name": "Вижу слишком часто",
+                "shouldCloseAd": true,
+                "type": "hide"
+            }, {
+                "id": 4,
+                "name": "Оскорбительное содержание",
+                "shouldCloseAd": true,
+                "type": "complain"
+            }, {
+                "id": 5,
+                "name": "Сексуальный подтекст",
+                "shouldCloseAd": true,
+                "type": "complain"
+            }, {
+                "id": 6,
+                "name": "Нарушение закона",
+                "shouldCloseAd": true,
+                "type": "complain"
+            }, {
+                "id": 7,
+                "name": "Мошеннический сайт",
+                "shouldCloseAd": true,
+                "type": "complain"
+            }]
+        },
+        "statistics": [
+            {
+                "target": "banner",
+                "type": "playheadViewabilityValue",
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbtYPCHXeAQAA91TNX2d2aiC9g64uGIPumIVLw0KEsvdFr5XS30SEA8MW7Kq_nSK7IrhyH73h4RnU9ewKHMmsFLoc6sLv_mvLcTnzikRrFvoOWrJZV9-1LnMVT0D1BcQgNm-F7j15rLJ6ecC3b6B6seooOBUY3gI7JZXntyciwKOWxtp1oZot2CEnvpqv21R5VWh_FflGzwZMk8uvspYCbrzK55-yPbWlIdTLA1fMd52-8cRaGbc0TgeX4Gd0_pI4q-p8retfCwlKgeMDhSpZ2ymPm5zxHZ--3fPvxFkLfWc6JgkA7XUZzZ5HSBHxpu3MR4sMvHzobCYUDpHdS6HdZ7E-EEcW40P_EbZMzEz03GKplvhKx063BRtoN-m8X62aunDtY1xysHb6vyvWbPHmVVYAEGTzRe9zZjIuReyaCTTIotuSdoNtvZhBqKEvbEMHPfz5gUqzrf0O3msGyaxduYonMCq1QVecBqpfXvd6Mqnoaz5jy5XDBcdtA7a4wnMz2UQB2c4X4_xhvXkVUazAPJkuEvoaNuDVV1XapXUKDRZ7HFVZAm_0HEoz_xs-HsZNtBczGWPFrtBjzRfjkeqs19kObD-6dXsL3RDZ4Y0X0qlHrrT7shu3XzeZ-KIIiMVny4m6NxbyVquJ.gif",
+                "duration": 0,
+                "viewablePercent": 50
+            }, {
+                "target": "banner",
+                "type": "playheadViewabilityValue",
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbhQXjSKPAQAA5ibeYMbDN8m_qfiErUIwTheE2C37zYfjaFqDO6DSJh9BLhKLGUAAXU-g_8IZrjzpldg4plBFi1arPN8ATvnIsKg5k4KONjF5kJeil5Y6G9rBjC_JYpyulNgwP786lMCBQnmqeK8OJ58I-feJxb-F999GM5ezB9wGNbUkIesTCHP4Qeje6DFrIHXEX_XtSYlSKcw2YzPDo--lH7rhu6aGIDKhNym01UJWL1fK2mHeW9bHom5NyoGLRJLAkriOC1AOJmRZlpqHIEW4Y80Be0pQSWlB5mL1Iadh2SQU1-Tg6umNtYVjSVuoQc23U9TG9KAdtxJMgVQda1z3C9NYL1Sw3lcesEzqSHdbix2TDHTzVbo2CrMMhFcmsf4BmFbPVEPy3pvFwUU-34pp7XVYaKYs0YfZm5FWJrqoFRmvr1znH8PkVv3JvIvWV6-kPkZ-etJT7bvq_-7Frb11xEzjzbVMoytHPXw-BATQ9ufbrOdCUdR_h3Pozq-IcGWVNltymffxN36Ml6PV4jV4OWCjUdwz1g.gif",
+                "duration": 1,
+                "viewablePercent": 50
+            }, {
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbqencFyPAQAABX5X_WDon6pRbxkujFL8kFm-uCTEoSBqi1UxxiHGFxQSTfdf5CUrd6lI2QCdZB5pk6IMzZ2QIMepqmb_wryiqr4IxABZcgS0cF4nYbJwU-Re9dGGmojvEcBLvjoC5JgCmPCNrwBMdj0oIdDwc7Vwt9cIZuQZoH6NZGSFsPVq7boZ27vTAApZWDZi7Vg_I6Jnez9d6TcaNtDCMRZjuulf4lZCb7vHhJXJZC-j5uLKHdqSBrX8XV-Nzlg1IJs-0izd_7eXddoN86N2LGZm05CQBy4NONbj5g452rv5ALYyj2qnYLqbpINp63Dfh4MQkLuld2GgzL_DMrWUXTJsN7cCJNB8sxyDqCYhxfhiB_CmldiYcuy7DDnHQKvhvPOOI2DBWf5gJfKeHwRwAErYDFNazvdPJojgwBmABW1B461j3UF8qc6P8NlGeQRUwE53S2uAIB5vty77ro1P3issyNr5wwvsoBFvqaXnS_QHQdMsSEUK8y7nYdacqf5LroQwyUScVelk1tzEz8MEfhczN6rLow.gif",
+                "type": "error"
+            }, {
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsYGb3WPAQAANQjCwPXM-a28S-kch1o27oRVf7XK5SKqStSEnGK6zyQI5XWNxUwuh1Fbls6guPr9ULrnn8QpSrHQSbHlovKWVzqaD8LmrHkPlsMBX1M-AgEPLK2IwdIT5nA6KwzH_l8pVf4EBG9UMp1rX0G6TJNHLVc5EN3H7g0mjogcGmGUd2znviur2gLGFfRYJUf1kZczrR_rfalUmOXDb1ssAPfDAErwOKuMDRodf-hB9ujdMs0TBeCTCr6YW8RjEoVqUVQmFRpE904ogJJdeKQrope3BemjP_zTmtfYRtLQzLS_Z5wpMazHVfQLX3q7a1GwrkUkcVVQ4whs01_YPS0eI69Tdif6HTnvVY43nSi6jBGCbUhaHPTXb96T4vgu1iKtrGyQqkMK2gilk7P5zUNsVjGmxQhhdI5avnrZGaFOlnIElyWReCKq82D5A3V-JBbMWQMaoJEoELMrMuj0_AIxVbICwsBGYNXGAp2-aVo7fa205lrTvYt62B_MEwzrkrG_abt0GCid_cJ4kjFhPlrUSz7cdQ.gif",
+                "type": "isBot"
+            }, {
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbs4GJxuPAQAAJnO80ETd7G5a4pDGJNV_VlVswhbFElca24JnR1CyJIMVaInDEp8fTL78EYZliRNeJIb0Eu8rJt1C5tc4xzAlagH_4p5oLqyciwwhkHRsJD9l5ZP36DPNtjArWRd4bmUUMvKulBCNb3JwzKFxxtjaCsmoZauOmA4hq09uui6bef1_BkvOd-gnoMcpKwnAAdLqgivJ_1PqYME7g2FhqapyZHRGBkDzkSxoUUrjutaLXT5KcqftJymvA7a-DtcEzrJuh5PmjNMoyBzOlr__--fvCrHSagz535hKnMWuZGhJ1Y-mgcI4g9tYHA0O1aRHsl-HfMZM_Nsez7Q5kUwZhbvKlBGBfBQL1X7sQ6dFrAwKzhpoWHPEuUFyHr-L05J8e6YCZ6GvU5XywmSjJdA8t95rIPxNK6yDKy4tBQy6jT3ojRcW8ZfO_l0-s9IVhI1JWpeqDOytdqFjzORyNKbZQZ25QTqkKM4cQvCWndqnAxxEttn9N5JOvL0vh6lhVvO0j6IgJBtDMLTbWQf0sai2RpoCAQ.gif",
+                "type": "isCold"
+            }, {
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbs48J0yPAQAA6JUYYmqas3QokqrZFZnqBpefUaO3lENIU9KMmpYyTTXb3vUWpMGTLMTRfSqkYG7M0gHM0IBc36EAlk23Vm1Mwe70DCkcgD9801MNtP3g-JaY15BbkBHpui828W-OWGwo07reKpYcJzgUcd_RxfiWK8uWLWU015tt2Ldv96AA0hwmlfkE0lCkHp5z-EGBuhe5BDhfWZcFrspswDVp7hwW4aBennA1THQdwyqh7or5n4QE84zDHMgl1lI2Vh6N2wTbTGHandS6QvVjOa7jgMXmyfCa34d87AajKDoSuF80GF5nZTKMGemwj4P_QTvcXt6fb-Q7eZun95OKx-xbd6Z3bAH8ycslIPf80u-eGFj4ub0EbR9HWqiAUiekc4SvN-EuGMma3mbmakVN7jTSQVxwHw0X5kUR07KSEd28jIf16LWMo4o_EKJXtp7u9OkIpojFYrWIhh7_F9J-qScuMtDkrbZqX6faUvzSXzXDlulqI-3SyUlbI7eshG_xpqp_ogiNo94iiO3LhZUotcOWRypTpw.gif",
+                "type": "check"
+            }, {
+                "type": "viewabilityDuration",
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbrrKsTqPAQAAfOS1cIn4P607mqYwIbMvsVI0XB3OF_HaI28Lt2owruQFwnkxftGRUUVdc5yyGagUXlkHmBEIyI5uV5Clm4ojBN_v3ks1oAzoTJ5Tmy2bNw43RhRwYQ3VQL4Te3LNQ3MZG3rJAWl3paJ2ui-YDia-OqRi3z3MxNH6e7E-TV3Dq9l6ZN7vVHCn-Xn7ItE9RVXsEH2wb_2IKqGHlG3_iiBvzEnqQh_A8i7R4jf5SFgH8yj4yGtxIjC3SiNqFU2MztIkZar1ley0aXO51JsArvkCYddm2TX9hDJUBF2kP1RkdPjQ8KP26u7KVHL_7TcnhzgVBXR--b44VdZZEXe3r5yCYcm-dnbyiRC8-DCgIBrqSn6R2fedZhmMYAmSXgxVsY9x4SyuPuB-BfGgr1DTfcErSR35AsXfZt64NDLgpOsvwAavXRBbVa_hv9ABGRR9THC6_Bh9E12nf_tUYLIzGbcPlD92j5tUhQRTf1YigD4yr3PaSQEi8GfknsB3t9TNTA6_nCYXh3wsRrNFaUpQyXYG9Q.gif"
+            }, {
+                "type": "render",
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbk6Oty-PAQAAkX7e9JDCH_pC-VeWCyxFB0GhlIUrgZeg9YqhZIFDnM9c24ww6SGd97F_f5j6PXSTHRFoOQGHcgluDDBkuPTgh1VwV10FEneF4t2I7GZnd1FbBxtTfk6LxGu5J7hS9hRpP1eMWc3Wyl3f2U6xqMZkRosHwZP5hPDn4w_IIP-rkDWpsVX6upDkr2K2bd3-bEIaowMwzZmEtwTInvOvcKLFZBdIjM7Twi0tAa_zLg3LmuwdZasoxNplazvlFWB4RkDWIs7aryGO8ToE7Fe6fzTnEUN2fsqRrxBfX4HE-JyuWhx0agzYepjEb9SnqEHaPhfJjt-6_5dwb8cT-gPsh9WEz2qmWkceMYakKfS78iDccq-UlJHq0UmxgM-WYjPd0srulIKyUAICR0oCqGmdJWvJgZnqVzDmKEbgiZExKnDMLUVlC1BIDaebIAKU8aV5bDjLplI4jILY-DmZhb37LckzAxpC5uxk6VVppN2CUzJTDZCnX9DChwt8DU6UVuFO2kSL7DKqU9ZUaYsK2ViMJ_x_pQ.gif"
+            }, {
+                "type": "click",
+                "url": "https://rs.mail.ru/pixel/AAC5-gF33OHM7fUeWorJxJCACXJZK_4UcSCUvxicNZ-1SaLy9jg6duJhOy4wn1kEPH4ojheHt5BpI7Rj1O4_9KFgFfzczbZFdNyT4IBFHagDXVcjyKdISqgKtLN-OuyOG7fucqoVNBF-A3aiwfdUv1jRi0kp7J3aNVr_a_t7RHH1JnTzbsvd-TmPAQAAwJwh2i2n0REdySVN1MIp1jiGxj_cKDkLjEl3gSFHndehN32UjJvUaTq5aZvmvUBbxMvasGmfVbUHnPhkmz6wbk6j7SekPkU79_n1aPzQdDxMkSADJ2kx7pUKgrqTTDqihkF11DFqw0hMkf_keOGtMwlLj4oVMbiBYtU7ULcXnTdokCl0kyiwmJB__Y0Zh1bJDXfKY8qJp-7ZCV4EEg_nnGLNHB28WTUQuVpv-NYHp4RF_IGsM5o2A1hfaU5nJ8jVrXXoblhTi-Prb5_cnT3uwYVQNzDJi22v2M7WGu6W0tYyJQlCdaf_Ao3Is4yo_Gxz2-IWSwMtRw3HJHM9mgEnt3NcA9RGwr_OeHkhjvgTWbmOvuB9FJ2Bw0TxAk4gExuJu5Ve8bGYlKNdI-6k9UloBh7Qc7dqVLaV_T4vsHXzAtGXPsJMljhLfEVwKZueoGyLdj8g4_xlXDWReHTcmAHzakhemi7GlWiT4-I-4oLAOxvRY7Ylq2Sjgjz88bL4ZQaKubgFbr9pKbRF7YEpgp0iuQ.gif"
+            }]
+    };
+
+    function riseCallback(cb, args) {
+        if (!(i++ % 10) || cb !== "onTimeRemained") console.log("Callback run:", cb, args);
+        // con-sole.log("Callback run:", cb, args);
+    }
+
+    function printRenderTime(e) {
+        console.log("Callback onReady run");
+
+        if (madsInstance) {
+            const elem = document.getElementById("logPanel");
+            if (elem) {
+                const state = madsInstance.getState();
+                elem.innerHTML = `First render was built in <span style="font-weight: 500">${state.firstRenderTime || "??"} ms</span>`;
+            }
+        }
+    }
+
+    const banners = [
+        banner3,
+        banner20,
+    ];
+    const config = {
+        banner: banner20,
+        // deletionDetector: true,
+        // allowAnimation: true,
+        // container: "nr-ad",
+        container: "resizable",
+        // container: "textPlace",
+        // autoPause: true,
+        // autoReplay: true,
+        // allowReplay: true,
+        // autoStart: false,
+        renderMode: 'fullscreen',
+        autoReplay: false,
+        autoPause: false,
+        allowClose: true,
+        allowCloseDelay: 5,
+        autoCloseDelay: 0,
+        allowBackButton: true, // TODO
+        closeOnClick: true,
+        clickZoneFullscreenCloseButton: 50,
+
+        onReady: (e) => printRenderTime(e),
+        // onClicked: (e) => con-sole.log("## onClicked:", e),
+        // onError: (e) => con-sole.log("## onError:", e),
+        eventBus: {
+            dispatch: (message) => {
+                if (message.event !== "TimeRemained") {
+                    // console.log("## dispatch:", message)
+                }
+            },
+        },
+    };
+
+    callbacks.forEach((cb) => {
+        config[cb] = (args) => riseCallback(cb, args);
+    });
+
+    document.getElementById("useDark").onclick = () => useTheme("dark");
+    document.getElementById("useLight").onclick = () => useTheme("light");
+    document.getElementById("banner3").onclick = () => useBanner(0);
+    document.getElementById("banner20").onclick = () => useBanner(1);
+    const _resizable = document.getElementById("resizable");
+    const _dimension = document.getElementById("dimension");
+    const _bannerSelect = document.getElementById("bannerSelect");
+
+    _dimension.onchange = (value) => {
+        console.log("onChange:", _dimension.value);
+        const size = _dimension.value.split("x");
+        _resizable.style.width = `${size[0]}px`;
+        _resizable.style.height = `${size[1]}px`;
+    };
+
+    function useTheme(theme) {
+        madsInstance.useTheme(theme);
+    }
+    function useBanner(i) {
+        madsInstance.destroy();
+        config.banner = banners[i];
+        madsInstance = window.MotionKit(config);
+    }
+
+    function init() {
+        // madsInstance = new window.MotionKit(config);
+        madsInstance = window.MotionKit(config);
+        // con-sole.log("Result MA:", ma.message());
+    }
+
+    //
+    // (function (a, b, c, d, e, f, g) {
+    //   a[e] = function () {
+    //     this.push(Array.prototype.slice.apply(arguments));
+    //   }.bind((f = []));
+    //
+    //   f = b.createElement(c);
+    //   f.src = d;
+    //   f.async = !0;
+    //   f.onload = init;
+    //   g = b.getElementsByTagName(c)[0];
+    //   g.parentNode.insertBefore(f, g);
+    //   // }) (window, document, 'script', 'https://ad.mail.ru/static/vk-adman.js', ['AdManPlayer', 'AdManSDK'], ['_AdManPlayerInit', '_AdManSDKInit']);
+    // })(window, document, "script", "motion-lib.js", "MotionKit");
+
+    (function (a, b, c, d, e, x, f, g) {
+        debugger;
+        if (!a[e]) {
+            a[e] = function () {
+                this.push(Array.prototype.slice.apply(arguments));
+            }.bind((a["_" + e] = [x]));
+            f = b.createElement(c);
+            f.src = d;
+            f.async = !0;
+            // f.onload = init;
+            g = b.getElementsByTagName(c)[0];
+            g.parentNode.insertBefore(f, g);
+        } else {
+            a[e](x);
+        }
+        // })(window, document, "script", "https://ad.mail.ru/static/motion_lib.js", "MotionKit", config);
+    })(window, document, "script", "https://ad.mail.ru/static/motion_lib.js", "MotionKit", init);
+</script>
+</html>
