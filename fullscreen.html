@@ -59,7 +59,7 @@
             min-width: 145px;
             min-height: 50px;
             width: 100vw;
-            height: 90vh;
+            height: 80vh;
             /*color: darkcyan;*/
 
             /*height: 640px; width: 769px;*/
@@ -441,41 +441,20 @@
         Light
     </div>
 
-    <select id="dimension" class="madsButton">
-        <option value="240x200" selected>240 x 200</option>
-        <option value="320x50">320 x 50</option>
-        <option value="320x100">320 x 100</option>
-        <option value="728x90">728 x 90</option>
-        <option value="600x300">600 x 300</option>
-        <option value="900x300">900 x 300</option>
-        <option value="240x128">240 x 128</option>
-        <option value="240x194">240 x 194</option>
-        <option value="145x220">145 x 220</option>
-        <option value="160x400">160 x 400</option>
-        <option value="300x200">300 x 200</option>
-        <option value="340x200">340 x 200</option>
-        <option value="380x200">380 x 200</option>
-        <option value="240x360">240 x 360</option>
-        <option value="240x400">240 x 400</option>
-        <option value="340x360">340 x 360</option>
-        <option value="420x360">420 x 360</option>
-        <option value="500x360">500 x 360</option>
-        <option value="550x360">550 x 360</option>
-        <option value="850x360">850 x 360</option>
-        <option value="240x460">240 x 460</option>
-        <option value="340x460">340 x 460</option>
-        <option value="370x460">370 x 460</option>
-        <option value="550x460">550 x 460</option>
-        <option value="700x460">700 x 460</option>
-        <option value="240x600">240 x 600</option>
-        <option value="400x600">400 x 600</option>
-        <option value="460x600">460 x 600</option>
-        <option value="600x600">600 x 600</option>
-        <option value="800x600">800 x 600</option>
-    </select>
+    <div id="banner3" class="madsButton btn-4">Мультик</div>
+    <div id="banner20" class="madsButton btn-4">Карусель</div>
 
-    <div id="banner3" class="madsButton btn-4">Banner 3</div>
-    <div id="banner20" class="madsButton btn-4">Banner 20</div>
+    <input type="number" id="allowCloseDelay" placeholder="allowCloseDelay">
+    <input type="number" id="autoCloseDelay" placeholder="autoCloseDelay">
+    <input type="number" id="clickZoneFullscreen" placeholder="clickZoneFullscreen">
+    <label>
+        <input type="checkbox" id="closeOnClick">
+        CloseOnClick
+    </label>
+    <label>
+        <input type="checkbox" id="allowClose">
+        AllowCLose
+    </label>
 </div>
 
 <div id="resizable"></div>
@@ -489,6 +468,60 @@
     window.document.addEventListener("mrg-click", () => customEvent("mrg-click"));
     window.document.addEventListener("mrg-viewable", () => customEvent("mrg-viewable"));
     window.document.addEventListener("mrg-render-init", () => customEvent("mrg-render-init"));
+
+    let autoCloseDelay = 10;
+    let allowCloseDelay = 5;
+    let closeOnClick = false;
+    let allowClose = true;
+    let clickZoneFullscreen = 50;
+
+
+    const allowCloseDelayInput = document.getElementById('allowCloseDelay');
+    const autoCloseDelayInput = document.getElementById('autoCloseDelay');
+    const clickZoneFullscreenInput = document.getElementById('clickZoneFullscreen');
+    function handleAllowCloseDelayChange(event) {
+        const inputValue = event.target.value;
+        allowCloseDelay = inputValue;
+        init();
+    }
+
+    function handleAutoCloseDelayChange(event) {
+        const inputValue = event.target.value;
+        autoCloseDelay = inputValue;
+        init();
+    }
+
+    function handleClickZoneFullscreenChange(event) {
+        const inputValue = event.target.value;
+        clickZoneFullscreen = inputValue;
+        init();
+    }
+
+    allowCloseDelayInput.addEventListener('input', handleAllowCloseDelayChange);
+    autoCloseDelayInput.addEventListener('input', handleAutoCloseDelayChange);
+    clickZoneFullscreenInput.addEventListener('input', handleClickZoneFullscreenChange);
+
+    const closeOnClickSwitch = document.getElementById('closeOnClick');
+    function handleCloseOnClickSwitchChange(event) {
+        if (event.target.checked) {
+            closeOnClick = true;
+        } else {
+            closeOnClick = false;
+        }
+        init();
+    }
+    closeOnClickSwitch.addEventListener('change', handleCloseOnClickSwitchChange);
+
+    const allowCloseSwitch = document.getElementById('allowClose');
+    function handleAllowCloseChange(event) {
+        if (event.target.checked) {
+            allowClose = true;
+        } else {
+            allowClose = false;
+        }
+        init();
+    }
+    allowCloseSwitch.addEventListener('change', handleAllowCloseChange);
 
     const callbacks = [
         // "onReady",
@@ -2072,12 +2105,12 @@
         renderMode: 'fullscreen',
         autoReplay: false,
         autoPause: false,
-        allowClose: true,
-        allowCloseDelay: 5,
-        autoCloseDelay: 0,
+        allowClose: allowClose,
+        allowCloseDelay: allowCloseDelay,
+        autoCloseDelay: autoCloseDelay,
         allowBackButton: true, // TODO
-        closeOnClick: true,
-        clickZoneFullscreenCloseButton: 50,
+        closeOnClick: closeOnClick,
+        clickZoneFullscreenCloseButton: clickZoneFullscreen,
 
         onReady: (e) => printRenderTime(e),
         // onClicked: (e) => con-sole.log("## onClicked:", e),
