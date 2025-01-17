@@ -444,16 +444,12 @@
     <div id="banner3" class="madsButton btn-4">Мультик</div>
     <div id="banner20" class="madsButton btn-4">Карусель</div>
 
-    <input type="number" id="allowCloseDelay" placeholder="allowCloseDelay">
-    <input type="number" id="autoCloseDelay" placeholder="autoCloseDelay">
-    <input type="number" id="clickZoneFullscreen" placeholder="clickZoneFullscreen">
-    <label>
+    <input type="number" id="allowCloseDelay" placeholder="allowCloseDelay" style="font-family: Roboto;padding: 3px 10px;cursor: pointer;font-weight: 600;border-radius: 10px;" value="5">
+    <input type="number" id="autoCloseDelay" placeholder="autoCloseDelay" style="font-family: Roboto;padding: 3px 10px;cursor: pointer;font-weight: 600;border-radius: 10px;" value="10">
+    <input type="number" id="clickZoneFullscreen" placeholder="clickZoneFullscreen" style="font-family: Roboto;padding: 3px 10px;cursor: pointer;font-weight: 600;border-radius: 10px;" value="50">
+    <label class="madsButton">
         <input type="checkbox" id="closeOnClick">
         CloseOnClick
-    </label>
-    <label>
-        <input type="checkbox" id="allowClose">
-        AllowCLose
     </label>
 </div>
 
@@ -482,19 +478,25 @@
     function handleAllowCloseDelayChange(event) {
         const inputValue = event.target.value;
         allowCloseDelay = inputValue;
-        init();
+        config.allowCloseDelay = inputValue;
+        madsInstance.destroy();
+        madsInstance = window.MotionKit(config);
     }
 
     function handleAutoCloseDelayChange(event) {
         const inputValue = event.target.value;
         autoCloseDelay = inputValue;
-        init();
+        config.autoCloseDelay = inputValue;
+        madsInstance.destroy();
+        madsInstance = window.MotionKit(config);
     }
 
     function handleClickZoneFullscreenChange(event) {
         const inputValue = event.target.value;
         clickZoneFullscreen = inputValue;
-        init();
+        config.clickZoneFullscreen = inputValue;
+        madsInstance.destroy();
+        madsInstance = window.MotionKit(config);
     }
 
     allowCloseDelayInput.addEventListener('input', handleAllowCloseDelayChange);
@@ -505,23 +507,14 @@
     function handleCloseOnClickSwitchChange(event) {
         if (event.target.checked) {
             closeOnClick = true;
+            config.closeOnClick = true;
         } else {
-            closeOnClick = false;
+            config.closeOnClick = false;
         }
-        init();
+        madsInstance.destroy();
+        madsInstance = window.MotionKit(config);
     }
     closeOnClickSwitch.addEventListener('change', handleCloseOnClickSwitchChange);
-
-    const allowCloseSwitch = document.getElementById('allowClose');
-    function handleAllowCloseChange(event) {
-        if (event.target.checked) {
-            allowClose = true;
-        } else {
-            allowClose = false;
-        }
-        init();
-    }
-    allowCloseSwitch.addEventListener('change', handleAllowCloseChange);
 
     const callbacks = [
         // "onReady",
