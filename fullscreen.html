@@ -2133,15 +2133,6 @@
     document.getElementById("banner3").onclick = () => useBanner(0);
     document.getElementById("banner20").onclick = () => useBanner(1);
     const _resizable = document.getElementById("resizable");
-    const _dimension = document.getElementById("dimension");
-    const _bannerSelect = document.getElementById("bannerSelect");
-
-    _dimension.onchange = (value) => {
-        console.log("onChange:", _dimension.value);
-        const size = _dimension.value.split("x");
-        _resizable.style.width = `${size[0]}px`;
-        _resizable.style.height = `${size[1]}px`;
-    };
 
     function useTheme(theme) {
         madsInstance.useTheme(theme);
