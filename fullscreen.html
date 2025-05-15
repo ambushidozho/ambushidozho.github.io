@@ -12954,6 +12954,50 @@
             margin: auto auto 80px;
             text-align: center
         }
+        .btn-4 {
+            border: 1px solid steelblue;
+            overflow: hidden;
+        }
+
+        .btn-4:after {
+            background: #fff;
+            content: "";
+            height: 155px;
+            left: -75px;
+            opacity: 0.2;
+            position: absolute;
+            top: -50px;
+            transform: rotate(35deg);
+            transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+            width: 50px;
+            z-index: -10;
+        }
+
+        .btn-4:hover:after {
+            left: 120%;
+            transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        /*# sourceMappingURL=https://alpha.otvet.mail.ru/imgs-proxy/hb/e.mail.ru/otvet-front/otvet-11202-1743675392/vue/app.css.map*/
+        .madsButton {
+            font-family: Roboto;
+            height: 18px;
+            padding: 3px 10px;
+            display: flex;
+            /*flex: none;*/
+            min-width: 80px;
+            background-color: #2688eb;
+            color: #fff;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            position: relative;
+            transition-duration: 0.6s;
+            transition-timing-function: ease;
+            text-transform: uppercase;
+        }
 
         /*# sourceMappingURL=https://alpha.otvet.mail.ru/imgs-proxy/hb/e.mail.ru/otvet-front/otvet-11202-1743675392/vue/app.css.map*/
 
@@ -13416,7 +13460,7 @@
         ageRestrictions: "18+",
         domain: "www.kuxni.net",
         icon: {
-            url: "https://sun1-96.userapi.com/s/v1/ig2/-Mr3iw70NNon6n4QvdXK9Oepq-q8V3nIM6PWsd_jiHvYIxP_ZLQHLmJ840ToEDj9ncANAm1wTxot-Dpp7qCBRQ24.jpg?quality=96&crop=0,0,1418,1418&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&ava=1&cs=200x200",
+            src: "https://sun1-96.userapi.com/s/v1/ig2/-Mr3iw70NNon6n4QvdXK9Oepq-q8V3nIM6PWsd_jiHvYIxP_ZLQHLmJ840ToEDj9ncANAm1wTxot-Dpp7qCBRQ24.jpg?quality=96&crop=0,0,1418,1418&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&ava=1&cs=200x200",
         },
 
         // src: "https://r.mradx.net/img/DE/7DB090.mp4",
@@ -13453,86 +13497,97 @@
 
         statistics: fullStats,
         adChoices: {
-            iconLink: "https://r.mradx.net/img/DE/30EB91.svg",
-            closeUrl:
-                "https://r0.mail.ru/pixel/AACM-gEi_mQWY9Fsd2WuCyMswNXefyEAzQde7Lu3N5haK4MMN2wXaMz5lFz2JKLHYGCJgfwkPW3G9A1Dx1lQsn-SbpzILmr9CtTfo7IPL0lxzzkz1nY827Q1Iy437fly44fLjNVRCyki6jblIi-kDMoa3p841NzYkJBcg6FKPw5-7A_hUoEQMU4MAgAAeg5rQUmS5oAqXGTv5RZgflpdYK-H_uemUwIC6y5GrKrNxfzjI76ZtSfHahOUe6HRyBJX8VvtCgnlHHww-0ZPMap7PZcjQagx8Yr_O4Ux2q9H-J0Twvr7DYNLUTxJPdR7Mj_IYCwjJFRE7nqBVwts2jQZ_w-q_D_VL-Xpi2bt2jljRbG6FH0aAqcQB8gYojrBL5hqBIYFE3v3kaj9sMluemc2UaVTsIKk_J-wlgPgmGBd8HM3XpPhm96MSgHIF930CC3shRL_Fwf4kyqpZhNxhVM09Q9ffFtuES_WIQpf3Q8sXf206HS1dcTKuC3sVCJPc0VVniPEBIIt-DUCaSFHg7V-ATotX-TmOFuUn5HRjK-rmAS0a9wCYjKywj0Ll5y_yLwEk2G-brRA-y8j1x0RAx9BruXD4Lneox9X3bOgTL8RMeoyq9vMHAcW_MhCiwT_i7brYH2xKMTHvSS6QOMI3W16KllnHmPvXXQOiemLMk0iGdnZC2emMCMpGaBrqvnqijSJcvWHhlWKsCGy1BQVAILvnvO5FsU1BPIuuM3D7DTPUkedYbqL5URah_g4WZr1CWPTcwyRIx1BJShhPP8qz5RxjHr_5aHtunCZPTY-0jJK2-97MSZKAlcye_rQLXDoy7HtKOI-pGZ0kJjbJ1ylLxlfFpNW5Mi8lVvJiqBP1Y5fA47GBAnqQhsAKJz2jFgh.gif?reason=",
-            closeActionText: "Закрыть",
-            iconOpen: "choicesIcon_0",
-            iconClose: "choicesIcon_1",
-            iconHide: "choicesIcon_2",
-            iconComplain: "choicesIcon_3",
-            iconInfo: "choicesIcon_7",
-            aboutCompanyLink:
-                "https://ads.vk.com/adv_info?id=AACM-gEi_mQWY9Fsd2WuCyMswNXefyEAzQde7Lu3N5haK4MMN2wXaMz5lFz2JKLHYGCJgfwkPW3G9A1Dx1lQsn-SbpzILmr9CtTfo7IPL0lxzzkz1nY827Q1Iy437fly44fLjNVRCyki6jblIi-kDMoa3p841NzYkJBcg6FKPw5-7A_hUmbrxBQJAAAA_T57E1Zc9ETBCQmrQ0BR3g",
-            marker: "2Vtzqwy9Zjx",
-            options: [
-                {
-                    name: "О рекламодателе",
-                    clickLink:
-                        "https://ads.vk.com/adv_info?id=AACM-gEi_mQWY9Fsd2WuCyMswNXefyEAzQde7Lu3N5haK4MMN2wXaMz5lFz2JKLHYGCJgfwkPW3G9A1Dx1lQsn-SbpzILmr9CtTfo7IPL0lxzzkz1nY827Q1Iy437fly44fLjNVRCyki6jblIi-kDMoa3p841NzYkJBcg6FKPw5-7A_hUpg6QHcJAAAACwTPWccZA3yQp3FlBxvfZQ",
-                    shouldCloseAd: false,
-                    type: "default",
-                    iconId: "choicesIcon_4",
+            iconLink: "https://r.mradx.net/imgs/2a/38/fda5014ca5824c9a.svg",
+            closeUrl: "https://testCloseUrl.com",
+            marker: "testErid",
+            tabs: {
+                main: {
+                    items: [
+                        {
+                            text: "Скрыть объявление",
+                            iconUrl: "https://r.mradx.net/imgs/63/8e/d4b28cc0b905374f.svg",
+                            name: "hide",
+                            action: "hide",
+                        },
+                        {
+                            text: "Пожаловаться",
+                            iconUrl: "https://r.mradx.net/imgs/cf/aa/a8655ac54f10b068.svg",
+                            name: "complain",
+                            action: "complain",
+                        },
+                        {
+                            text: "О рекламодателе",
+                            iconUrl: "https://r.mradx.net/imgs/ee/63/84ed4e4a5ae73316.svg",
+                            name: "about",
+                            action: "redirect",
+                            actionValue: "TestAboutLink.com",
+                        },
+                        {
+                            text: "Скопировать ссылку",
+                            name: "copyUrl",
+                            action: "copy",
+                            actionValue: "testCopyLink.com",
+                            iconUrl: "https://r.mradx.net/imgs/b6/09/93a837dc06183017.svg",
+                        },
+                        {
+                            text: "Скопировать ERID (testErid)",
+                            iconUrl: "https://r.mradx.net/imgs/cf/e5/32db22916648f14d.svg",
+                            name: "copyErid",
+                            action: "copy",
+                            actionValue: "testErid",
+                        },
+                        {
+                            text: "Правила рекомендаций",
+                            name: "rules",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/legal/recommendations/ru/#index__direct",
+                            iconUrl: "https://r.mradx.net/imgs/37/c0/ca37933876686dcd.svg",
+                        },
+                        {
+                            text: "VK Реклама",
+                            name: "VKAds",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/secure-ads",
+                            iconUrl: "https://r.mradx.net/imgs/df/92/6fb16c27a25e2c38.svg",
+                        },
+                    ],
                 },
-                {
-                    show: true,
-                    name: "Скопировать ERID (2Vtzqwy9Zjx)",
-                    copyText: "2Vtzqwy9Zjx",
-                    shouldCloseAd: false,
-                    type: "copy",
-                    iconId: "choicesIcon_6",
+                hide: {
+                    header: "Уточните причину:",
+                    closeInfo: "Ваши ответы помогают нам подбирать более качественную рекламу",
+                    closeTitle: "Объявление скрыто",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 1, text: "Не интересно", action: "reasonItem", actionValue: "closed" },
+                        { id: 2, text: "Уже приобретено", action: "reasonItem", actionValue: "closed" },
+                        { id: 3, text: "Вижу слишком часто", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
                 },
-                {
-                    name: "Скопировать ссылку",
-                    copyText:
-                        "https://ads.vk.com/public/leadform?type=leadform&d=6Ry7SRcBETdBFpT6Dnnz2GCHEFlkZNfH69N3cR%2FeK4Q74sCvtFCbW5tRo6qpH7wUgUcW9bP2dgG4mmv34eCsBrnJp9bYkr63UypPGrJMgU6xjSmt2jc3LBVKS4jmy1F2",
-                    shouldCloseAd: false,
-                    type: "copy",
-                    iconId: "choicesIcon_5",
+                complain: {
+                    header: "Уточните причину:",
+                    closeInfo: "Модератор скоро проверит объявление",
+                    closeTitle: "Жалоба отправлена",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 4, text: "Оскорбительное содержание", action: "reasonItem", actionValue: "closed" },
+                        { id: 5, text: "Сексуальный подтекст", action: "reasonItem", actionValue: "closed" },
+                        { id: 6, text: "Нарушение закона", action: "reasonItem", actionValue: "closed" },
+                        { id: 7, text: "Мошеннический сайт", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
                 },
-                {
-                    id: 1,
-                    name: "Не интересно",
-                    shouldCloseAd: true,
-                    type: "hide",
+                closed: {
+                    items: [
+                        {
+                            id: "closeTitle",
+                        },
+                        {
+                            id: "closeInfo",
+                        },
+                    ],
                 },
-                {
-                    id: 2,
-                    name: "Уже приобретено",
-                    shouldCloseAd: true,
-                    type: "hide",
-                },
-                {
-                    id: 3,
-                    name: "Вижу слишком часто",
-                    shouldCloseAd: true,
-                    type: "hide",
-                },
-                {
-                    id: 4,
-                    name: "Оскорбительное содержание",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-                {
-                    id: 5,
-                    name: "Сексуальный подтекст",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-                {
-                    id: 6,
-                    name: "Нарушение закона",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-                {
-                    id: 7,
-                    name: "Мошеннический сайт",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-            ],
+            },
         },
     };
     const banner2 = {
@@ -13544,7 +13599,7 @@
         // controls: { flow: false },
         autoReplay: true,
         autoPause: true,
-
+        isDarkTheme: true,
         // disclaimer: "dietary",
         disclaimer_id: 8,
         disclaimer: "Демо свободного варианта дисклеймера. Это рендеринг произвольного текста.",
@@ -13565,8 +13620,101 @@
 
         ctaText: "Перейти",
         ageRestrictions: "0+",
-        icon: { url: "https://r.mradx.net//imgs/62/b7/0760bf75c78723fc.png", type: "img" },
+        icon: { src: "https://r.mradx.net//imgs/62/b7/0760bf75c78723fc.png", type: "img" },
         aboutCompany: "ООО «МВМ»: 105066, г. Москва, ул. Нижняя Красносельская, д. 40/12, корпус 20, ОГРН 1057746840095",
+        adChoices: {
+            iconLink: "https://r.mradx.net/imgs/2a/38/fda5014ca5824c9a.svg",
+            closeUrl: "https://testCloseUrl.com",
+            marker: "testErid",
+            tabs: {
+                main: {
+                    items: [
+                        {
+                            text: "Скрыть объявление",
+                            iconUrl: "https://r.mradx.net/imgs/63/8e/d4b28cc0b905374f.svg",
+                            name: "hide",
+                            action: "hide",
+                        },
+                        {
+                            text: "Пожаловаться",
+                            iconUrl: "https://r.mradx.net/imgs/cf/aa/a8655ac54f10b068.svg",
+                            name: "complain",
+                            action: "complain",
+                        },
+                        {
+                            text: "О рекламодателе",
+                            iconUrl: "https://r.mradx.net/imgs/ee/63/84ed4e4a5ae73316.svg",
+                            name: "about",
+                            action: "redirect",
+                            actionValue: "TestAboutLink.com",
+                        },
+                        {
+                            text: "Скопировать ссылку",
+                            name: "copyUrl",
+                            action: "copy",
+                            actionValue: "testCopyLink.com",
+                            iconUrl: "https://r.mradx.net/imgs/b6/09/93a837dc06183017.svg",
+                        },
+                        {
+                            text: "Скопировать ERID (testErid)",
+                            iconUrl: "https://r.mradx.net/imgs/cf/e5/32db22916648f14d.svg",
+                            name: "copyErid",
+                            action: "copy",
+                            actionValue: "testErid",
+                        },
+                        {
+                            text: "Правила рекомендаций",
+                            name: "rules",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/legal/recommendations/ru/#index__direct",
+                            iconUrl: "https://r.mradx.net/imgs/37/c0/ca37933876686dcd.svg",
+                        },
+                        {
+                            text: "VK Реклама",
+                            name: "VKAds",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/secure-ads",
+                            iconUrl: "https://r.mradx.net/imgs/df/92/6fb16c27a25e2c38.svg",
+                        },
+                    ],
+                },
+                hide: {
+                    header: "Уточните причину:",
+                    closeInfo: "Ваши ответы помогают нам подбирать более качественную рекламу",
+                    closeTitle: "Объявление скрыто",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 1, text: "Не интересно", action: "reasonItem", actionValue: "closed" },
+                        { id: 2, text: "Уже приобретено", action: "reasonItem", actionValue: "closed" },
+                        { id: 3, text: "Вижу слишком часто", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
+                },
+                complain: {
+                    header: "Уточните причину:",
+                    closeInfo: "Модератор скоро проверит объявление",
+                    closeTitle: "Жалоба отправлена",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 4, text: "Оскорбительное содержание", action: "reasonItem", actionValue: "closed" },
+                        { id: 5, text: "Сексуальный подтекст", action: "reasonItem", actionValue: "closed" },
+                        { id: 6, text: "Нарушение закона", action: "reasonItem", actionValue: "closed" },
+                        { id: 7, text: "Мошеннический сайт", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
+                },
+                closed: {
+                    items: [
+                        {
+                            id: "closeTitle",
+                        },
+                        {
+                            id: "closeInfo",
+                        },
+                    ],
+                },
+            },
+        },
     };
     const banner3 = {
         id: "x01_bannerId",
@@ -13576,6 +13724,7 @@
         ctaLink: "https://skysmart.ru/articles/physics/zakon-oma",
         urlToNavigateOnClick: "https://gramota.ru/meta/parallelogramm",
         openLinkInPopup: true,
+        isDarkTheme: true,
         duration: 15,
 
         image: {
@@ -13586,9 +13735,101 @@
         description: "Запишитесь на карьерную консультацию и откройте доступ к онлайн курсам! Повышайте навыки!",
         domain: "navigator-career.ru",
         ageRestrictions: "0+",
-        icon: { url: "https://r.mradx.net//imgs/5d/e2/cb3b80561e2c08a5.jpg" },
+        icon: { src: "https://r.mradx.net//imgs/5d/e2/cb3b80561e2c08a5.jpg" },
         aboutCompany: "ООО «МВМ»: 105066, г. Москва, ул. Нижняя Красносельская, д. 40/12, корпус 20, ОГРН 1057746840095",
-
+        adChoices: {
+            iconLink: "https://r.mradx.net/imgs/2a/38/fda5014ca5824c9a.svg",
+            closeUrl: "https://testCloseUrl.com",
+            marker: "testErid",
+            tabs: {
+                main: {
+                    items: [
+                        {
+                            text: "Скрыть объявление",
+                            iconUrl: "https://r.mradx.net/imgs/63/8e/d4b28cc0b905374f.svg",
+                            name: "hide",
+                            action: "hide",
+                        },
+                        {
+                            text: "Пожаловаться",
+                            iconUrl: "https://r.mradx.net/imgs/cf/aa/a8655ac54f10b068.svg",
+                            name: "complain",
+                            action: "complain",
+                        },
+                        {
+                            text: "О рекламодателе",
+                            iconUrl: "https://r.mradx.net/imgs/ee/63/84ed4e4a5ae73316.svg",
+                            name: "about",
+                            action: "redirect",
+                            actionValue: "TestAboutLink.com",
+                        },
+                        {
+                            text: "Скопировать ссылку",
+                            name: "copyUrl",
+                            action: "copy",
+                            actionValue: "testCopyLink.com",
+                            iconUrl: "https://r.mradx.net/imgs/b6/09/93a837dc06183017.svg",
+                        },
+                        {
+                            text: "Скопировать ERID (testErid)",
+                            iconUrl: "https://r.mradx.net/imgs/cf/e5/32db22916648f14d.svg",
+                            name: "copyErid",
+                            action: "copy",
+                            actionValue: "testErid",
+                        },
+                        {
+                            text: "Правила рекомендаций",
+                            name: "rules",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/legal/recommendations/ru/#index__direct",
+                            iconUrl: "https://r.mradx.net/imgs/37/c0/ca37933876686dcd.svg",
+                        },
+                        {
+                            text: "VK Реклама",
+                            name: "VKAds",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/secure-ads",
+                            iconUrl: "https://r.mradx.net/imgs/df/92/6fb16c27a25e2c38.svg",
+                        },
+                    ],
+                },
+                hide: {
+                    header: "Уточните причину:",
+                    closeInfo: "Ваши ответы помогают нам подбирать более качественную рекламу",
+                    closeTitle: "Объявление скрыто",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 1, text: "Не интересно", action: "reasonItem", actionValue: "closed" },
+                        { id: 2, text: "Уже приобретено", action: "reasonItem", actionValue: "closed" },
+                        { id: 3, text: "Вижу слишком часто", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
+                },
+                complain: {
+                    header: "Уточните причину:",
+                    closeInfo: "Модератор скоро проверит объявление",
+                    closeTitle: "Жалоба отправлена",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 4, text: "Оскорбительное содержание", action: "reasonItem", actionValue: "closed" },
+                        { id: 5, text: "Сексуальный подтекст", action: "reasonItem", actionValue: "closed" },
+                        { id: 6, text: "Нарушение закона", action: "reasonItem", actionValue: "closed" },
+                        { id: 7, text: "Мошеннический сайт", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
+                },
+                closed: {
+                    items: [
+                        {
+                            id: "closeTitle",
+                        },
+                        {
+                            id: "closeInfo",
+                        },
+                    ],
+                },
+            },
+        },
         statistics: [
             {
                 target: "banner",
@@ -13618,6 +13859,7 @@
         urlToNavigateOnClick: "https://gramota.ru/meta/parallelogramm",
         openLinkInPopup: true,
         autoReplay: true,
+        isDarkTheme: true,
         autoPause: false,
         pad: {
             clickArea: 4096,
@@ -13639,7 +13881,7 @@
 
         ctaText: "Перейти",
         ageRestrictions: "0+",
-        icon: { url: "https://r.mradx.net/imgs/ab/5a/86d3bae4a190.jpg" },
+        icon: { src: "https://r.mradx.net/imgs/ab/5a/86d3bae4a190.jpg" },
         aboutCompany: 'Общество с ограниченной ответственностью "МВМ", ИНН 7707548740',
 
         adLabel: {
@@ -13649,88 +13891,97 @@
         statistics: fullStats,
 
         adChoices: {
-            iconLink: "https://##hostImagePrefix##.mradx.net/img/DE/30EB91.svg",
-            closeUrl: "https://##hostPrefix##.mail.ru/pixel/##closeEventUrl(1)##.gif?reason=",
-            closeActionText: "Закрыть",
-            iconOpen: "choicesIcon_0",
-            iconClose: "choicesIcon_1",
-            iconHide: "choicesIcon_2",
-            iconComplain: "choicesIcon_3",
-            iconInfo: "choicesIcon_7",
-            aboutCompanyLink: "https://ads.vk.com/adv_info?id=##cipher(##banner.id##)##",
-            marker: "asdasdasdasd",
-            options: [
-                {
-                    name: "О рекламодателе",
-                    clickLink: "https://ads.vk.com/adv_info?id=##cipher(##banner.id##)##",
-                    shouldCloseAd: false,
-                    type: "about",
-                    iconId: "choicesIcon_4",
+            iconLink: "https://r.mradx.net/imgs/2a/38/fda5014ca5824c9a.svg",
+            closeUrl: "https://testCloseUrl.com",
+            marker: "testErid",
+            tabs: {
+                main: {
+                    items: [
+                        {
+                            text: "Скрыть объявление",
+                            iconUrl: "https://r.mradx.net/imgs/63/8e/d4b28cc0b905374f.svg",
+                            name: "hide",
+                            action: "hide",
+                        },
+                        {
+                            text: "Пожаловаться",
+                            iconUrl: "https://r.mradx.net/imgs/cf/aa/a8655ac54f10b068.svg",
+                            name: "complain",
+                            action: "complain",
+                        },
+                        {
+                            text: "О рекламодателе",
+                            iconUrl: "https://r.mradx.net/imgs/ee/63/84ed4e4a5ae73316.svg",
+                            name: "about",
+                            action: "redirect",
+                            actionValue: "TestAboutLink.com",
+                        },
+                        {
+                            text: "Скопировать ссылку",
+                            name: "copyUrl",
+                            action: "copy",
+                            actionValue: "testCopyLink.com",
+                            iconUrl: "https://r.mradx.net/imgs/b6/09/93a837dc06183017.svg",
+                        },
+                        {
+                            text: "Скопировать ERID (testErid)",
+                            iconUrl: "https://r.mradx.net/imgs/cf/e5/32db22916648f14d.svg",
+                            name: "copyErid",
+                            action: "copy",
+                            actionValue: "testErid",
+                        },
+                        {
+                            text: "Правила рекомендаций",
+                            name: "rules",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/legal/recommendations/ru/#index__direct",
+                            iconUrl: "https://r.mradx.net/imgs/37/c0/ca37933876686dcd.svg",
+                        },
+                        {
+                            text: "VK Реклама",
+                            name: "VKAds",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/secure-ads",
+                            iconUrl: "https://r.mradx.net/imgs/df/92/6fb16c27a25e2c38.svg",
+                        },
+                    ],
                 },
-                {
-                    name: "Скопировать ERID (asdasdasdasd)",
-                    copyText: "asdasdasdasd",
-                    shouldCloseAd: false,
-                    type: "copyErid",
-                    iconId: "choicesIcon_6",
+                hide: {
+                    header: "Уточните причину:",
+                    closeInfo: "Ваши ответы помогают нам подбирать более качественную рекламу",
+                    closeTitle: "Объявление скрыто",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 1, text: "Не интересно", action: "reasonItem", actionValue: "closed" },
+                        { id: 2, text: "Уже приобретено", action: "reasonItem", actionValue: "closed" },
+                        { id: 3, text: "Вижу слишком часто", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
                 },
-                {
-                    name: "Скопировать ссылку",
-                    copyText: "##click##",
-                    shouldCloseAd: false,
-                    type: "copyUrl",
-                    iconId: "choicesIcon_5",
+                complain: {
+                    header: "Уточните причину:",
+                    closeInfo: "Модератор скоро проверит объявление",
+                    closeTitle: "Жалоба отправлена",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 4, text: "Оскорбительное содержание", action: "reasonItem", actionValue: "closed" },
+                        { id: 5, text: "Сексуальный подтекст", action: "reasonItem", actionValue: "closed" },
+                        { id: 6, text: "Нарушение закона", action: "reasonItem", actionValue: "closed" },
+                        { id: 7, text: "Мошеннический сайт", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
                 },
-                {
-                    name: "Отключить рекламу",
-                    clickLink: "https://cloud.mail.ru/promo/quota/?utm_source=mail_web&utm_campaign=disable_ads_three_dots",
-                    shouldCloseAd: false,
-                    type: "turnOffAds",
-                    iconId: "choicesIcon_8",
+                closed: {
+                    items: [
+                        {
+                            id: "closeTitle",
+                        },
+                        {
+                            id: "closeInfo",
+                        },
+                    ],
                 },
-                {
-                    id: 1,
-                    name: "Не интересно",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-                {
-                    id: 2,
-                    name: "Уже приобретено",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-                {
-                    id: 3,
-                    name: "Вижу слишком часто",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-                {
-                    id: 4,
-                    name: "Оскорбительное содержание",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-                {
-                    id: 5,
-                    name: "Сексуальный подтекст",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-                {
-                    id: 6,
-                    name: "Нарушение закона",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-                {
-                    id: 7,
-                    name: "Мошеннический сайт",
-                    shouldCloseAd: true,
-                    type: "select",
-                },
-            ],
+            },
         },
     };
     const banner5 = {
@@ -13775,7 +14026,7 @@
         ageRestrictions: "18+",
         domain: "eurolosdv1.ru",
         icon: {
-            url: "https://r0.mradx.net/imgs/69/9e/504ebc4e9c34a8bb.jpg",
+            src: "https://r0.mradx.net/imgs/69/9e/504ebc4e9c34a8bb.jpg",
         },
 
         duration: 15,
@@ -13796,85 +14047,97 @@
             styles: {},
         },
         adChoices: {
-            iconLink: "https://r.mradx.net/img/DE/30EB91.svg",
-            closeUrl:
-                "https://rs.mail.ru/pixel/AAC_-QFe6C1IYWTgNelRvlWPk1M7eAbRVx8xhWqmquTWYDX1MfWLOp-1isl68XI6-wpfEnWeYJxAi0FhBJirnJwfld5GU_4Erx_ePvJRPproMcxEX0kvh9Cus0enPcuG3skPygxTif-vFkffU4jctWZIdOn0dfAhXLB9SyFcHNhwCFhkK6jtUmgSBAAAZphC6Dktfm1CRsLxskyi4oh8sV3K-p96gCAzT_BpXB_HAKUppufobK9Kir3VhK3dXmtPvuTqLy78dMGkyWLqdDFYggtrPT-jcPXhtmlOsFFgzzOCLbP-rI4BF0sz0NVSlJ7JQOYgfFv-GLfRAnedax1x2lp7nln6-HzZ-NFUp9FOqLkm3urtZFNlmhS0vITZr6D2tXPQV5oQxZp1r4u6s17LDzpH-2Cl_O6hVrLUp3omDxYpxos1GHv6A_BpLcGSzQuOSQKGTBk5F1Mq7IS1Zd7haolCj_kUNs0XyiVxBXK9Wu3ZoF82CvnBFJrqgRLT285cqKErc8a7Rh_OPU9RoyY2p1yWGGGIWZspqGmsqV6bmipfKrQ8gFmSTVGnGKLw_QoQW3GWT-69KV2z5VaQAvzufWCZ83k8O_27_a75QYWClsU1OYc47HwOEChzGBgovX9-7p9ye1wN4PdSt9g5Tl75p2v_Yi5TqIhhd3iexFOcPWoo1YPw10S6b10f8ok3IFoUCG7emi4lmz_mwA-5ll2Z2GjY5Dpl3HK4TmLF8g-epQ5sEWoOApIXBrmkzxgf8u1JXCKyELODfbF90qj00Q84rXx8TvrAlNypsNgTeyYqzRpIb4wDq6KXPk5ZE4V2IXyxnoSjCMYNvLWxjOt1OC_2HAJCRnwRTLFtCTeHs4IUGsWWdgflk3ELPlAYcavJFmaJv6yZApCs4JCdKiIw_fqi1QWfAFLpAxtJ1ocihDZbN2vaEkh0opkTXQlamdq5r0lq-YcHwqdlnI5q1nzRo3Wh5AZ-fRptdmx8v9e8xp8PpXABQ2J0LhDiRArXrYmwfKg1p7KIRuAWj9U7X1aQ9Uk38LWu0b6atSuTik5xX93hNTKb-c2mhSCfxa7yCHPNhkKi1DMqoNPksrJnmM9fHTO9OrEyJLQYSX_Ze05_KfXoD4-GhxBaIG14VD4cuTcGcvW5Fiz6PSCfUs93YQLSL7D6gqMHw_ETDQZXxWNCdnzY7GNpnJVhMMNFWQ1uMVCERdsNorfm3kM91SLZPV-yDUpbktke2F0yBRjDuoqfbD6PzXiStEZZsft_t5j7sTtiUeHoNccBh-3qxUc4GSvyxXE1hVEY3lUNb1d11FnLvJwxz_b0BGuDX41TQX9JPBRtwoza758VGAJCfQ_HlRR--lePfTIr63uxH92IIZDx2OA-W5hNdR8Ikkf1LU5JxEjzM6gadTpY-eQ6txMhNmJzFaoKzcv0xBR_XjF-MLICc8d435Zig92XQgioPAVPWSE6AxsX303AT7GfdbwsLipC3-a7WVoGYacZbr2_LiEzu2rAFalIejErNSCtaWpQmBWa7c9RNUNytjQSsk661qN5diY1ATRogRi52fRo3r9-8g4WfMGwF5AC21OoaQ5sg7YU.gif?reason=",
-            closeActionText: "Закрыть",
-            iconOpen: "choicesIcon_0",
-            iconClose: "choicesIcon_1",
-            iconHide: "choicesIcon_2",
-            iconComplain: "choicesIcon_3",
-            iconInfo: "choicesIcon_7",
-            aboutCompanyLink:
-                "https://ads.vk.com/adv_info?id=AAC_-QFe6C1IYWTgNelRvlWPk1M7eAbRVx8xhWqmquTWYDX1MfWLOp-1isl68XI6-wpfEnWeYJxAi0FhBJirnJwfld5GU_4Erx_ePvJRPproMcxEX0kvh9Cus0enPcuG3skPygxTif-vFkffU4jctWZIdOn0dfAhXLB9SyFcHNhwCFhkKwGZNzkJAAAAbDAysAgOcqARAnYVHT5biw",
-            marker: "2VtzqvR4hTQ",
-            options: [
-                {
-                    name: "О рекламодателе",
-                    clickLink:
-                        "https://ads.vk.com/adv_info?id=AAC_-QFe6C1IYWTgNelRvlWPk1M7eAbRVx8xhWqmquTWYDX1MfWLOp-1isl68XI6-wpfEnWeYJxAi0FhBJirnJwfld5GU_4Erx_ePvJRPproMcxEX0kvh9Cus0enPcuG3skPygxTif-vFkffU4jctWZIdOn0dfAhXLB9SyFcHNhwCFhkK-fYb1YJAAAA6f5MAq7acZYHsPWQ6Z2FZw",
-                    shouldCloseAd: false,
-                    type: "default",
-                    iconId: "choicesIcon_4",
+            iconLink: "https://r.mradx.net/imgs/2a/38/fda5014ca5824c9a.svg",
+            closeUrl: "https://testCloseUrl.com",
+            marker: "testErid",
+            tabs: {
+                main: {
+                    items: [
+                        {
+                            text: "Скрыть объявление",
+                            iconUrl: "https://r.mradx.net/imgs/63/8e/d4b28cc0b905374f.svg",
+                            name: "hide",
+                            action: "hide",
+                        },
+                        {
+                            text: "Пожаловаться",
+                            iconUrl: "https://r.mradx.net/imgs/cf/aa/a8655ac54f10b068.svg",
+                            name: "complain",
+                            action: "complain",
+                        },
+                        {
+                            text: "О рекламодателе",
+                            iconUrl: "https://r.mradx.net/imgs/ee/63/84ed4e4a5ae73316.svg",
+                            name: "about",
+                            action: "redirect",
+                            actionValue: "TestAboutLink.com",
+                        },
+                        {
+                            text: "Скопировать ссылку",
+                            name: "copyUrl",
+                            action: "copy",
+                            actionValue: "testCopyLink.com",
+                            iconUrl: "https://r.mradx.net/imgs/b6/09/93a837dc06183017.svg",
+                        },
+                        {
+                            text: "Скопировать ERID (testErid)",
+                            iconUrl: "https://r.mradx.net/imgs/cf/e5/32db22916648f14d.svg",
+                            name: "copyErid",
+                            action: "copy",
+                            actionValue: "testErid",
+                        },
+                        {
+                            text: "Правила рекомендаций",
+                            name: "rules",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/legal/recommendations/ru/#index__direct",
+                            iconUrl: "https://r.mradx.net/imgs/37/c0/ca37933876686dcd.svg",
+                        },
+                        {
+                            text: "VK Реклама",
+                            name: "VKAds",
+                            action: "redirect",
+                            actionValue: "https://yandex.ru/secure-ads",
+                            iconUrl: "https://r.mradx.net/imgs/df/92/6fb16c27a25e2c38.svg",
+                        },
+                    ],
                 },
-                {
-                    name: "Скопировать ERID (2VtzqvR4hTQ)",
-                    copyText: "2VtzqvR4hTQ",
-                    shouldCloseAd: false,
-                    type: "copy",
-                    iconId: "choicesIcon_6",
+                hide: {
+                    header: "Уточните причину:",
+                    closeInfo: "Ваши ответы помогают нам подбирать более качественную рекламу",
+                    closeTitle: "Объявление скрыто",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 1, text: "Не интересно", action: "reasonItem", actionValue: "closed" },
+                        { id: 2, text: "Уже приобретено", action: "reasonItem", actionValue: "closed" },
+                        { id: 3, text: "Вижу слишком часто", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
                 },
-                {
-                    name: "Скопировать ссылку",
-                    copyText:
-                        "https://t.mail.ru/redir/AAC_-QFe6C1IYWTgNelRvlWPk1M7eAbRVx8xhWqmquTWYDX1MfWLOp-1isl68XI6-wpfEnWeYJxAi0FhBJirnJwfld5GU_4Erx_ePvJRPproMcxEX0kvh9Cus0enPcuG3skPygxTif-vFkffU4jctWZIdOn0dfAhXLB9SyFcHNhwCFhkK2YNjUt7BAAAP-rUDRp36f1UmiDyZ8aDY63A6f4o6PsnNAg1hn8CSwMpevFka8BTftWNLeNHv-fRHPMF4PAJLCJT-Hex0Y_6u6MFsl67FYv-m6vylrvpGjakIba1yEX62TTTkQg3iKR5eq809-EB4Xbv-9GGgaoAfoEor1IIutMhJLZULrw49hxOXYRmA7vWrNrLlLsKLgjQXsqOBiSrfbUmeXjAY8EIYm7cj2TWjid9uRDiqWpHtQoehQoEUanq6eFpRlegWa2USEH6JzxBkNtwQxqB09UXlE3rWERif_omXm1vxSOPRCy5FKBrtNcpb_bklzI9k784-vWcMYiYgM8bL9NkMWAmDtsMAxKYodrnof7fYwJYlEDb8YGu_BImMPG6HTn0UCurPdUou9neYPwbZoAy7vkEpctXDDoZeYSIwsuGfPQUOG0-cra8u-SDIgAkfTqzgGm8-yCngo3z_6NXjS4rf8nBUX7fyOLjLfUDdgpNfU_fZ8ln7UIsw29neIX_4UYyxuCbjNaMuemoSUV0SGFn3PomrvV5dAd76EuU2ShRHIFDh6ZP7Flt9Alw6ZAIuupL0UAXaLgFX8-QzKpZCNFfylfx0oYeN0E2T5gSud64y62-71ccXlfObYBgtYmZFBeFURNpy2DleZwSra3KLP-F1C29dzSxVMxLhy-xQez3qIVXZ9NajGtEZgPx9DjTuDtfOVnoqky8BkM-wZ_z-rVrgZofZH9JTShalufUiZ9mxxQ5a7jsLxIvQW5Nrum7JY6QhG4tMydSoddKopX25WRUmCL53xxHuDaJaGUHgS5NV_UKEJSzAGVKGaQJxFCR72ktFt51sQKeb0VwP0QYbfIXeLuqz3jVsS3jkGhsMWHw0Pyg12s5hjZvqJteoyE3cPqKfqJvGZerzbRrUXtvMd1SarPi4mpDdVaBxhHIWPukzWakB25QGCX8C7Vil2zkwQTGdAf7Ym4d8CtwmHcp8MrIvSIqyxc_KOVzA2nF_YgmlFzRHwqZgc7Z6B9gu3Fo1_2c_4oLTU51i0DhY-6OT207dXfKCX_NjwwlWrXp-ixB41j_xg7IPV6gIX7AUu4qcULDo-UnWvleHMQg8pp8E5YYJqrIgQkvssk3fbrU0PRS5tNWOBwg9IBZ6Kk-na0o87_LuEO-jLf9flCqo1RO-qG_tLBQQ3UyycbTI_t_CCfrUv0Mt0dFiVPuKHbZ1QuMmeSV2cyi_-Uqfolb99h53u78BJR_BtFMPn1xB5xz90PK6pPEDhuY3pLF53buF_qIlRw4_SGMnyu9OzAsqQzEkhI3A6kRu-X4q69cByUsSwZ1DMzLQ88h3cWBKfkHhnsn2YTTjdR1973qctwF-jXUkg7sjxVCvnt3rpdmLbrF4D_pCPR3tGDj76ydvAYrrGpsdyIbIOzvLOcaCW5sBPRjxaY9AoR2ZS0rOjFj9b-MmzhJstZFjobMFsKnrVsB-8bdPfT3VG1q0oZz39OxL26nWD0cZMoxs8H-HQGGGFTR4S9nPvVR-5Og3Vbdyd5mavxkQb1WqU1Y:2VtzqvR4hTQ",
-                    shouldCloseAd: false,
-                    type: "copy",
-                    iconId: "choicesIcon_5",
+                complain: {
+                    header: "Уточните причину:",
+                    closeInfo: "Модератор скоро проверит объявление",
+                    closeTitle: "Жалоба отправлена",
+                    otherPlaceholder: "Напишите причину",
+                    items: [
+                        { id: 4, text: "Оскорбительное содержание", action: "reasonItem", actionValue: "closed" },
+                        { id: 5, text: "Сексуальный подтекст", action: "reasonItem", actionValue: "closed" },
+                        { id: 6, text: "Нарушение закона", action: "reasonItem", actionValue: "closed" },
+                        { id: 7, text: "Мошеннический сайт", action: "reasonItem", actionValue: "closed" },
+                        { id: 9, text: "Другое", action: "reasonItem", actionValue: "other" },
+                    ],
                 },
-                {
-                    id: 1,
-                    name: "Не интересно",
-                    shouldCloseAd: true,
-                    type: "hide",
+                closed: {
+                    items: [
+                        {
+                            id: "closeTitle",
+                        },
+                        {
+                            id: "closeInfo",
+                        },
+                    ],
                 },
-                {
-                    id: 2,
-                    name: "Уже приобретено",
-                    shouldCloseAd: true,
-                    type: "hide",
-                },
-                {
-                    id: 3,
-                    name: "Вижу слишком часто",
-                    shouldCloseAd: true,
-                    type: "hide",
-                },
-                {
-                    id: 4,
-                    name: "Оскорбительное содержание",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-                {
-                    id: 5,
-                    name: "Сексуальный подтекст",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-                {
-                    id: 6,
-                    name: "Нарушение закона",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-                {
-                    id: 7,
-                    name: "Мошеннический сайт",
-                    shouldCloseAd: true,
-                    type: "complain",
-                },
-            ],
+            },
         },
         statistics: fullStats,
     };
